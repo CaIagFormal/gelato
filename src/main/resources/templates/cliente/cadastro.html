@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gelato - Cadastro do Cliente</title>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <!-- SWEET ALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- CSS -->
+    <link href="/css/index.css" rel="stylesheet">
+    <!-- JS -->
+    <script src="/js/formularios.js" defer></script>
+</head>
+<body>
+    <div th:replace="pv/navbar.html :: sem_registro"></div>
+
+    <div class="container">
+        <h2 class="mt-4">Cadastro</h2>
+        <p class="mb-3">é obrigatório preencher todos os campos</p>
+        <form action="/cadastro" method="POST">
+            <div class="row container">
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="nome">Usuário</label>
+                        <input type="text" class="form-control" placeholder="Insira um nome" id="nome" name="nome">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="email">E-mail</label>
+                        <input type="email" class="form-control" placeholder="Insira seu endereço email" id="email" name="email">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="senha">Senha</label>
+                        <input type="password" class="form-control" placeholder="Insira uma senha" id="senha" name="senha">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="conf_senha">Confirmar</label>
+                        <input type="password" class="form-control" placeholder="Insira novamente sua senha" id="conf_senha" name="conf_senha">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="endereco">Endereço</label>
+                        <input type="text" class="form-control" placeholder="Insira o endereço de sua residência" id="endereco" name="endereco">
+                    </div>
+                </div>
+                <div class="col-6 text-end">
+                    <button class="btn btn-primary" id="f-cadastro">Cadastrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
