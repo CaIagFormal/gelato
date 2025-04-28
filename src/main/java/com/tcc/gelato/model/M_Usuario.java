@@ -1,9 +1,7 @@
 package com.tcc.gelato.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.Type;
 
 /**
@@ -22,6 +20,7 @@ public class M_Usuario {
 
     @Id
     @Column(nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, unique = true)
