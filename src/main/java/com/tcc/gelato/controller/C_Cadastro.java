@@ -1,7 +1,10 @@
 package com.tcc.gelato.controller;
 
+import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.service.S_Cadastro;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,27 +17,27 @@ public class C_Cadastro {
     public C_Cadastro(S_Cadastro s_cadastro) {
         this.s_cadastro = s_cadastro;
     }
-    /**
-     * Não há uma tela mapeada para {@code "/"} afins de organização.
-     * Sem sessão passa para: {@link #getCadastroCliente()}
-     * @return Tela correspondente a sessão
-     */
-    @GetMapping(path="/")
-    public String redirecionar(){
-        return "redirect:/cadastro";
-    }
 
     /**
-     * @return Tela de cadastro do cliente
+     * @return Tela de cadastro do cliente ou redireciona para {@link com.tcc.gelato.controller.C_Inicio#redirecionar(HttpSession)} se já estiver logado
      */
     @GetMapping(path="/cadastro")
-    public String getCadastroCliente(){
+    public String getCadastroCliente(HttpSession session){
+        if (session.getAttribute("usuario")!=null) {
+            return "redirect:/";
+        }
         return "cliente/cadastro";
     }
 
     /**
      * Cadastra um usuário se foi fornecido com os dados corretamente.
-     * Redireciona para {@link com.tcc.gelato.controller.C_Login#getLogin()}
+     * Redireciona para {@link com.tcc.gelato.controller.C_Login#getLogin(HttpSession)}
+     * @param nome Nome do cliente
+     * @param senha Senha do cliente
+     * @param conf_senha Confirmação da senha do cliente
+     * @param endereco Endereço do cliente
+     * @param email E-mail do cliente
+     * @param data_nasc Data de nascimento do cliente
      */
     @PostMapping(path="/cadastro")
     public String cadastrarCliente(
