@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.Type;
 
+import java.sql.Date;
+
 /**
  * O Usuário encompassa as contas de todos que usam a aplicação
  */
@@ -19,9 +21,8 @@ public class M_Usuario {
     }
 
     @Id
-    @Column(nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String nome;
@@ -38,11 +39,14 @@ public class M_Usuario {
     @Column(nullable = false)
     private Cargo cargo;
 
-    public Integer getId() {
+    @Column(nullable = false)
+    private Date data_nasc;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -76,6 +80,14 @@ public class M_Usuario {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public Date getDataNasc() {
+        return data_nasc;
+    }
+
+    public void setDataNasc(Date data_nasc) {
+        this.data_nasc = data_nasc;
     }
 
     public Cargo getCargo() {
