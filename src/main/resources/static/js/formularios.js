@@ -1,3 +1,5 @@
+var ms_maior_de_idade = 1000*60*60*24*365*18
+
 function login() {
     let nome = $("#nome").val()
     let senha = $("#senha").val()
@@ -28,6 +30,7 @@ function cadastro() {
     let conf_senha = $("#conf_senha").val()
     let endereco = $("#endereco").val()
     let email = $("#email").val()
+    let data_nasc = $("#data_nasc").val()
 
     let erro = ""
     if (nome.trim()=="") {
@@ -44,6 +47,12 @@ function cadastro() {
     }
     if (email.trim()=="") {
         erro += "O e-mail está vazio, por favor preencha o campo.\n";
+    }
+    if (data_nasc.trim()=="") {
+        data_nasc += "A data de nascimento está vazio, por favor preencha o campo.\n";
+    }
+    if (Date.now()-Date.parse(data_nasc)<ms_maior_de_idade) {
+        erro += "Você prescisa ser maior de idade para poder ultilizar nossos serviços.\n"
     }
 
     if (senha.trim()!="" && senha!=conf_senha) {

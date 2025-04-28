@@ -42,11 +42,15 @@ public class C_Cadastro {
             @RequestParam("senha") String senha,
             @RequestParam("conf_senha") String conf_senha,
             @RequestParam("endereco") String endereco,
-            @RequestParam("email") String email) {
-        if (!s_cadastro.validarCadastroCliente(nome, senha, conf_senha, endereco, email)) {
+            @RequestParam("email") String email,
+            @RequestParam("data_nasc") String data_nasc) {
+        if (!s_cadastro.validarCadastroCliente(nome, senha, conf_senha, endereco, email, data_nasc)) {
             return "cliente/cadastro";
         }
 
+       if (s_cadastro.criarCadastroCliente(nome, senha, endereco, email, data_nasc)==null) {
+           return "cliente/cadastro";
+       }
         return "redirect:/login";
     }
 }
