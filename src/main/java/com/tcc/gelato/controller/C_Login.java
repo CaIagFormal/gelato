@@ -39,7 +39,7 @@ public class C_Login {
                                HttpSession session) {
         M_Usuario m_usuario = s_login.loginUsuario(nome, senha);
         if (m_usuario==null) {
-            return "redirect:/cadastro";
+            return "redirect:/login";
         }
         session.setAttribute("usuario",m_usuario);
         return "redirect:/inicio";

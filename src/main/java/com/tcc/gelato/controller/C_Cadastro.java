@@ -56,4 +56,19 @@ public class C_Cadastro {
        }
         return "redirect:/login";
     }
+
+    /**
+     * Performa logout da conta do usuário o inibindo de ultilizar os recursos até fazer login novamente
+     * @param session Sessão do usuário incluindo conta
+     * @return Redirecionamento padrão sem cadastro {@link com.tcc.gelato.controller.C_Inicio#redirecionar(HttpSession)}
+     */
+    @GetMapping(path="/logout")
+    public String getLogout(HttpSession session){
+        if (session.getAttribute("usuario")==null) {
+            return "redirect:/";
+        }
+
+        session.removeAttribute("usuario");
+        return "redirect:/";
+    }
 }
