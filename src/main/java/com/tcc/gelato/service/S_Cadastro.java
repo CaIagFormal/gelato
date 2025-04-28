@@ -63,6 +63,11 @@ public class S_Cadastro {
         m_usuario.setEmail(email);
         m_usuario.setDataNasc(Date.valueOf(data_nasc));
 
-        return r_usuario.save(m_usuario);
+        try {
+            return r_usuario.save(m_usuario);
+        }
+        catch (Exception ex) {
+            return null;
+        }
     }
 }
