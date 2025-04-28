@@ -5,6 +5,7 @@ import com.tcc.gelato.repository.R_Usuario;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
@@ -23,16 +24,16 @@ public class S_Cadastro {
      * valida o cadastro do cliente
      * @param nome Nome do cliente
      * @param senha Senha do cliente
-     * @param confSenha Confirmação da senha do cliente
+     * @param conf_senha Confirmação da senha do cliente
      * @param endereco Endereço do cliente
      * @param email E-mail do cliente
      * @param data_nasc Data de nascimento do cliente
      * @return se é valido
      */
-    public boolean validarCadastroCliente(String nome, String senha, String confSenha, String endereco, String email, String data_nasc) {
+    public boolean validarCadastroCliente(String nome, String senha, String conf_senha, String endereco, String email, String data_nasc) {
         boolean validade = !nome.trim().isBlank() &&
                 !senha.trim().isBlank() &&
-                !confSenha.trim().isBlank() &&
+                !conf_senha.trim().isBlank() &&
                 !endereco.trim().isBlank() &&
                 !email.trim().isBlank() &&
                 !data_nasc.trim().isBlank();
@@ -40,7 +41,7 @@ public class S_Cadastro {
         if (!validade) return false;
 
         return LocalDate.now().minusYears(18).isAfter(LocalDate.parse(data_nasc)) &&
-                senha.equals(confSenha);
+                senha.equals(conf_senha);
     }
 
 
