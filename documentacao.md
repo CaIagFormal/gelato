@@ -10,14 +10,16 @@ Pato Branco, Setembro de 2025
 ***
 
 1. Introdução
+  	
 1.1. Equipe
-	- Carlos Eduardo Fonseca Iagnecz
+- Carlos Eduardo Fonseca Iagnecz
+  
 1.2. Descrição do sistema
-	Super Gelato é um serviço com finalidade de compras à distância criado para o
+Super Gelato é um serviço com finalidade de compras à distância criado para o
 	imaginário supermercado titular. As atividades principais do sistema consistem
 	na compra e entrega dos produtos do mercado.
 1.3. Escopo
-	O sistema ==não irá fornecer um sistema de GPS para os entregadores==, mas
+O sistema **não irá fornecer um sistema de GPS para os entregadores**, mas
 	terá ferramentas para configurar o que é vendido para gestores e permitirá
 	a entrega de produtos solicitados a partir de um site. Além de disponibilisar
 	
@@ -26,13 +28,21 @@ Pato Branco, Setembro de 2025
 ***
 
 2. Perfis de usuário
+   
 2.1. Cliente
+
 	O cliente é quem compra e recebe o produto
+
 2.2. Entregador
+
 	O entregador entrega as compras até o cliente
+
 2.3. Gestor
+
 	O gestor gerencia os produtos disponíveis
+
 2.4. Administrador
+
 	Um gestor com o poder de gerenciar clientes e entregadores
 	
 ***
