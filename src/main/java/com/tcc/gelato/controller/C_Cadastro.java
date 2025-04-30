@@ -35,7 +35,7 @@ public class C_Cadastro {
      * @param nome Nome do cliente
      * @param senha Senha do cliente
      * @param conf_senha Confirmação da senha do cliente
-     * @param endereco Endereço do cliente
+     * @param endereco Endereço em formato CEP do cliente
      * @param email E-mail do cliente
      * @param data_nasc Data de nascimento do cliente
      */
