@@ -1,6 +1,8 @@
 package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.model.produto.M_Setor;
+import com.tcc.gelato.repository.produto.R_Setor;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class C_Inicio {
+
+    private final R_Setor r_setor;
+
+    public C_Inicio(R_Setor r_setor) {
+        this.r_setor = r_setor;
+    }
 
     /**
      * Não há uma tela mapeada para {@code "/"} afins de organização.
@@ -35,6 +43,7 @@ public class C_Inicio {
             return "redirect:/";
         }
         model.addAttribute("usuario",m_usuario);
+        model.addAttribute("setores",r_setor.findAll());
         return "cliente/inicio";
     }
 }

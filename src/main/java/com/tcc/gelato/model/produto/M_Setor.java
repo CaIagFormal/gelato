@@ -2,6 +2,8 @@ package com.tcc.gelato.model.produto;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 /**
  * Representa a classificação de um {@link M_Produto} e
  * pode especificar também um {@link M_Setor}
@@ -16,9 +18,9 @@ public class M_Setor {
     @Column(nullable = false, unique = true)
     private String nome;
 
-    @JoinColumn(name="id_setor_parente")
-    @ManyToOne
-    private M_Setor setor_parente;
+    @JoinColumn(name="id_setor")
+    @OneToMany
+    private List<M_Produto> produtos;
 
     public Long getId() {
         return id;
@@ -34,13 +36,5 @@ public class M_Setor {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public M_Setor getSetorParente() {
-        return setor_parente;
-    }
-
-    public void setSetorParente(M_Setor setor_parente) {
-        this.setor_parente = setor_parente;
     }
 }

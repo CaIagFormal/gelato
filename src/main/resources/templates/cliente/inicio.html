@@ -22,6 +22,7 @@
 <div class="container">
     <h2 class="mt-4">Bem vindo, <span th:text="${usuario.nome}"></span>.</h2>
 
+    <div th:each="setor : ${setores}" th:replace="~{pv/produto.html :: setor (setor=${setor}) }"></div>
 </div>
 </body>
 </html>
