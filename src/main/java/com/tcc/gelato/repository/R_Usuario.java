@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 
 /**
- * Repositório da tabela {@link com.tcc.gelato.model.M_Usuario}
+ * Repositório da tabela {@link M_Usuario}
  */
 @Repository
 public interface R_Usuario extends JpaRepository<M_Usuario, Long> {
