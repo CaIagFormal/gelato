@@ -1,4 +1,5 @@
 var ms_maior_de_idade = 1000*60*60*24*365*18
+var re_cep = new RegExp("[0-9]{5}-[0-9]{3}")
 
 function login() {
     let nome = $("#nome").val()
@@ -56,7 +57,10 @@ function cadastro() {
     }
 
     if (senha.trim()!="" && senha!=conf_senha) {
-        erro += "A senha não foi confirmada corretamente.";
+        erro += "A senha não foi confirmada corretamente.\n";
+    }
+    if (re_cep.test(endereco)) {
+        erro += "O endereço não foi formatado corretamente."
     }
 
     if (erro != "") {

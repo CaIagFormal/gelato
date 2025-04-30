@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Aplicação de regras de negócio do Cadastro
@@ -25,7 +27,7 @@ public class S_Cadastro {
      * @param nome Nome do cliente
      * @param senha Senha do cliente
      * @param conf_senha Confirmação da senha do cliente
-     * @param endereco Endereço do cliente
+     * @param endereco Endereço em formato CEP do cliente
      * @param email E-mail do cliente
      * @param data_nasc Data de nascimento do cliente
      * @return se é valido
@@ -40,8 +42,12 @@ public class S_Cadastro {
 
         if (!validade) return false;
 
+        Pattern regex_cep = Pattern.compile("[0-9]{5}-[0-9]{3}",Pattern.CASE_INSENSITIVE);
+        Matcher cep_valido = regex_cep.matcher(endereco);
+
         return LocalDate.now().minusYears(18).isAfter(LocalDate.parse(data_nasc)) &&
-                senha.equals(conf_senha);
+                senha.equals(conf_senha) &&
+                cep_valido.find();
     }
 
 
@@ -49,7 +55,7 @@ public class S_Cadastro {
      * Cadastra uma conta para um cliente
      * @param nome Nome do cliente
      * @param senha Senha do cliente
-     * @param endereco Endereço do cliente
+     * @param endereco Endereço em formato CEP do cliente
      * @param email E-mail do cliente
      * @param data_nasc Data de nascimento do cliente
      */
