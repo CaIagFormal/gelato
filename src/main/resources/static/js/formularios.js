@@ -1,24 +1,28 @@
 var ms_maior_de_idade = 1000*60*60*24*365*18
 var re_cep = new RegExp("[0-9]{5}-[0-9]{3}")
 
+function mostrar_erro(titulo,erro) {
+    Swal.fire({
+      title: titulo,
+      html: erro,
+      icon: "error"
+    });
+}
+
 function login() {
     let nome = $("#nome").val()
-    let senha = $("#senha").val()
+    let senha = $("#senha").val();
 
     let erro = ""
     if (nome.trim()=="") {
-        erro += "O nome está vazio, por favor preencha o campo.\n";
+        erro += "O nome está vazio, por favor preencha o campo.<br>";
     }
     if (senha.trim()=="") {
         erro += "A senha está vazia, por favor preencha o campo.";
     }
 
     if (erro != "") {
-        Swal.fire({
-          title: "Cadastro inválido",
-          text: erro,
-          icon: "error"
-        });
+        mostrar_erro("Cadastro inválido",erro);
         return
     }
 
@@ -35,40 +39,36 @@ function cadastro() {
 
     let erro = ""
     if (nome.trim()=="") {
-        erro += "O nome está vazio, por favor preencha o campo.\n";
+        erro += "O nome está vazio, por favor preencha o campo.<br>";
     }
     if (senha.trim()=="") {
-        erro += "A senha está vazia, por favor preencha o campo.\n";
+        erro += "A senha está vazia, por favor preencha o campo.<br>";
     }
     if (conf_senha.trim()=="") {
-        erro += "A senha não foi confirmada, por favor preencha o campo.\n";
+        erro += "A senha não foi confirmada, preencha o campo.<br>";
     }
     if (endereco.trim()=="") {
-        erro += "O endereço está vazio, por favor preencha o campo.\n";
+        erro += "O endereço está vazio, por favor preencha o campo.<br>";
     }
     if (email.trim()=="") {
-        erro += "O e-mail está vazio, por favor preencha o campo.\n";
+        erro += "O e-mail está vazio, por favor preencha o campo.<br>";
     }
     if (data_nasc.trim()=="") {
-        data_nasc += "A data de nascimento está vazio, por favor preencha o campo.\n";
+        data_nasc += "A data de nascimento está vazio, por favor preencha o campo.<br>";
     }
     if (Date.now()-Date.parse(data_nasc)<ms_maior_de_idade) {
-        erro += "Você prescisa ser maior de idade para poder ultilizar nossos serviços.\n"
+        erro += "Você prescisa ser maior de idade para poder ultilizar nossos serviços.<br>"
     }
 
     if (senha.trim()!="" && senha!=conf_senha) {
-        erro += "A senha não foi confirmada corretamente.\n";
+        erro += "A senha não foi confirmada corretamente.<br>";
     }
     if (!(re_cep.test(endereco))) {
         erro += "O endereço não foi formatado corretamente."
     }
 
     if (erro != "") {
-        Swal.fire({
-          title: "Cadastro inválido",
-          text: erro,
-          icon: "error"
-        });
+        mostrar_erro("Cadastro inválido",erro);
         return
     }
 
