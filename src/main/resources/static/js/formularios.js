@@ -59,7 +59,7 @@ function cadastro() {
     if (senha.trim()!="" && senha!=conf_senha) {
         erro += "A senha não foi confirmada corretamente.\n";
     }
-    if (re_cep.test(endereco)) {
+    if (!(re_cep.test(endereco))) {
         erro += "O endereço não foi formatado corretamente."
     }
 
