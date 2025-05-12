@@ -15,6 +15,7 @@
     <link href="/css/index.css" rel="stylesheet">
     <!-- JS -->
     <script src="/js/cadastrados.js" defer></script>
+    <script src="/js/inicio_cliente.js" defer></script>
 </head>
 <body>
 <div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=0)}"></div>
@@ -25,6 +26,8 @@
     <div th:each="setor : ${setores}">
         <div th:replace="~{pv/produto.html :: pv_setor (v_setor=${setor})}"></div>
     </div>
+
+    <form method="GET"></form>
 </div>
 </body>
 </html>
