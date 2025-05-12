@@ -5,3 +5,31 @@ nav {
 a.navbar-brand, a.nav-link{
     color: #ffffff !important;
 }
+
+button.btn_setor {
+    background-color: #A0C0ff !important;
+    color: #FFFFFF;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #2030a0;
+    width: 100%;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 2.5em;
+}
+
+div.setor {
+    background-color: #E0F8FF;
+    padding: 1em;
+    border-radius: 10px;
+    margin-bottom: 5%;
+}
+
+div.produto {
+    background-color: #D0F0FF;
+    padding: 0.5em;
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #FFFFFF;
+}
