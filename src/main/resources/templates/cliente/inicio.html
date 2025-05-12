@@ -23,14 +23,7 @@
     <h2 class="mt-4">Bem vindo, <span th:text="${usuario.nome}"></span>.</h2>
 
     <div th:each="setor : ${setores}">
-        <button type="button" class="btn_setor" th:text="${setor.nome}"></button>
-        <div class="setor row">
-            <div th:each="produto : ${setor.produtos}" class="produto col-6">
-                <!-- faltando icone -->
-                <h5 th:text="${produto.nome}"></h5>
-                <p th:text="${'R$'+produto.preco+'/'+produto.medida}"></p>
-            </div>
-        </div>
+        <div th:replace="~{pv/produto.html :: pv_setor (v_setor=${setor})}"></div>
     </div>
 </div>
 </body>
