@@ -37,4 +37,12 @@ public class M_Setor {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public List<M_Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<M_Produto> produtos) {
+        this.produtos = produtos;
+    }
 }

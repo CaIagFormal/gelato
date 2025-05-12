@@ -22,7 +22,16 @@
 <div class="container">
     <h2 class="mt-4">Bem vindo, <span th:text="${usuario.nome}"></span>.</h2>
 
-    <div th:each="setor : ${setores}" th:replace="~{pv/produto.html :: setor (setor=${setor}) }"></div>
+    <div th:each="setor : ${setores}">
+        <button type="button" class="collapsible" th:text="${setor.nome}"></button>
+        <div class="content">
+            <div th:each="produto : ${setor.produtos}">
+                <!-- faltando icone -->
+                <h2 th:text="${produto.nome}"></h2>
+                <p th:text="${produto.preco}R$/${produto.medida}"></p>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
