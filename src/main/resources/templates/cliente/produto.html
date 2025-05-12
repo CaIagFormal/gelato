@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Gelato - Página Inicial</title>
+    <title th:text="${'Gelato - Vendo '+produto.nome}"></title>
 
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -15,6 +15,7 @@
     <link href="/css/index.css" rel="stylesheet">
     <!-- JS -->
     <script src="/js/cadastrados.js" defer></script>
+    <script src="/js/produto_cliente.js" defer></script>
 </head>
 <body>
 <div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=0)}"></div>
@@ -23,7 +24,15 @@
     <h2 th:text="${produto.nome}" class="mt-2 mb-3"></h2>
     <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
     <p th:text="${produto.descricao}"></p>
-    <button class="btn btn-primary">Comprar</button>
+    <p th:text="${produto.id}" class="d-none" id="id_produto"></p>
+    <div class="row">
+        <div class="col-9">
+            <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
+        </div>
+        <div class="col-3">
+            <p><input type="number" min="0" value="1" id="qtd"> <span th:text="${produto.medida+'(s)'}"></span></p>
+        </div>
+    </div>
 </div>
 </body>
 </html>
