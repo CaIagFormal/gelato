@@ -14,9 +14,15 @@
 </div>
 
 <button th:fragment="pv_produto (v_produto)" class="btn_produto">
-    <!-- faltando icone -->
-    <h5 th:text="${v_produto.nome}"></h5>
-    <p th:text="${'R$'+v_produto.preco+'/'+v_produto.medida}"></p>
+    <div class="row">
+        <div class="col-9">
+            <h5 th:text="${v_produto.nome}"></h5>
+            <p th:text="${'R$'+v_produto.preco+'/'+v_produto.medida}"></p>
+        </div>
+        <div class="col-3">
+            <img class="icone" th:src="${v_produto.url_icone}">
+        </div>
+    </div>
     <p class="d-none id_produto" th:text="${v_produto.id}"></p>
     <p th:each="aviso : ${v_produto.avisos}" class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
 </button>

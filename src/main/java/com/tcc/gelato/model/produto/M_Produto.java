@@ -33,6 +33,9 @@ public class M_Produto {
     @ManyToOne
     private M_Setor setor;
 
+    @Column
+    private String url_icone;
+
     @JoinColumn(name="id_produto")
     @OneToMany
     private List<M_AvisosDoProduto> avisos;
@@ -83,6 +86,14 @@ public class M_Produto {
 
     public void setSetor(M_Setor setor) {
         this.setor = setor;
+    }
+
+    public String getUrl_icone() {
+        return url_icone;
+    }
+
+    public void setUrl_icone(String url_icone) {
+        this.url_icone = url_icone;
     }
 
     public List<M_AvisosDoProduto> getAvisos() {
