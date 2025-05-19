@@ -64,6 +64,11 @@ public class C_Produto {
         }
 
         M_Produto m_produto = s_produto.getProdutoById(Long.parseLong(id_produto));
+        if (m_produto==null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Produto inválido.");
+            return m_resposta;
+        }
 
         M_Compra m_compra = s_produto.gerarCompraDoCarrinho(m_usuario,m_produto,Integer.parseInt(qtd));
 
