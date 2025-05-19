@@ -18,4 +18,5 @@
     <h5 th:text="${v_produto.nome}"></h5>
     <p th:text="${'R$'+v_produto.preco+'/'+v_produto.medida}"></p>
     <p class="d-none id_produto" th:text="${v_produto.id}"></p>
+    <p th:each="aviso : ${v_produto.avisos}" class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
 </button>

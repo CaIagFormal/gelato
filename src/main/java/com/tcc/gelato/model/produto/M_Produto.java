@@ -3,6 +3,7 @@ package com.tcc.gelato.model.produto;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * O produto representa todas as mercadorias já vendidas.
@@ -31,6 +32,10 @@ public class M_Produto {
     @JoinColumn(name = "id_setor")
     @ManyToOne
     private M_Setor setor;
+
+    @JoinColumn(name="id_produto")
+    @OneToMany
+    private List<M_AvisosDoProduto> avisos;
 
     public Long getId() {
         return id;
@@ -78,5 +83,13 @@ public class M_Produto {
 
     public void setSetor(M_Setor setor) {
         this.setor = setor;
+    }
+
+    public List<M_AvisosDoProduto> getAvisos() {
+        return avisos;
+    }
+
+    public void setAvisos(List<M_AvisosDoProduto> avisos) {
+        this.avisos = avisos;
     }
 }
