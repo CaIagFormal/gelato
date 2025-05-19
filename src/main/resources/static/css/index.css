@@ -23,6 +23,8 @@ div.setor {
     padding: 1em;
     border-radius: 10px;
     margin-bottom: 5%;
+    margin-left: 0em;
+    width: 100%;
 }
 
 div.produto {
