@@ -1,13 +1,14 @@
 package com.tcc.gelato.controller;
 
+import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Produto;
+import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.service.S_Produto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class C_Produto {
@@ -36,5 +37,44 @@ public class C_Produto {
         model.addAttribute("produto",m_produto);
 
         return "cliente/produto";
+    }
+
+    /**
+     * Cria uma {@link com.tcc.gelato.model.M_Compra} com
+     * @param qtd Quantidade do produto
+     * @param id_produto ID do produto
+     * @param session Sessão para extrair o {@link M_Usuario}
+     * @return Mensagem de sucesso ou falha para a página
+     */
+    @PostMapping(path="/adicionar_carrinho")
+    @ResponseBody
+    public M_Resposta adicionarAoCarrinho(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
+        M_Resposta m_resposta = new M_Resposta();
+        M_Usuario m_usuario = (M_Usuario) session.getAttribute("usuario");
+        if (m_usuario==null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Sua sessão de usuário esgotou, por favor cadastre-se novamente.");
+            return m_resposta;
+        }
+
+        if (!s_produto.checkAdicionarAoCarrinhoValido(qtd,id_produto)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Sua compra é inválida.");
+            return m_resposta;
+        }
+
+        M_Produto m_produto = s_produto.getProdutoById(Long.parseLong(id_produto));
+
+        M_Compra m_compra = s_produto.gerarCompraDoCarrinho(m_usuario,m_produto,Integer.parseInt(qtd));
+
+        if (m_compra==null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Não foi possível registrar sua compra.");
+            return m_resposta;
+        }
+
+        m_resposta.setSucesso(true);
+        m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
+        return m_resposta;
     }
 }
