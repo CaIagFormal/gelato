@@ -8,7 +8,7 @@ function mostrar_erro(titulo,erro) {
 
 function adicionar_ao_carrinho() {
     let qtd = $("#qtd").val();
-    let id_produto = $("#id_produto").val();
+    let id_produto = $("#id_produto").text();
 
     let erro = ""
     if (parseInt(qtd)===NaN) {
@@ -26,10 +26,22 @@ function adicionar_ao_carrinho() {
 
     $.ajax({
         type: "POST",
-        url: "adicionar_carrinho/"+id_produto,
-        data: {qtd:qtd},
+        url: "/adicionar_carrinho",
+        data: {qtd:qtd,id_produto:id_produto},
         success: function(retorno) {
-            alert(retorno);
+            if (retorno.sucesso) {
+                Swal.fire({
+                  title: "Êxito!",
+                  html: retorno.mensagem,
+                  icon: "success"
+                });
+            } else {
+                Swal.fire({
+                  title: "Algo de errado aconteceu",
+                  html: retorno.mensagem,
+                  icon: "error"
+                });
+            }
         }
     })
 }

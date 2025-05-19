@@ -4,6 +4,7 @@ import com.tcc.gelato.model.produto.M_Produto;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * A compra representa uma compra por um {@link M_Usuario} de um ou mais{@link com.tcc.gelato.model.produto.M_Produto}
@@ -34,6 +35,13 @@ public class M_Compra {
 
     @Column(nullable = false)
     private Integer qtd;
+
+    @JoinColumn(name="id_usuario")
+    @ManyToOne
+    private M_Usuario usuario;
+
+    @Column
+    private LocalDateTime horario;
 
     public Long getId() {
         return id;
@@ -73,5 +81,21 @@ public class M_Compra {
 
     public void setQtd(Integer qtd) {
         this.qtd = qtd;
+    }
+
+    public M_Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(M_Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public LocalDateTime getHorario() {
+        return horario;
+    }
+
+    public void setHorario(LocalDateTime horario) {
+        this.horario = horario;
     }
 }
