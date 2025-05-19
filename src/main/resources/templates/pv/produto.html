@@ -24,5 +24,9 @@
         </div>
     </div>
     <p class="d-none id_produto" th:text="${v_produto.id}"></p>
-    <p th:each="aviso : ${v_produto.avisos}" class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
+    <div class="row" th:if="${v_produto.avisos.size()>0}">
+        <div th:each="aviso : ${v_produto.avisos}" class="col-3">
+            <p class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
+        </div>
+    </div>
 </button>
