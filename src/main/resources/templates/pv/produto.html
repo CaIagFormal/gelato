@@ -24,9 +24,11 @@
         </div>
     </div>
     <p class="d-none id_produto" th:text="${v_produto.id}"></p>
-    <div class="row" th:if="${v_produto.avisos.size()>0}">
-        <div th:each="aviso : ${v_produto.avisos}" class="col-3">
-            <p class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
-        </div>
-    </div>
+    <div th:if="${v_produto.avisos.size()>0}" th:replace="~{pv/produto :: pv_avisos_do_produto (v_avisos_do_produto=${v_produto.avisos})}"></div>
 </button>
+
+<div th:fragment="pv_avisos_do_produto (v_avisos_do_produto)" class="row">
+    <div th:each="aviso : ${v_avisos_do_produto}" class="col-3">
+        <p class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
+    </div>
+</div>

@@ -21,17 +21,27 @@
 <div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=0)}"></div>
 
 <div class="container">
-    <h2 th:text="${produto.nome}" class="mt-2 mb-3"></h2>
-    <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
-    <p th:text="${produto.descricao}"></p>
     <p th:text="${produto.id}" class="d-none" id="id_produto"></p>
+    <h2 th:text="${produto.nome}" class="mt-2 mb-3"></h2>
     <div class="row">
-        <div class="col-9">
-            <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
+    <div class="col-4">
+        <img class="imagem_produto" th:src="${produto.url_icone}">
+    </div>
+    <div class="col info_produto">
+        <!--faltado conteudos do produto apenas-->
+        <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
+        <div th:if="${produto.avisos.size()>0}" th:replace="~{pv/produto :: pv_avisos_do_produto (v_avisos_do_produto=${produto.avisos})}"></div>
+        <p th:text="${produto.descricao}"></p>
+
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
+            </div>
+            <div class="col">
+                <p><input type="number" min="0" value="1" id="qtd"> <span th:text="${produto.medida+'(s)'}"></span></p>
+            </div>
         </div>
-        <div class="col-3">
-            <p><input type="number" min="0" value="1" id="qtd"> <span th:text="${produto.medida+'(s)'}"></span></p>
-        </div>
+    </div>
     </div>
 </div>
 </body>

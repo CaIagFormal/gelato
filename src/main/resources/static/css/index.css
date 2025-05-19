@@ -64,3 +64,22 @@ img.icone {
     border-color: #FFFFFF;
     margin-bottom: 10%;
 }
+
+img.imagem_produto {
+    max-width: 100%;
+    max-height: 50vh;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #FFFFFF;
+    margin-bottom: 10%;
+}
+
+div.info_produto {
+    background: linear-gradient(#A0C0ff88,#A0C0ff00);
+    border-radius: 1em;
+    padding: 1em;
+    border-color: #00008F;
+    border-width: 2px;
+    border-style: solid;
+    height: 100%;
+}
