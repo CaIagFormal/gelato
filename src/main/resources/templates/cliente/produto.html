@@ -18,7 +18,7 @@
     <script src="/js/produto_cliente.js" defer></script>
 </head>
 <body>
-<div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=0)}"></div>
+<div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div>
 
 <div class="container">
     <p th:text="${produto.id}" class="d-none" id="id_produto"></p>
