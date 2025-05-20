@@ -38,7 +38,8 @@
     <div class="d-flex">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/carrinho" th:text="${'Carrinho: '+v_qtd_itens+' Itens'}"></a>
+          <a class="nav-link" href="/carrinho" th:unless="${v_qtd_itens} eq 1" th:text="${'Carrinho: '+v_qtd_itens+' Itens'}"></a>
+          <a class="nav-link" href="/carrinho" th:if="${v_qtd_itens} eq 1" th:text="${'Carrinho: '+v_qtd_itens+' Item'}"></a>
         </li>
         <li class="nav-item">
           <a class="nav-link btn btn-danger" id="logout">Log out</a>
