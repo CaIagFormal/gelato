@@ -24,7 +24,7 @@
     <p th:text="${produto.id}" class="d-none" id="id_produto"></p>
     <h2 th:text="${produto.nome}" class="mt-2 mb-3"></h2>
     <div class="row">
-    <div class="col-4">
+    <div class="col-4 text-center container" style="min-width: 50vh">
         <img class="imagem_produto" th:src="${produto.url_icone}">
     </div>
     <div class="col info_produto">
@@ -34,7 +34,7 @@
         <p th:text="${produto.descricao}"></p>
 
         <div class="row">
-            <div class="col-6">
+            <div class="col">
                 <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
             </div>
             <div class="col">
