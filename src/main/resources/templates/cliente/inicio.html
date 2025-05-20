@@ -18,7 +18,7 @@
     <script src="/js/inicio_cliente.js" defer></script>
 </head>
 <body>
-<div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=0)}"></div>
+<div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div>
 
 <div class="container">
     <h2 class="mt-4">Bem vindo, <span th:text="${usuario.nome}"></span>.</h2>

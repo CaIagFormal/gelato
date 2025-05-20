@@ -78,4 +78,13 @@ public class S_Produto {
             return null;
         }
     }
+
+    /**
+     * Pega a quantidade de compras definidas como carrinho de um usuário
+     * @param m_usuario {@link M_Usuario}
+     * @return Quantidade de {@link M_Compra}s no carrinho
+     */
+    public Integer getQtdComprasCarrinhoDeUsuario(M_Usuario m_usuario) {
+        return r_compra.getQtdComprasCarrinhoDeUsuario(m_usuario.getId());
+    }
 }

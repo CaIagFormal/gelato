@@ -35,6 +35,7 @@ public class C_Produto {
         M_Produto m_produto = s_produto.getProdutoById(id_produto);
 
         model.addAttribute("produto",m_produto);
+        model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
 
         return "cliente/produto";
     }
@@ -77,6 +78,9 @@ public class C_Produto {
             m_resposta.setMensagem("Não foi possível registrar sua compra.");
             return m_resposta;
         }
+
+        // Atualizar quantidade de itens no carrinho
+        session.setAttribute("qtd_itens_carrinho",s_produto.getQtdComprasCarrinhoDeUsuario(m_usuario));
 
         m_resposta.setSucesso(true);
         m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");

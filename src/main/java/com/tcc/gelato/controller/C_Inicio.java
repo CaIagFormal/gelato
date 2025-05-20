@@ -44,6 +44,8 @@ public class C_Inicio {
         }
         model.addAttribute("usuario",m_usuario);
         model.addAttribute("setores",r_setor.findAll());
+
+        model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
         return "cliente/inicio";
     }
 }
