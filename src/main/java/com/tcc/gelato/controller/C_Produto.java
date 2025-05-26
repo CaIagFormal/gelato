@@ -28,15 +28,13 @@ public class C_Produto {
     @GetMapping(path="/produto/{produto}")
     public String getProduto(@PathVariable("produto") Long id_produto, HttpSession session, Model model) {
         M_Usuario m_usuario = (M_Usuario) session.getAttribute("usuario");
-        if (m_usuario==null) {
-            return "redirect:/";
-        }
 
         M_Produto m_produto = s_produto.getProdutoById(id_produto);
 
         model.addAttribute("produto",m_produto);
-        model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
-
+        if (m_usuario!=null) {
+            model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
+        }
         return "cliente/produto";
     }
 
@@ -54,7 +52,7 @@ public class C_Produto {
         M_Usuario m_usuario = (M_Usuario) session.getAttribute("usuario");
         if (m_usuario==null) {
             m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Sua sessão de usuário esgotou, por favor cadastre-se novamente.");
+            m_resposta.setMensagem("Você não está cadastrado no momento.");
             return m_resposta;
         }
 
@@ -85,5 +83,19 @@ public class C_Produto {
         m_resposta.setSucesso(true);
         m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
         return m_resposta;
+    }
+
+    /**
+     * @param session Redireciona para {@link C_Inicio#redirecionar(HttpSession)} caso não haja um {@link M_Usuario} vinculado
+     * @return Tela de carrinho
+     */
+    @GetMapping("/carrinho")
+    public String getCarrinho(HttpSession session, Model model) {
+        M_Usuario m_usuario = (M_Usuario) session.getAttribute("usuario");
+        if (m_usuario==null) {
+            return "redirect:/";
+        }
+
+        return "";
     }
 }

@@ -50,6 +50,6 @@ public class C_Login {
         // Obter quantidade de itens no carrinho
         session.setAttribute("qtd_itens_carrinho",s_produto.getQtdComprasCarrinhoDeUsuario(m_usuario));
 
-        return "redirect:/inicio";
+        return "redirect:/catalogo";
     }
 }
