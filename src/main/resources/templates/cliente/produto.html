@@ -18,7 +18,9 @@
     <script src="/js/produto_cliente.js" defer></script>
 </head>
 <body>
-<div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div>
+<!-- Navbars --->
+<div th:if="${usuario}==null"><div th:replace="~{pv/navbar.html :: sem_registro}"></div></div>
+<div th:unless="${usuario}==null"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div></div>
 
 <div class="container">
     <p th:text="${produto.id}" class="d-none" id="id_produto"></p>
