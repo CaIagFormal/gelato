@@ -7,24 +7,17 @@
 <div th:fragment="pv_setor (v_setor)">
 <button type="button" class="btn_setor" th:text="${v_setor.nome}"></button>
 <div class="setor row">
-    <div th:each="produto : ${v_setor.produtos}" class="produto col-6">
+    <div th:each="produto : ${v_setor.produtos}" class="produto col">
         <div th:replace="~{pv/produto :: pv_produto (v_produto=${produto})}"></div>
     </div>
 </div>
 </div>
 
 <button th:fragment="pv_produto (v_produto)" class="btn_produto">
-    <div class="row">
-        <div class="col-9">
-            <h5 th:text="${v_produto.nome}"></h5>
-            <p th:text="${'R$'+v_produto.preco+'/'+v_produto.medida}"></p>
-        </div>
-        <div class="col-3">
-            <img class="icone" th:src="${v_produto.url_icone}">
-        </div>
-    </div>
+    <h5 th:text="${v_produto.nome}"></h5>
+    <img class="icone" th:src="${v_produto.url_icone}">
+    <p th:text="${'R$'+v_produto.preco+'/'+v_produto.medida}"></p>
     <p class="d-none id_produto" th:text="${v_produto.id}"></p>
-    <div th:if="${v_produto.avisos.size()>0}" th:replace="~{pv/produto :: pv_avisos_do_produto (v_avisos_do_produto=${v_produto.avisos})}"></div>
 </button>
 
 <div th:fragment="pv_avisos_do_produto (v_avisos_do_produto)" class="row">

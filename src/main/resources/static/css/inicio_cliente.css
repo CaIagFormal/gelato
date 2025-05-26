@@ -1,0 +1,40 @@
+button.btn_setor {
+    background: linear-gradient(270deg,transparent,#4488FF);
+    width: 100%;
+    text-align: left;
+    border-style: none none solid none;
+    border-color: #4488FF;
+    margin-bottom: 0.5em;
+    color: #FFFFFF;
+    font-weight: 750;
+}
+
+div.setor {
+    margin-bottom: 2em;
+}
+
+div.produto {
+    min-width: 10em;
+    min-height: 10em;
+}
+
+button.btn_produto {
+    min-width: 10em;
+    max-width: 12em;
+    min-height: 10em;
+    border-radius: 1em;
+    border-style: hidden;
+    background: linear-gradient(#4488FF,transparent);
+}
+
+img.icone {
+    max-width: 10em;
+    max-height: 10em;
+    border-radius: 1em;
+}
+
+h5 {
+    color: #FFFFFF;
+    font-size: 1em;
+    font-weight: 100;
+}
