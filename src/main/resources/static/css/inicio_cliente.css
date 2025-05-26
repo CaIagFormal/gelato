@@ -14,12 +14,11 @@ div.setor {
 }
 
 div.produto {
-    min-width: 10em;
+    min-width: 11em;
     min-height: 10em;
 }
 
 button.btn_produto {
-    min-width: 10em;
     max-width: 12em;
     min-height: 10em;
     border-radius: 1em;
