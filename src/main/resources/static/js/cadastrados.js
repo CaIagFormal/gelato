@@ -1,9 +1,9 @@
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
-    confirmButton: "btn btn-success ml-5",
-    cancelButton: "btn btn-danger mr-5"
+    confirmButton: "btn btn-success m-2",
+    cancelButton: "btn btn-danger m-2"
   },
-  buttonsStyling: false
+  buttonsStyling: true
 });
 
 function logout() {
