@@ -25,3 +25,15 @@
         <p class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
     </div>
 </div>
+
+<div th:fragment="pv_item_do_carrinho (v_compra)" class="item row">
+    <div class="col-3 imagem text-center">
+        <img class="icone" th:src="${v_compra.produto.url_icone}">
+    </div>
+    <div class="col">
+        <h5 th:text="${v_compra.qtd+' '+v_compra.produto.medida+'(s) de '+v_compra.produto.nome}"></h5>
+        <p th:text="${'R$'+v_compra.preco+'/'+v_compra.produto.medida+' (Total: R$'+(v_compra.preco*v_compra.qtd)+')'}"></p>
+        <p th:text="${'Às '+#temporals.format(v_compra.horario, 'HH:mm, dd-MM-yyyy')}"></p>
+    </div>
+    <p class="d-none id_compra" th:text="${v_compra.id}"></p>
+</div>

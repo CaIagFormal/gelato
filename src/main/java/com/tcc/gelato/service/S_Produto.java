@@ -8,7 +8,10 @@ import com.tcc.gelato.repository.produto.R_Produto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Aplicação de regras de negócio de serviços relacionados a produtos
@@ -86,5 +89,27 @@ public class S_Produto {
      */
     public Integer getQtdComprasCarrinhoDeUsuario(M_Usuario m_usuario) {
         return r_compra.getQtdComprasCarrinhoDeUsuario(m_usuario.getId());
+    }
+
+    /**
+     * Pega as compras definidas como no carrinho de um usuário
+     * @param m_usuario {@link M_Usuario}
+     * @return {@link M_Compra}s no carrinho
+     */
+    public List<M_Compra> getComprasCarrinhoDeUsuario(M_Usuario m_usuario) {
+        return r_compra.getComprasCarrinhoDeUsuario(m_usuario.getId());
+    }
+
+    /**
+     * Calcula o preço total de uma lista de compras
+     * @param m_compras {@link M_Compra}s a serem totalizadas
+     * @return Preço total
+     */
+    public BigDecimal getPrecoTotalDeCompras(List<M_Compra> m_compras) {
+        BigDecimal total = new BigDecimal(0).setScale(2, RoundingMode.UNNECESSARY);
+        for (M_Compra m_compra : m_compras) {
+            total = total.add(m_compra.getPreco().multiply(new BigDecimal(m_compra.getQtd())));
+        }
+        return total;
     }
 }

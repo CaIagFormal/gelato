@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gelato - Cadastro do Cliente</title>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <!-- SWEET ALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- CSS -->
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/carrinho_cliente.css" rel="stylesheet">
+    <!-- JS -->
+    <script src="/js/cadastrados.js" defer></script>
+</head>
+<body>
+<!-- Navbars --->
+<div class="sticky-top"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div></div>
+
+<div class="container" th:if="${carrinho.size > 0}">
+    <div th:each="item_do_carrinho : ${carrinho}">
+        <div th:replace="~{pv/produto.html :: pv_item_do_carrinho (v_compra=${item_do_carrinho})}"></div>
+    </div>
+
+    <h3><span th:text="${'Total: R$'+total}"></span> <h4>(Sem frete)</h4></h3>
+</div>
+<div class="container" th:unless="${carrinho.size > 0}">
+    <h2>Seu carrinho está vazio!</h2>
+    <h3><a href="/catalogo">Retorne para o catálogo</a> para continuar comprando</h3>
+</div>
+</body>
+</html>

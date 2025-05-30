@@ -16,6 +16,7 @@ div.setor {
 div.produto {
     min-width: 11em;
     min-height: 10em;
+    align-content: center;
 }
 
 button.btn_produto {
@@ -31,12 +32,6 @@ button.btn_setor.aberto::before {
 }
 button.btn_setor::before {
     content: "⮞ ";
-}
-
-img.icone {
-    max-width: 10em;
-    max-height: 10em;
-    border-radius: 1em;
 }
 
 h5 {

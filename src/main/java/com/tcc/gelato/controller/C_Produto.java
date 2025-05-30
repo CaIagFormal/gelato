@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class C_Produto {
 
@@ -28,6 +30,7 @@ public class C_Produto {
     @GetMapping(path="/produto/{produto}")
     public String getProduto(@PathVariable("produto") Long id_produto, HttpSession session, Model model) {
         M_Usuario m_usuario = (M_Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario",m_usuario);
 
         M_Produto m_produto = s_produto.getProdutoById(id_produto);
 
@@ -95,7 +98,11 @@ public class C_Produto {
         if (m_usuario==null) {
             return "redirect:/";
         }
+        model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
 
-        return "";
+        List<M_Compra> m_compras = s_produto.getComprasCarrinhoDeUsuario(m_usuario);
+        model.addAttribute("carrinho",m_compras);
+        model.addAttribute("total",s_produto.getPrecoTotalDeCompras(m_compras));
+        return "cliente/carrinho";
     }
 }
