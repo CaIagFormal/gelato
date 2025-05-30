@@ -19,8 +19,8 @@ p.aviso_produto_icone {
 }
 
 img.imagem_produto {
-    max-width: 100%;
-    max-height: 50vh;
+    max-width: 40vh;
+    height: 40vh;
     border-style: solid;
     border-width: 2px;
     border-color: #FFFFFF;
