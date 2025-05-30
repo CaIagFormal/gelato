@@ -14,7 +14,7 @@
 </div>
 
 <button th:fragment="pv_produto (v_produto)" class="btn_produto">
-    <h5 th:text="${v_produto.nome}"></h5>
+    <h5 class="row col container" th:text="${v_produto.nome}"></h5>
     <img class="icone" th:src="${v_produto.url_icone}">
     <p th:text="${'R$'+v_produto.preco+'/'+v_produto.medida}"></p>
     <p class="d-none id_produto" th:text="${v_produto.id}"></p>
@@ -31,7 +31,10 @@
         <img class="icone" th:src="${v_compra.produto.url_icone}">
     </div>
     <div class="col">
-        <h5 th:text="${v_compra.qtd+' '+v_compra.produto.medida+'(s) de '+v_compra.produto.nome}"></h5>
+        <h5 class="row"><span class="col-11" th:text="${v_compra.qtd+' '+v_compra.produto.medida+'(s) de '+v_compra.produto.nome}"></span>
+            <div class="text-end col"><button class="btn btn-close"></button></div>
+        </h5>
+
         <p th:text="${'R$'+v_compra.preco+'/'+v_compra.produto.medida+' (Total: R$'+(v_compra.preco*v_compra.qtd)+')'}"></p>
         <p th:text="${'Às '+#temporals.format(v_compra.horario, 'HH:mm, dd-MM-yyyy')}"></p>
     </div>
