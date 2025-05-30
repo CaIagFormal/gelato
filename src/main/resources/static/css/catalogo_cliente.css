@@ -26,6 +26,13 @@ button.btn_produto {
     background: linear-gradient(#4488FF,transparent);
 }
 
+button.btn_setor.aberto::before {
+    content: "⮟ ";
+}
+button.btn_setor::before {
+    content: "⮞ ";
+}
+
 img.icone {
     max-width: 10em;
     max-height: 10em;

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Gelato - Catalogo</title>
+    <title>Gelato - Catálogo</title>
 
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -21,15 +21,15 @@
 <body>
 
 <!-- Navbars --->
-<div th:if="${usuario}==null"><div th:replace="~{pv/navbar.html :: sem_registro}"></div></div>
-<div th:unless="${usuario}==null"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div></div>
+<div th:if="${usuario}==null" class="sticky-top"><div th:replace="~{pv/navbar.html :: sem_registro}"></div></div>
+<div th:unless="${usuario}==null" class="sticky-top"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div></div>
 
 <div class="container">
-    <h4 class="mt-4" th:if="${usuario}==null"><a href="/cadastro">Crie uma conta</a> ou <a href="/login">entre em uma</a> para poder comprar, você pode explorar o catálogo.</h4>
+    <h4 class="mt-4" th:if="${usuario}==null"><a href="/cadastro">Crie uma conta</a> ou <a href="/login">entre em uma</a> para poder comprar, você pode explorar o catálogo por enquanto.</h4>
     <h2 class="mt-4" th:unless="${usuario}==null">Bem vindo, <span th:text="${usuario.nome}"></span>!</h2>
 
     <div th:each="setor : ${setores}">
-        <div th:replace="~{pv/produto.html :: pv_setor (v_setor=${setor})}"></div>
+        <div th:replace="~{pv/produto.html :: pv_setor (v_setor=${setor}, v_aberto=0)}"></div>
     </div>
 
     <form method="GET"></form>
