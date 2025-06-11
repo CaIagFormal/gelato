@@ -35,6 +35,8 @@ public class C_Produto {
         M_Produto m_produto = s_produto.getProdutoById(id_produto);
 
         model.addAttribute("produto",m_produto);
+        model.addAttribute("estoque",s_produto.getEstoqueForProduto(m_produto));
+
         if (m_usuario!=null) {
             model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
         }

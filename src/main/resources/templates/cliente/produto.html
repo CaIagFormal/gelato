@@ -41,7 +41,7 @@
                 <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
             </div>
             <div class="col">
-                <p><input type="number" min="0" value="1" id="qtd"> <span th:text="${produto.medida+'(s)'}"></span></p>
+                <p><input type="number" min="0" th:max="${estoque}" value="1" id="qtd"> <span th:text="${produto.medida+'(s) ('+{estoque}+' em estoque)'}"></span></p>
             </div>
         </div>
     </div>
