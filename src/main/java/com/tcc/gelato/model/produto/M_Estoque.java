@@ -2,30 +2,31 @@ package com.tcc.gelato.model.produto;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 
 /**
- * Representa as informações nutricionais de um {@link M_Produto}
+ * Armazena quando, quem e quantos {@link M_Produto}s foram recebidos.
  */
 @Entity
-@Table(name="conteudos_do_produto")
-public class M_ConteudosDoProduto {
+@Table(name="estoque")
+public class M_Estoque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name="id_produto")
+    @JoinColumn(name="id_produto",nullable = false)
     @ManyToOne
     private M_Produto produto;
 
     @Column(nullable = false)
-    private String nome;
-
-    @Column(nullable = false)
     private Integer qtd;
 
-    @Column(nullable = false,length = 31)
-    private String medida;
+    @Column
+    private LocalDateTime horario;
+
+    @Column
+    private String fornecedor;
 
     public Long getId() {
         return id;
@@ -43,14 +44,6 @@ public class M_ConteudosDoProduto {
         this.produto = produto;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public Integer getQtd() {
         return qtd;
     }
@@ -59,11 +52,19 @@ public class M_ConteudosDoProduto {
         this.qtd = qtd;
     }
 
-    public String getMedida() {
-        return medida;
+    public LocalDateTime getHorario() {
+        return horario;
     }
 
-    public void setMedida(String medida) {
-        this.medida = medida;
+    public void setHorario(LocalDateTime horario) {
+        this.horario = horario;
+    }
+
+    public String getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(String fornecedor) {
+        this.fornecedor = fornecedor;
     }
 }
