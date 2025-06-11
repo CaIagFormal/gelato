@@ -36,6 +36,9 @@ public class M_Produto {
     @Column
     private String url_icone;
 
+    @Column(nullable = false)
+    private Integer estoque_minimo;
+
     @JoinColumn(name="id_produto")
     @OneToMany
     private List<M_AvisosDoProduto> avisos;
@@ -94,6 +97,14 @@ public class M_Produto {
 
     public void setUrl_icone(String url_icone) {
         this.url_icone = url_icone;
+    }
+
+    public Integer getEstoque_minimo() {
+        return estoque_minimo;
+    }
+
+    public void setEstoque_minimo(Integer estoque_minimo) {
+        this.estoque_minimo = estoque_minimo;
     }
 
     public List<M_AvisosDoProduto> getAvisos() {

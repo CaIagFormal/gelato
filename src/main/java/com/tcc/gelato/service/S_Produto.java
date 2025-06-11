@@ -4,6 +4,7 @@ import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.repository.R_Compra;
+import com.tcc.gelato.repository.produto.R_Estoque;
 import com.tcc.gelato.repository.produto.R_Produto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Aplicação de regras de negócio de serviços relacionados a produtos
@@ -23,9 +25,14 @@ public class S_Produto {
 
     private final R_Compra r_compra;
 
-    public S_Produto(R_Produto r_produto, R_Compra r_compra) {
+    private final R_Estoque r_estoque;
+
+
+
+    public S_Produto(R_Produto r_produto, R_Compra r_compra, R_Estoque r_estoque) {
         this.r_produto = r_produto;
         this.r_compra = r_compra;
+        this.r_estoque = r_estoque;
     }
 
     /**
@@ -33,13 +40,16 @@ public class S_Produto {
      * @return {@link com.tcc.gelato.model.produto.M_Produto} ou Null se der exceção
      */
     public M_Produto getProdutoById(long id) {
-        M_Produto m_produto;
+        Optional<M_Produto> m_produto;
         try {
-            m_produto = r_produto.getReferenceById(id);
+            m_produto = r_produto.findById(id);
         } catch (Exception e) {
             return null;
         }
-        return m_produto;
+        if (m_produto.isEmpty()) {
+            return null;
+        }
+        return m_produto.get();
     }
 
     /**
@@ -48,11 +58,19 @@ public class S_Produto {
      * @param id_produto ID do produto
      */
     public boolean checkAdicionarAoCarrinhoValido(String qtd, String id_produto) {
+        Long id_val = 0l;
+        Integer qtd_val = 0;
         try {
             Long.parseLong(id_produto);
             Integer.parseInt(qtd);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
+        }
+        if (id_val<1) {
+            return false;
+        }
+        if (qtd_val<0) {
             return false;
         }
         return true;
@@ -111,5 +129,14 @@ public class S_Produto {
             total = total.add(m_compra.getPreco().multiply(new BigDecimal(m_compra.getQtd())));
         }
         return total;
+    }
+
+    /**
+     * Retorna o estoque atual de um {@link com.tcc.gelato.model.produto.M_Produto} solicitado
+     * @param m_produto {@link com.tcc.gelato.model.produto.M_Produto} a ter o estoque contado
+     * @return estoque atual
+     */
+    public Integer getEstoqueForProduto(M_Produto m_produto) {
+        return r_estoque.getEstoqueForProduto(m_produto.getId());
     }
 }
