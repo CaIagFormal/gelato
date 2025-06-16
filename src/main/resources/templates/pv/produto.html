@@ -4,27 +4,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 
-<div th:fragment="pv_setor (v_setor, v_aberto)">
-<button type="button" th:attr="class=${(v_aberto==1 ? 'aberto ' : '')+'btn_setor'}" th:text="${v_setor.nome}"></button>
-<div th:attr="class=${(v_aberto==1 ? '' : 'd-none ')+'setor row'}">
-    <div th:each="produto : ${v_setor.produtos}" class="produto col-2 text-center">
-        <div th:replace="~{pv/produto :: pv_produto (v_produto=${produto})}"></div>
-    </div>
-</div>
-</div>
 
 <button th:fragment="pv_produto (v_produto)" class="btn_produto">
-    <h5 class="row col container" th:text="${v_produto.nome}"></h5>
+    <h5 class="container" th:text="${v_produto.nome}"></h5>
     <img class="icone" th:src="${v_produto.url_icone}">
     <p th:text="${'R$'+v_produto.preco+'/'+v_produto.medida}"></p>
     <p class="d-none id_produto" th:text="${v_produto.id}"></p>
 </button>
-
-<div th:fragment="pv_avisos_do_produto (v_avisos_do_produto)" class="row">
-    <div th:each="aviso : ${v_avisos_do_produto}" class="col-3">
-        <p class="aviso_produto_icone" th:text="${aviso.aviso.nome}"></p>
-    </div>
-</div>
 
 <div th:fragment="pv_item_do_carrinho (v_compra)" class="item row">
     <div class="col-3 imagem text-center">
