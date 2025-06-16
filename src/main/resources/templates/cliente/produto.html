@@ -33,7 +33,6 @@
     <div class="col info_produto">
         <!--faltado conteudos do produto apenas-->
         <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
-        <div th:if="${produto.avisos.size()>0}" th:replace="~{pv/produto :: pv_avisos_do_produto (v_avisos_do_produto=${produto.avisos})}"></div>
         <p th:text="${produto.descricao}"></p>
 
         <div class="row">

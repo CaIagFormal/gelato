@@ -28,10 +28,11 @@
     <h4 class="mt-4" th:if="${usuario}==null"><a href="/cadastro">Crie uma conta</a> ou <a href="/login">entre em uma</a> para poder comprar, você pode explorar o catálogo por enquanto.</h4>
     <h2 class="mt-4" th:unless="${usuario}==null">Bem vindo, <span th:text="${usuario.nome}"></span>!</h2>
 
-    <div th:each="setor : ${setores}">
-        <div th:replace="~{pv/produto.html :: pv_setor (v_setor=${setor}, v_aberto=0)}"></div>
+    <div class="row container mt-3">
+        <div class="produto col-1" th:each="produto : ${produtos}">
+            <div th:replace="~{pv/produto.html :: pv_produto (v_produto=${produto})}"></div>
+        </div>
     </div>
-
     <form method="GET"></form>
 </div>
 </body>

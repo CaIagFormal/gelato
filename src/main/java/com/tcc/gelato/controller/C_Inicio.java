@@ -1,8 +1,6 @@
 package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
-import com.tcc.gelato.model.produto.M_Setor;
-import com.tcc.gelato.repository.produto.R_Setor;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

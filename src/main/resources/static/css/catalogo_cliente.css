@@ -1,18 +1,3 @@
-button.btn_setor {
-    background: linear-gradient(270deg,transparent,#4488FF);
-    width: 100%;
-    text-align: left;
-    border-style: none none solid none;
-    border-color: #4488FF;
-    margin-bottom: 0.5em;
-    color: #FFFFFF;
-    font-weight: 750;
-}
-
-div.setor {
-    margin-bottom: 2em;
-}
-
 div.produto {
     min-width: 11em;
     min-height: 10em;
@@ -25,13 +10,6 @@ button.btn_produto {
     border-radius: 1em;
     border-style: hidden;
     background: linear-gradient(#4488FF,transparent);
-}
-
-button.btn_setor.aberto::before {
-    content: "⮟ ";
-}
-button.btn_setor::before {
-    content: "⮞ ";
 }
 
 h5 {

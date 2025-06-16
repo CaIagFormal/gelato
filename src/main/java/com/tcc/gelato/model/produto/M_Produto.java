@@ -29,19 +29,11 @@ public class M_Produto {
     @Column(nullable = false,length = 31)
     private String medida;
 
-    @JoinColumn(name = "id_setor")
-    @ManyToOne
-    private M_Setor setor;
-
     @Column
     private String url_icone;
 
     @Column(nullable = false)
     private Integer estoque_minimo;
-
-    @JoinColumn(name="id_produto")
-    @OneToMany
-    private List<M_AvisosDoProduto> avisos;
 
     public Long getId() {
         return id;
@@ -83,14 +75,6 @@ public class M_Produto {
         this.medida = medida;
     }
 
-    public M_Setor getSetor() {
-        return setor;
-    }
-
-    public void setSetor(M_Setor setor) {
-        this.setor = setor;
-    }
-
     public String getUrl_icone() {
         return url_icone;
     }
@@ -105,13 +89,5 @@ public class M_Produto {
 
     public void setEstoque_minimo(Integer estoque_minimo) {
         this.estoque_minimo = estoque_minimo;
-    }
-
-    public List<M_AvisosDoProduto> getAvisos() {
-        return avisos;
-    }
-
-    public void setAvisos(List<M_AvisosDoProduto> avisos) {
-        this.avisos = avisos;
     }
 }
