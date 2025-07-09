@@ -35,23 +35,19 @@ public class C_Cadastro {
      * @param nome Nome do cliente
      * @param senha Senha do cliente
      * @param conf_senha Confirmação da senha do cliente
-     * @param endereco Endereço em formato CEP do cliente
      * @param email E-mail do cliente
-     * @param data_nasc Data de nascimento do cliente
      */
     @PostMapping(path="/cadastro")
     public String cadastrarCliente(
             @RequestParam("nome") String nome,
             @RequestParam("senha") String senha,
             @RequestParam("conf_senha") String conf_senha,
-            @RequestParam("endereco") String endereco,
-            @RequestParam("email") String email,
-            @RequestParam("data_nasc") String data_nasc) {
-        if (!s_cadastro.validarCadastroCliente(nome, senha, conf_senha, endereco, email, data_nasc)) {
+            @RequestParam("email") String email) {
+        if (!s_cadastro.validarCadastroCliente(nome, senha, conf_senha, email)) {
             return "redirect:/cadastro";
         }
 
-       if (s_cadastro.criarCadastroCliente(nome, senha, endereco, email, data_nasc)==null) {
+       if (s_cadastro.criarCadastroCliente(nome, senha, email)==null) {
            return "redirect:/cadastro";
        }
         return "redirect:/login";

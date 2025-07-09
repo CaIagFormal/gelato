@@ -15,9 +15,7 @@ public class M_Usuario {
 
     public enum Cargo {
         CLIENTE,
-        ENTREGADOR,
-        GESTOR,
-        ADMINISTRADOR
+        VENDEDOR
     }
 
     @Id
@@ -34,13 +32,7 @@ public class M_Usuario {
     private String senha;
 
     @Column(nullable = false)
-    private String endereco;
-
-    @Column(nullable = false)
     private Cargo cargo;
-
-    @Column(nullable = false)
-    private Date data_nasc;
 
     public Long getId() {
         return id;
@@ -72,22 +64,6 @@ public class M_Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public Date getDataNasc() {
-        return data_nasc;
-    }
-
-    public void setDataNasc(Date data_nasc) {
-        this.data_nasc = data_nasc;
     }
 
     public Cargo getCargo() {

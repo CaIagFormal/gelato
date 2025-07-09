@@ -2,6 +2,8 @@ package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.repository.produto.R_Produto;
+import com.tcc.gelato.service.S_Cargo;
+import com.tcc.gelato.service.S_Produto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class C_Catalogo {
 
-    private final R_Produto r_produto;
+    private final S_Produto s_produto;
+    private final S_Cargo s_cargo;
 
-    public C_Catalogo(R_Produto r_produto) {
-        this.r_produto = r_produto;
+    public C_Catalogo(S_Produto s_produto,S_Cargo s_cargo) {
+        this.s_produto = s_produto;
+        this.s_cargo = s_cargo;
     }
     /**
      *
@@ -21,12 +25,12 @@ public class C_Catalogo {
      */
     @GetMapping(path="/catalogo")
     public String getCatalogo(HttpSession session, Model model) {
-        M_Usuario m_usuario = (M_Usuario) session.getAttribute("usuario");
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
 
         model.addAttribute("usuario",m_usuario);
-        model.addAttribute("produtos",r_produto.findAll());
+        model.addAttribute("produtos",s_produto.getProdutosDisponiveis());
 
-        if (m_usuario!=null) {
+        if (s_cargo.validarCliente(m_usuario)) {
             model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
         }
         return "cliente/catalogo";

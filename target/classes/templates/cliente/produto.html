@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'Gelato - Vendo '+produto.nome}"></title>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <!-- SWEET ALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- CSS -->
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/produto_cliente.css" rel="stylesheet">
+    <!-- JS -->
+    <script src="/js/cadastrados.js" defer></script>
+    <script src="/js/produto_cliente.js" defer></script>
+</head>
+<body>
+<!-- Navbars --->
+<div th:if="${usuario}==null" class="sticky-top"><div th:replace="~{pv/navbar.html :: sem_registro}"></div></div>
+<div th:unless="${usuario}==null" class="sticky-top"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div></div>
+
+<div class="container">
+    <p th:text="${produto.id}" class="d-none" id="id_produto"></p>
+    <h2 th:text="${produto.nome}" class="mt-2 mb-3"></h2>
+    <div class="row">
+    <div class="col-4 text-center container" style="min-width: 50vh">
+        <img class="imagem_produto" th:src="${produto.url_icone}">
+    </div>
+    <div class="col info_produto">
+        <!--faltado conteudos do produto apenas-->
+        <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
+        <p th:text="${produto.descricao}"></p>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
+            </div>
+            <div class="col">
+                <p><input type="number" min="0" th:max="${estoque}" value="1" id="qtd"> <span th:text="${produto.medida+'(s) ('+{estoque}+' em estoque)'}"></span></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+</html>
