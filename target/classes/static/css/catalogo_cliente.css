@@ -1,0 +1,19 @@
+div.produto {
+    min-width: 11em;
+    min-height: 10em;
+    align-content: center;
+}
+
+button.btn_produto {
+    max-width: 12em;
+    min-height: 10em;
+    border-radius: 1em;
+    border-style: hidden;
+    background: linear-gradient(#4488FF,transparent);
+}
+
+h5 {
+    color: #FFFFFF;
+    font-size: 1em;
+    font-weight: 100;
+}

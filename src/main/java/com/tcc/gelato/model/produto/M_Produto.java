@@ -35,6 +35,9 @@ public class M_Produto {
     @Column(nullable = false)
     private Integer estoque_minimo;
 
+    @Column(nullable = false)
+    private boolean disponivel;
+
     public Long getId() {
         return id;
     }
@@ -89,5 +92,13 @@ public class M_Produto {
 
     public void setEstoque_minimo(Integer estoque_minimo) {
         this.estoque_minimo = estoque_minimo;
+    }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
     }
 }

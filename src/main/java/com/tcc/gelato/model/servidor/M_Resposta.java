@@ -1,5 +1,8 @@
 package com.tcc.gelato.model.servidor;
 
+/**
+ * Modelo responsável por lidar com respostas ajax para a View
+ */
 public class M_Resposta {
 
     public M_Resposta() {

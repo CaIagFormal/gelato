@@ -1,6 +1,7 @@
 package com.tcc.gelato.model;
 
 import com.tcc.gelato.model.produto.M_Produto;
+import com.tcc.gelato.model.produto.M_Ticket;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -13,35 +14,26 @@ import java.time.LocalDateTime;
 @Table(name="compra")
 public class M_Compra {
 
-    public enum StatusCompra {
-        CARRINHO,
-        COMPRADA,
-        CANCELADA
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name="id_produto",nullable = false)
+    @JoinColumn(name="fk_produto",nullable = false)
     @ManyToOne
     private M_Produto produto;
-
-    @Column(nullable = false)
-    private StatusCompra status;
 
     @Column(precision = 10,scale = 2)
     private BigDecimal preco;
 
     @Column(nullable = false)
-    private Integer qtd;
+    private Integer quantidade;
 
-    @JoinColumn(name="id_usuario")
-    @ManyToOne
-    private M_Usuario usuario;
-
-    @Column
+    @Column(nullable = false)
     private LocalDateTime horario;
+
+    @JoinColumn(name="fk_ticket",nullable = false)
+    @ManyToOne
+    private M_Ticket ticket;
 
     public Long getId() {
         return id;
@@ -59,14 +51,6 @@ public class M_Compra {
         this.produto = produto;
     }
 
-    public StatusCompra getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusCompra status) {
-        this.status = status;
-    }
-
     public BigDecimal getPreco() {
         return preco;
     }
@@ -75,20 +59,12 @@ public class M_Compra {
         this.preco = preco;
     }
 
-    public Integer getQtd() {
-        return qtd;
+    public Integer getQuantidade() {
+        return quantidade;
     }
 
-    public void setQtd(Integer qtd) {
-        this.qtd = qtd;
-    }
-
-    public M_Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(M_Usuario usuario) {
-        this.usuario = usuario;
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 
     public LocalDateTime getHorario() {
@@ -97,5 +73,13 @@ public class M_Compra {
 
     public void setHorario(LocalDateTime horario) {
         this.horario = horario;
+    }
+
+    public M_Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(M_Ticket ticket) {
+        this.ticket = ticket;
     }
 }

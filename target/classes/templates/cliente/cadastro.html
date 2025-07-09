@@ -17,7 +17,8 @@
     <script src="/js/formularios.js" defer></script>
 </head>
 <body>
-    <div th:replace="pv/navbar.html :: sem_registro"></div>
+    <!-- Navbars --->
+    <div class="sticky-top"><div th:replace="~{pv/navbar.html :: sem_registro}"></div></div>
 
     <div class="container">
         <h2 class="mt-4">Cadastro</h2>
@@ -46,18 +47,6 @@
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="conf_senha">Confirmar</label>
                         <input type="password" class="form-control" placeholder="Insira novamente sua senha" id="conf_senha" name="conf_senha">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="endereco">Endereço</label>
-                        <input type="text" class="form-control" placeholder="Insira o endereço de sua residência" id="endereco" name="endereco">
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="data_nasc">Data de Nascimento</label>
-                        <input type="date" class="form-control" id="data_nasc" name="data_nasc">
                     </div>
                 </div>
                 <div class="col-2 text-end">

@@ -9,7 +9,8 @@ public class GelatoApplication {
 	/**
 	 * Roda aplicação do servidor.
 	 */
-	public static void main(String[] args) {
+	public static void main(Stringdd .
+									[] args) {
 		SpringApplication.run(GelatoApplication.class, args);
 	}
 

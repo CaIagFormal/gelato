@@ -5,7 +5,7 @@ import com.tcc.gelato.repository.R_Usuario;
 import org.springframework.stereotype.Service;
 
 /**
- * Aplicação de regras de negócio do Login
+ * Aplicação de regras de negócio do {@link com.tcc.gelato.controller.C_Login}
  */
 @Service
 public class S_Login {

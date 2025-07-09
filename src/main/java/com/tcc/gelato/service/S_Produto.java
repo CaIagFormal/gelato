@@ -3,9 +3,11 @@ package com.tcc.gelato.service;
 import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Produto;
+import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.repository.R_Compra;
 import com.tcc.gelato.repository.produto.R_Estoque;
 import com.tcc.gelato.repository.produto.R_Produto;
+import com.tcc.gelato.repository.produto.R_Ticket;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Aplicação de regras de negócio de serviços relacionados a produtos
+ * Aplicação de regras de negócio de serviços relacionados a {@link M_Produto}
  */
 @Service
 public class S_Produto {
@@ -27,12 +29,20 @@ public class S_Produto {
 
     private final R_Estoque r_estoque;
 
+    private final R_Ticket r_ticket;
 
-
-    public S_Produto(R_Produto r_produto, R_Compra r_compra, R_Estoque r_estoque) {
+    public S_Produto(R_Produto r_produto, R_Compra r_compra, R_Estoque r_estoque, R_Ticket r_ticket) {
         this.r_produto = r_produto;
         this.r_compra = r_compra;
         this.r_estoque = r_estoque;
+        this.r_ticket = r_ticket;
+    }
+
+    /**
+     * @return Todos os {@link M_Produto}s disponíveis
+     */
+    public List<M_Produto> getProdutosDisponiveis() {
+        return r_produto.getProdutosDisponiveis();
     }
 
     /**
@@ -80,16 +90,16 @@ public class S_Produto {
     /**
      * Gera uma compra para o carrinho
      * @param m_usuario O usuário que compra
+     * @param m_ticket O ticket do usuário
      * @param m_produto O produto a ser comprado
      * @param qtd A quantidade de produto
      */
-    public M_Compra gerarCompraDoCarrinho(M_Usuario m_usuario, M_Produto m_produto, Integer qtd) {
+    public M_Compra gerarCompraDoCarrinho(M_Usuario m_usuario, M_Ticket m_ticket, M_Produto m_produto, Integer qtd) {
         M_Compra m_compra = new M_Compra();
 
-        m_compra.setUsuario(m_usuario);
+        m_compra.setTicket(m_ticket);
         m_compra.setProduto(m_produto);
-        m_compra.setQtd(qtd);
-        m_compra.setStatus(M_Compra.StatusCompra.CARRINHO);
+        m_compra.setQuantidade(qtd);
         m_compra.setPreco(m_produto.getPreco());
         m_compra.setHorario(LocalDateTime.now());
 
@@ -126,7 +136,7 @@ public class S_Produto {
     public BigDecimal getPrecoTotalDeCompras(List<M_Compra> m_compras) {
         BigDecimal total = new BigDecimal(0).setScale(2, RoundingMode.UNNECESSARY);
         for (M_Compra m_compra : m_compras) {
-            total = total.add(m_compra.getPreco().multiply(new BigDecimal(m_compra.getQtd())));
+            total = total.add(m_compra.getPreco().multiply(new BigDecimal(m_compra.getQuantidade())));
         }
         return total;
     }
