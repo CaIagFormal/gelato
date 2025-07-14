@@ -111,21 +111,21 @@ public class S_Produto {
     }
 
     /**
-     * Pega a quantidade de compras definidas como carrinho de um usuário
-     * @param m_usuario {@link M_Usuario}
-     * @return Quantidade de {@link M_Compra}s no carrinho
+     * Pega a quantidade de compras em um ticket
+     * @param m_ticket {@link M_Ticket}
+     * @return Quantidade de {@link M_Compra}s no ticket
      */
-    public Integer getQtdComprasCarrinhoDeUsuario(M_Usuario m_usuario) {
-        return r_compra.getQtdComprasCarrinhoDeUsuario(m_usuario.getId());
+    public Integer getQtdComprasDeTicket(M_Ticket m_ticket) {
+        return r_compra.getQtdComprasDeTicket(m_ticket.getId());
     }
 
     /**
-     * Pega as compras definidas como no carrinho de um usuário
-     * @param m_usuario {@link M_Usuario}
+     * Pega as compras de um ticket
+     * @param m_ticket {@link M_Ticket
      * @return {@link M_Compra}s no carrinho
      */
-    public List<M_Compra> getComprasCarrinhoDeUsuario(M_Usuario m_usuario) {
-        return r_compra.getComprasCarrinhoDeUsuario(m_usuario.getId());
+    public List<M_Compra> getComprasDeTicket(M_Ticket m_ticket) {
+        return r_compra.getComprasDeTicket(m_ticket.getId());
     }
 
     /**

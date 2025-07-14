@@ -13,18 +13,18 @@ import java.util.List;
  */
 public interface R_Compra extends JpaRepository<M_Compra, Long> {
     /**
-     * Pega a quantidade de compras definidas como no carrinho de um usuário
-     * @param id_usuario ID do {@link M_Usuario} em questão
-     * @return Quantidade de {@link M_Compra}s no carrinho
+     * Pega a quantidade de compras em um ticket
+     * @param id_ticket ID do {@link com.tcc.gelato.model.produto.M_Ticket} em questão
+     * @return Quantidade de {@link M_Compra}s no ticket
      */
-    @Query(value = "select count(*) from gelato.compra where id_usuario=:ID_USUARIO and status=0",nativeQuery = true)
-    Integer getQtdComprasCarrinhoDeUsuario(@Param("ID_USUARIO") Long id_usuario);
+    @Query(value = "select count(*) from gelato.compra where id_ticket=:ID_TICKET and status=0",nativeQuery = true)
+    Integer getQtdComprasDeTicket(@Param("ID_TICKET") Long id_ticket);
 
     /**
-     * Pega as compras definidas como no carrinho de um usuário em order cronológica do mais recente ao mais antigo
-     * @param id_usuario ID do {@link M_Usuario} em questão
-     * @return {@link M_Compra}s no carrinho
+     * Pega as compras de um ticket em order cronológica do mais recente ao mais antigo
+     * @param id_ticket ID do {@link com.tcc.gelato.model.produto.M_Ticket} em questão
+     * @return {@link M_Compra}s no ticket
      */
-    @Query(value = "select * from gelato.compra where id_usuario=:ID_USUARIO and status=0 order by horario desc",nativeQuery = true)
-    List<M_Compra> getComprasCarrinhoDeUsuario(@Param("ID_USUARIO") Long id_usuario);
+    @Query(value = "select * from gelato.compra where id_ticket=:ID_TICKET and status=0 order by horario desc",nativeQuery = true)
+    List<M_Compra> getComprasDeTicket(@Param("ID_TICKET") Long id_ticket);
 }
