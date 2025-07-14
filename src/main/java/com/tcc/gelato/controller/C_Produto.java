@@ -93,7 +93,7 @@ public class C_Produto {
         }
 
         // Atualizar quantidade de itens no carrinho
-        session.setAttribute("qtd_itens_carrinho",s_produto.getQtdComprasCarrinhoDeUsuario(m_usuario));
+        session.setAttribute("qtd_itens_carrinho",s_produto.getQtdComprasDeTicket(m_ticket));
 
         m_resposta.setSucesso(true);
         m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
@@ -116,7 +116,7 @@ public class C_Produto {
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
         model.addAttribute("ticket",m_ticket);
 
-        List<M_Compra> m_compras = s_produto.getComprasCarrinhoDeUsuario(m_usuario);
+        List<M_Compra> m_compras = s_produto.getComprasDeTicket(m_ticket);
         model.addAttribute("carrinho",m_compras);
         model.addAttribute("total",s_produto.getPrecoTotalDeCompras(m_compras));
         return "cliente/carrinho";

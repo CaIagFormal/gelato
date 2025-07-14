@@ -12,7 +12,7 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
     /**
      * {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CANCELADO} = 4, altere se o valor mudar
      */
-    String check_ativo = "(current_timestamp-data_fornecido<('1 day')::interval) and "+
+    String check_ativo = "(current_timestamp-horhorario_fornecido<('1 day')::interval) and "+
             "status = 4";
 
     String latest = "order by horario_fornecido desc limit 1";
@@ -22,13 +22,13 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
      * @param id_usuario o ID do {@link com.tcc.gelato.model.M_Usuario}
      * @return {@link M_Ticket} mais recente, que é o ativo
      */
-    @Query(value="select * from gelato.ticket where id_usuario = :ID_USUARIO and "+check_ativo+" "+latest,nativeQuery = true)
+    @Query(value="select * from gelato.ticket where fk_usuario = :ID_USUARIO and "+check_ativo+" "+latest,nativeQuery = true)
     M_Ticket getTicketAtivoDeUsuario(@Param("ID_USUARIO") Long id_usuario);
 
     /**
-     *
-     * @param ticket
-     * @return
+     * Pega o {@link M_Ticket} atual/ativo mais recente com a {@link String} fornecida
+     * @param ticket String de ticket
+     * @return {@link M_Ticket} mais recente/ativo com a {@link String}
      */
     @Query(value = "select * from gelato.ticket where ticket = :TICKET and "+check_ativo+" "+latest,nativeQuery = true)
     M_Ticket getTicketAtivoByString(@Param("TICKET") String ticket);

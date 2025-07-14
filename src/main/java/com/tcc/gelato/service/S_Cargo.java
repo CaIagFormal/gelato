@@ -30,6 +30,9 @@ public class S_Cargo {
      * Confere se um {@link M_Usuario} é {@link com.tcc.gelato.model.M_Usuario.Cargo#CLIENTE}
      */
     public boolean validarCliente(M_Usuario m_usuario) {
+        if (m_usuario==null) {
+            return false;
+        }
         return m_usuario.getCargo() == M_Usuario.Cargo.CLIENTE;
     }
 }
