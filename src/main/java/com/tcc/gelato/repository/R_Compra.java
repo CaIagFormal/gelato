@@ -17,7 +17,7 @@ public interface R_Compra extends JpaRepository<M_Compra, Long> {
      * @param id_ticket ID do {@link com.tcc.gelato.model.produto.M_Ticket} em questão
      * @return Quantidade de {@link M_Compra}s no ticket
      */
-    @Query(value = "select count(*) from gelato.compra where id_ticket=:ID_TICKET and status=0",nativeQuery = true)
+    @Query(value = "select count(*) from gelato.compra where fk_ticket=:ID_TICKET and status=0",nativeQuery = true)
     Integer getQtdComprasDeTicket(@Param("ID_TICKET") Long id_ticket);
 
     /**
@@ -25,6 +25,6 @@ public interface R_Compra extends JpaRepository<M_Compra, Long> {
      * @param id_ticket ID do {@link com.tcc.gelato.model.produto.M_Ticket} em questão
      * @return {@link M_Compra}s no ticket
      */
-    @Query(value = "select * from gelato.compra where id_ticket=:ID_TICKET and status=0 order by horario desc",nativeQuery = true)
+    @Query(value = "select * from gelato.compra where fk_ticket=:ID_TICKET and status=0 order by horario desc",nativeQuery = true)
     List<M_Compra> getComprasDeTicket(@Param("ID_TICKET") Long id_ticket);
 }

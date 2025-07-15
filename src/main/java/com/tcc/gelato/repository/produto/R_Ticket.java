@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
 
@@ -23,7 +25,7 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
      * @return {@link M_Ticket} mais recente, que é o ativo
      */
     @Query(value="select * from gelato.ticket where fk_usuario = :ID_USUARIO and "+check_ativo+" "+latest,nativeQuery = true)
-    M_Ticket getTicketAtivoDeUsuario(@Param("ID_USUARIO") Long id_usuario);
+    Optional<M_Ticket> getTicketAtivoDeUsuario(@Param("ID_USUARIO") Long id_usuario);
 
     /**
      * Pega o {@link M_Ticket} atual/ativo mais recente com a {@link String} fornecida
@@ -31,5 +33,5 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
      * @return {@link M_Ticket} mais recente/ativo com a {@link String}
      */
     @Query(value = "select * from gelato.ticket where ticket = :TICKET and "+check_ativo+" "+latest,nativeQuery = true)
-    M_Ticket getTicketAtivoByString(@Param("TICKET") String ticket);
+    Optional<M_Ticket> getTicketAtivoByString(@Param("TICKET") String ticket);
 }
