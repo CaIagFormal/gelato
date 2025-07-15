@@ -30,6 +30,7 @@
     <h4 th:text="${'Total: R$'+total}"></h4>
 </div>
 <div class="container" th:unless="${carrinho.size > 0}">
+    <h4 th:text="${'Ticket: '+ticket.ticket}"></h4>
     <h2>Seu carrinho está vazio!</h2>
     <h3><a href="/catalogo">Retorne para o catálogo</a> para continuar comprando</h3>
 </div>
