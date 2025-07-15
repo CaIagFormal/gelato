@@ -15,7 +15,7 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
      * {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CANCELADO} = 4, altere se o valor mudar
      */
     String check_ativo = "(current_timestamp-horario_fornecido<('1 day')::interval) and "+
-            "status = 4";
+            "status <> 4";
 
     String latest = "order by horario_fornecido desc limit 1";
 
