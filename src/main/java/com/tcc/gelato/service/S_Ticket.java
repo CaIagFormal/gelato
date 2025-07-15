@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -29,36 +30,37 @@ public class S_Ticket {
     public M_Ticket gerarTicketParaUsuario(M_Usuario m_usuario) {
         M_Ticket m_ticket = new M_Ticket();
         m_ticket.setUsuario(m_usuario);
-        m_ticket = gerarNumeroDeTicket(m_ticket);
-        m_ticket.setHorario_encaminhado(LocalDateTime.now());
+        m_ticket.setTicket(gerarNumeroDeTicket());
+        m_ticket.setHorario_fornecido(LocalDateTime.now());
+        m_ticket.setStatus(M_Ticket.StatusCompra.CARRINHO);
+        m_ticket.setPagamento(false);
         try {
             return r_ticket.save(m_ticket);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
     }
 
     /**
      * Gera número para um {@link M_Ticket}
-     * @param m_ticket {@link M_Ticket} a ser alterado
-     * @return {@link M_Ticket} alterado
+     * @return {@link String} do ticket
      */
-    public M_Ticket gerarNumeroDeTicket(M_Ticket m_ticket) {
+    public String gerarNumeroDeTicket() {
         Random random = new Random();
         StringBuilder ticket;
-        Character c = '0';
+        Character c;
         do {
             ticket = new StringBuilder();
             for (int i = 0; i < 8; i++) {
                 do {
-                    c = (char) (random.nextInt() + '0');
+                    c = (char) (random.nextInt()%77 + '0'); // 42 -> 'z'-'0'
                 } while (!Character.isDigit(c) && !Character.isAlphabetic(c));
                 ticket.append(c);
             }
-        } while (r_ticket.getTicketAtivoByString(ticket.toString())!=null);
+        } while (r_ticket.getTicketAtivoByString(ticket.toString()).isPresent());
 
-        m_ticket.setTicket(ticket.toString());
-        return m_ticket;
+        return ticket.toString();
     }
 
     /**
@@ -66,7 +68,7 @@ public class S_Ticket {
      * @param m_usuario {@link M_Usuario} que possuí (ou não) o ticket
      * @return {@link M_Ticket}
      */
-    public M_Ticket obterTicketValidoDeUsuario(M_Usuario m_usuario) {
+    public Optional<M_Ticket> obterTicketValidoDeUsuario(M_Usuario m_usuario) {
         return r_ticket.getTicketAtivoDeUsuario(m_usuario.getId());
     }
 
@@ -76,10 +78,12 @@ public class S_Ticket {
      * @return o ticket em si
      */
     public M_Ticket conferirTicketDeUsuario(M_Usuario m_usuario) {
-        M_Ticket m_ticket = obterTicketValidoDeUsuario(m_usuario);
-        if (m_ticket!=null) return m_ticket;
-
-        return gerarTicketParaUsuario(m_usuario);
+        Optional<M_Ticket> m_ticket = obterTicketValidoDeUsuario(m_usuario);
+        //noinspection OptionalIsPresent
+        if (m_ticket.isPresent()) {
+            return m_ticket.get();
+        }
+        return this.gerarTicketParaUsuario(m_usuario);
 
     }
 
