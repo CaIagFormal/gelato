@@ -19,16 +19,16 @@ public interface R_Estoque extends JpaRepository<M_Estoque,Long> {
      * @return estoque atual
      */
     @Query(value = "with compra as (" +
-            "select sum(qtd) as qtd " +
+            "select sum(quantidade) as quantidade " +
             "from gelato.compra " +
             "where id_produto = :ID_PRODUTO"+
             "), " +
             "estoque as (" +
-            "select sum(qtd) as qtd " +
+            "select sum(quantidade) as quantidade " +
             "from gelato.estoque " +
             "where id_produto = :ID_PRODUTO" +
             ") " +
-            "select estoque.qtd-compra.qtd "+
+            "select estoque.quantidade-compra.quantidade "+
             "from estoque,compra "+
             "limit 1",nativeQuery = true)
     Integer getEstoqueForProduto(@Param("ID_PRODUTO") Long id_produto);
