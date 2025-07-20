@@ -19,12 +19,12 @@ public interface R_Estoque extends JpaRepository<M_Estoque,Long> {
      * @return estoque atual
      */
     @Query(value = "with compra as (" +
-            "select sum(quantidade) as quantidade " +
+            "select coalesce(sum(quantidade),0) as quantidade " +
             "from gelato.compra " +
             "where fk_produto = :ID_PRODUTO"+
             "), " +
             "estoque as (" +
-            "select sum(quantidade) as quantidade " +
+            "select coalesce(sum(quantidade),0) as quantidade " +
             "from gelato.estoque " +
             "where fk_produto = :ID_PRODUTO" +
             ") " +

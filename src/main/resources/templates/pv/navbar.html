@@ -45,6 +45,9 @@
           <a class="nav-link" href="/carrinho" th:if="${v_qtd_itens} eq 1" th:text="${'Carrinho: '+v_qtd_itens+' Item'}"></a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/redefinir-senha">Redefinir Senha</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link btn btn-danger" id="logout">Log out</a>
           <form id="logout_form" action="/logout" method="GET"></form>
         </li>
@@ -53,3 +56,44 @@
     </div>
   </div>
 </nav>
+
+<nav class="navbar navbar-expand-lg" th:fragment="vendedor">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Gelato</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/catalogo">Catálogo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/dividas">Dívidas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/pedidos">Pedidos</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/redefinir-senha">Redefinir Senha</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-danger" id="logout">Log out</a>
+            <form id="logout_form" action="/logout" method="GET"></form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div th:fragment="navbar_cargo (v_usuario,v_qtd_itens)">
+<div th:if="${v_usuario}==null" class="sticky-top"><div th:replace="~{pv/navbar.html :: sem_registro}"></div></div>
+<div th:unless="${v_usuario}==null" class="sticky-top">
+  <div th:if="${v_usuario.cargo.toString()=='CLIENTE'}"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${v_qtd_itens})}"></div></div>
+  <div th:if="${v_usuario.cargo.toString()=='VENDEDOR'}"><div th:replace="~{pv/navbar.html :: vendedor}"></div></div>
+</div>
+</div>
