@@ -48,7 +48,9 @@ public class C_Produto {
         model.addAttribute("estoque",s_estoque.getEstoqueForProduto(m_produto));
 
         if (s_cargo.validarCliente(m_usuario)) {
+            M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
             model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
+            model.addAttribute("qtd_produto_carrinho",s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket));
         }
         return "cliente/produto";
     }
@@ -88,7 +90,7 @@ public class C_Produto {
 
         int qtd_int = Integer.parseInt(qtd);
 
-        if (!s_estoque.conferirValidadeDeEstoque(m_produto,qtd_int+s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket))) {
+        if (!s_estoque.conferirValidadeDeEstoque(m_produto,-(qtd_int+s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket)))) {
             m_resposta.setSucesso(false);
             m_resposta.setMensagem("Quantidade inválida.");
             return m_resposta;
