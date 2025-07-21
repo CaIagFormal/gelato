@@ -15,7 +15,7 @@
     <link href="/css/index.css" rel="stylesheet">
     <link href="/css/catalogo_cliente.css" rel="stylesheet">
     <!-- JS -->
-    <script src="/js/cadastrados.js" defer></script>
+    <script th:if="${usuario}!=null" src="/js/cadastrados.js" defer></script>
     <script src="/js/catalogo_cliente.js" defer></script>
 </head>
 <body>

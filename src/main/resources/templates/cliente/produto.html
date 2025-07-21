@@ -15,40 +15,65 @@
     <link href="/css/index.css" rel="stylesheet">
     <link href="/css/produto_cliente.css" rel="stylesheet">
     <!-- JS -->
-    <script src="/js/cadastrados.js" defer></script>
-    <script src="/js/produto_cliente.js" defer></script>
+    <script th:if="${usuario}!=null" src="/js/cadastrados.js" defer></script>
 </head>
 <body>
 <!-- Navbars --->
 <div class="sticky-top" th:replace="~{pv/navbar.html :: navbar_cargo (v_usuario=${usuario},v_qtd_itens=${qtd_itens_carrinho})}"></div>
 
+<div th:if="${usuario}!=null">
+    <!-- JS -->
+    <script th:if="${usuario.cargo.toString()}=='CLIENTE'" src="/js/produto_cliente.js" defer></script>
+    <script th:if="${usuario.cargo.toString()}=='VENDEDOR'" src="/js/produto_vendedor.js" defer></script>
+</div>
+
 <div class="container">
     <p th:text="${produto.id}" class="d-none" id="id_produto"></p>
     <h2 th:text="${produto.nome}" class="mt-2 mb-3"></h2>
     <div class="row">
-    <div class="col-4 text-center container" style="min-width: 50vh">
-        <img class="imagem_produto" th:src="${produto.url_icone}">
-    </div>
-    <div class="col info_produto">
-        <!--faltado conteudos do produto apenas-->
-        <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
-        <p th:text="${produto.descricao}"></p>
-
-        <div class="row" th:unless="${estoque}==0">
-            <div class="col">
-                <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
+        <div class="col-4 text-center container" style="min-width: 50vh">
+            <img class="imagem_produto" th:src="${produto.url_icone}">
+        </div>
+        <div class="col info_produto">
+            <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
+            <p th:text="${produto.descricao}"></p>
+            <div th:if="${usuario}==null">
+                <div class="row" th:if="${estoque}>0">
+                    <div class="col">
+                        <p>Cadastre-se para comprar.</p>
+                    </div>
+                    <div class="col">
+                        <p th:text="${produto.medida+'(s) ('+{estoque}+' em estoque)'}"></p>
+                    </div>
+                </div>
+                <div class="row" th:if="${estoque}==0">
+                    <div th:replace="~{pv/produto :: sem_estoque}"></div>
+                </div>
             </div>
-            <div class="col">
-                <p><input type="number" min="0" th:max="${estoque}" value="1" id="qtd"> <span th:text="${produto.medida+'(s) ('+{estoque}+' em estoque)'}"></span></p>
+            <div th:unless="${usuario}==null">
+                <div class="row" th:if="${usuario.cargo.toString()}=='VENDEDOR'">
+                    <div class="col">
+                        <button class="btn btn-primary" id="btn_estoque">Adicionar ao Estoque</button>
+                    </div>
+                    <div class="col">
+                        <p><input type="number" value="1" id="qtd_e"> <span th:text="${produto.medida+'(s) ('+{estoque}+' em estoque) insira quantidades negativas para remover estoque'}"></span></p>
+                    </div>
+                </div>
+
+                <div class="row" th:if="${estoque}>0 and ${usuario.cargo.toString()}=='CLIENTE'">
+                    <div class="col">
+                        <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
+                    </div>
+                    <div class="col">
+                        <p><input type="number" min="0" th:max="${estoque}" value="1" id="qtd"> <span th:text="${produto.medida+'(s) ('+{estoque}+' em estoque)'}"></span></p>
+                    </div>
+                </div>
+
+                <div class="row" th:if="${estoque}==0 and ${usuario.cargo.toString()}=='CLIENTE'">
+                    <div th:replace="~{pv/produto :: sem_estoque}"></div>
+                </div>
             </div>
         </div>
-
-        <div class="row" th:if="${estoque}==0">
-            <div class="col">
-                <p>Não há estoque disponível deste produto no momento.</p>
-            </div>
-        </div>
-    </div>
     </div>
 </div>
 </body>
