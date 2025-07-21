@@ -50,4 +50,13 @@ public class S_Produto {
         }
         return m_produto.orElse(null);
     }
+
+    /**
+     * Retorna a soma das quantidade dentro das compras de um produto em um ticket
+     * @param m_produto
+     * @param m_ticket
+     * @return
+     */
+    public int getQtdDeProdutoEmTicket(M_Produto m_produto, M_Ticket m_ticket) {
+    }
 }
