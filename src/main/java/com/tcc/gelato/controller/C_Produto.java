@@ -86,7 +86,15 @@ public class C_Produto {
             return m_resposta;
         }
 
-        M_Compra m_compra = s_compra.gerarCompraDoCarrinho(m_usuario,m_ticket,m_produto,Integer.parseInt(qtd));
+        int qtd_int = Integer.parseInt(qtd);
+
+        if (!s_estoque.conferirValidadeDeEstoque(m_produto,qtd_int+s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket))) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Quantidade inválida.");
+            return m_resposta;
+        }
+
+        M_Compra m_compra = s_compra.gerarCompraDoCarrinho(m_usuario,m_ticket,m_produto,qtd_int);
 
         if (m_compra==null) {
             m_resposta.setSucesso(false);
