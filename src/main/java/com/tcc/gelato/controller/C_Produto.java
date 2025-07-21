@@ -6,9 +6,7 @@ import com.tcc.gelato.model.produto.M_Estoque;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Resposta;
-import com.tcc.gelato.service.S_Cargo;
-import com.tcc.gelato.service.S_Produto;
-import com.tcc.gelato.service.S_Ticket;
+import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +19,16 @@ public class C_Produto {
 
     private final S_Produto s_produto;
     private final S_Cargo s_cargo;
-
     private final S_Ticket s_ticket;
+    private final S_Compra s_compra;
+    private final S_Estoque s_estoque;
 
-    public C_Produto(S_Produto s_produto,S_Cargo s_cargo,S_Ticket s_ticket) {
+    public C_Produto(S_Produto s_produto, S_Cargo s_cargo, S_Ticket s_ticket, S_Compra s_compra, S_Estoque s_estoque) {
         this.s_produto = s_produto;
         this.s_cargo = s_cargo;
         this.s_ticket = s_ticket;
+        this.s_compra = s_compra;
+        this.s_estoque = s_estoque;
     }
 
     /**
@@ -44,7 +45,7 @@ public class C_Produto {
         M_Produto m_produto = s_produto.getProdutoById(id_produto);
 
         model.addAttribute("produto",m_produto);
-        model.addAttribute("estoque",s_produto.getEstoqueForProduto(m_produto));
+        model.addAttribute("estoque",s_estoque.getEstoqueForProduto(m_produto));
 
         if (s_cargo.validarCliente(m_usuario)) {
             model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
@@ -72,7 +73,7 @@ public class C_Produto {
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
 
-        if (!s_produto.checkAdicionarAoCarrinhoValido(qtd,id_produto)) {
+        if (!s_compra.checkAdicionarAoCarrinhoValido(qtd,id_produto)) {
             m_resposta.setSucesso(false);
             m_resposta.setMensagem("Sua compra é inválida.");
             return m_resposta;
@@ -85,7 +86,7 @@ public class C_Produto {
             return m_resposta;
         }
 
-        M_Compra m_compra = s_produto.gerarCompraDoCarrinho(m_usuario,m_ticket,m_produto,Integer.parseInt(qtd));
+        M_Compra m_compra = s_compra.gerarCompraDoCarrinho(m_usuario,m_ticket,m_produto,Integer.parseInt(qtd));
 
         if (m_compra==null) {
             m_resposta.setSucesso(false);
@@ -94,7 +95,7 @@ public class C_Produto {
         }
 
         // Atualizar quantidade de itens no carrinho
-        session.setAttribute("qtd_itens_carrinho",s_produto.getQtdComprasDeTicket(m_ticket));
+        session.setAttribute("qtd_itens_carrinho",s_compra.getQtdComprasDeTicket(m_ticket));
 
         m_resposta.setSucesso(true);
         m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
@@ -119,7 +120,7 @@ public class C_Produto {
             return m_resposta;
         }
 
-        if (!s_produto.checkAdicionarEstoqueValido(qtd,id_produto)) {
+        if (!s_estoque.checkAdicionarEstoqueValido(qtd,id_produto)) {
             m_resposta.setSucesso(false);
             m_resposta.setMensagem("Parâmetros inválidos.");
             return m_resposta;
@@ -134,13 +135,13 @@ public class C_Produto {
 
         int qtd_int = Integer.parseInt(qtd);
 
-        if (!s_produto.conferirValidadeDeEstoque(m_produto,qtd_int)) {
+        if (!s_estoque.conferirValidadeDeEstoque(m_produto,qtd_int)) {
             m_resposta.setSucesso(false);
             m_resposta.setMensagem("Quantidade de estoque a ser adicionada é inválida.");
             return m_resposta;
         }
 
-        M_Estoque m_estoque = s_produto.gerarEstoque(m_produto,qtd_int);
+        M_Estoque m_estoque = s_estoque.gerarEstoque(m_produto,qtd_int);
 
         if (m_estoque==null) {
             m_resposta.setSucesso(false);
@@ -169,9 +170,9 @@ public class C_Produto {
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
         model.addAttribute("ticket",m_ticket);
 
-        List<M_Compra> m_compras = s_produto.getComprasDeTicket(m_ticket);
+        List<M_Compra> m_compras = s_compra.getComprasDeTicket(m_ticket);
         model.addAttribute("carrinho",m_compras);
-        model.addAttribute("total",s_produto.getPrecoTotalDeCompras(m_compras));
+        model.addAttribute("total",s_compra.getPrecoTotalDeCompras(m_compras));
         return "cliente/carrinho";
     }
 }
