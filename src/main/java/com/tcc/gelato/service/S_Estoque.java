@@ -3,9 +3,11 @@ package com.tcc.gelato.service;
 import com.tcc.gelato.model.produto.M_Estoque;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.repository.produto.R_Estoque;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Service
 public class S_Estoque {
 
     private final R_Estoque r_estoque;
