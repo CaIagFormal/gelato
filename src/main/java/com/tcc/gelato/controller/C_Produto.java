@@ -2,6 +2,7 @@ package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.model.produto.M_Estoque;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Resposta;
@@ -97,6 +98,58 @@ public class C_Produto {
 
         m_resposta.setSucesso(true);
         m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
+        return m_resposta;
+    }
+
+    /**
+     * Cria {@link com.tcc.gelato.model.produto.M_Estoque} com
+     * @param qtd Quantidade do produto
+     * @param id_produto ID do produto
+     * @param session Sessão para extrair o {@link M_Usuario}
+     * @return Mensagem de sucesso ou falha para a página
+     */
+    @PostMapping(path="/adicionar_estoque")
+    @ResponseBody
+    public M_Resposta adicionarEstoque(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
+        M_Resposta m_resposta = new M_Resposta();
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        if (!s_cargo.validarVendedor(m_usuario)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Você não está cadastrado como vendedor.");
+            return m_resposta;
+        }
+
+        if (!s_produto.checkAdicionarEstoqueValido(qtd,id_produto)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Parâmetros inválidos.");
+            return m_resposta;
+        }
+
+        M_Produto m_produto = s_produto.getProdutoById(Long.parseLong(id_produto));
+        if (m_produto==null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Produto inválido.");
+            return m_resposta;
+        }
+
+        int qtd_int = Integer.parseInt(qtd);
+
+        if (!s_produto.conferirValidadeDeEstoque(m_produto,qtd_int)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Quantidade de estoque a ser adicionada é inválida.");
+            return m_resposta;
+        }
+
+        M_Estoque m_estoque = s_produto.gerarEstoque(m_produto,qtd_int);
+
+        if (m_estoque==null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Não foi possível alterar o estoque.");
+            return m_resposta;
+        }
+
+        m_resposta.setSucesso(true);
+        m_resposta.setMensagem(Math.abs(qtd_int) +" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram "+((qtd_int>0)?"adicionados ao ":"removidos do ")+"estoque.");
         return m_resposta;
     }
 

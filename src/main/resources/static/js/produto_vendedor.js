@@ -6,8 +6,8 @@ function mostrar_erro(titulo,erro) {
     });
 }
 
-function adicionar_ao_carrinho() {
-    let qtd = $("#qtd").val();
+function adicionar_estoque() {
+    let qtd = $("#qtd_e").val();
     let id_produto = $("#id_produto").text();
 
     let erro = ""
@@ -15,22 +15,18 @@ function adicionar_ao_carrinho() {
         erro += "A quantidade inserida é invalida.<br>"
     }
 
-    if (parseInt(qtd)<0) {
-        erro += "A quantidade inserida é negativa."
-    }
-
     if (parseInt(qtd)==0) {
             erro += "A quantidade inserida é zero."
     }
 
     if (erro!="") {
-        mostrar_erro("Sua compra falhou...",erro);
+        mostrar_erro("Algo ocorreu reestocando...",erro);
         return;
     }
 
     $.ajax({
         type: "POST",
-        url: "/adicionar_carrinho",
+        url: "/adicionar_estoque",
         data: {qtd:qtd,id_produto:id_produto},
         success: function(retorno) {
             if (retorno.sucesso) {
@@ -50,4 +46,4 @@ function adicionar_ao_carrinho() {
     })
 }
 
-$("#btn_comprar").click(adicionar_ao_carrinho)
+$("#btn_estoque").click(adicionar_estoque)

@@ -35,4 +35,14 @@ public class S_Cargo {
         }
         return m_usuario.getCargo() == M_Usuario.Cargo.CLIENTE;
     }
+
+    /**
+     * Confere se um {@link M_Usuario} é {@link com.tcc.gelato.model.M_Usuario.Cargo#VENDEDOR}
+     */
+    public boolean validarVendedor(M_Usuario m_Usuario) {
+        if (m_Usuario==null) {
+            return false;
+        }
+        return m_Usuario.getCargo() == M_Usuario.Cargo.VENDEDOR;
+    }
 }
