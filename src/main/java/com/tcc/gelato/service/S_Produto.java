@@ -53,10 +53,11 @@ public class S_Produto {
 
     /**
      * Retorna a soma das quantidade dentro das compras de um produto em um ticket
-     * @param m_produto
-     * @param m_ticket
-     * @return
+     * @param m_produto {@link M_Produto}
+     * @param m_ticket {@link M_Ticket}
+     * @return quantidade
      */
     public int getQtdDeProdutoEmTicket(M_Produto m_produto, M_Ticket m_ticket) {
+        return r_produto.getQtdDeProdutoEmTicket(m_produto.getId(),m_ticket.getId());
     }
 }
