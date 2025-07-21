@@ -2,12 +2,8 @@ package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
-import com.tcc.gelato.service.S_Cargo;
-import com.tcc.gelato.service.S_Login;
-import com.tcc.gelato.service.S_Produto;
-import com.tcc.gelato.service.S_Ticket;
+import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class C_Login {
 
     private final S_Login s_login;
-    private final S_Produto s_produto;
+    private final S_Compra s_compra;
 
     private final S_Cargo s_cargo;
 
     private final S_Ticket s_ticket;
 
-    public C_Login(S_Login s_login, S_Produto s_produto, S_Cargo s_cargo, S_Ticket s_ticket) {
+    public C_Login(S_Login s_login, S_Compra s_compra, S_Cargo s_cargo, S_Ticket s_ticket) {
         this.s_login = s_login;
-        this.s_produto = s_produto;
+        this.s_compra = s_compra;
         this.s_cargo = s_cargo;
         this.s_ticket = s_ticket;
     }
@@ -61,7 +57,7 @@ public class C_Login {
             M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
 
             // Obter quantidade de itens no carrinho
-            session.setAttribute("qtd_itens_carrinho", s_produto.getQtdComprasDeTicket(m_ticket));
+            session.setAttribute("qtd_itens_carrinho", s_compra.getQtdComprasDeTicket(m_ticket));
         }
         return "redirect:/catalogo";
     }
