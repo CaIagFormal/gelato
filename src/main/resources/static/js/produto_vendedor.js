@@ -6,7 +6,7 @@ function mostrar_erro(titulo,erro) {
     });
 }
 
-function adicionar_estoque() {
+function conf_adicionar_estoque() {
     let qtd = $("#qtd_e").val();
     let id_produto = $("#id_produto").text();
 
@@ -44,6 +44,22 @@ function adicionar_estoque() {
             }
         }
     })
+}
+
+function adicionar_estoque() {
+    swalWithBootstrapButtons.fire({
+       title: "Você deseja comprar este item?",
+       text: "Você poderá remover do carrinho na tela do mesmo depois.",
+       icon: "warning",
+       showCancelButton: true,
+       confirmButtonText: "Sim.",
+       cancelButtonText: "Não.",
+       reverseButtons: true
+     }).then((result) => {
+       if (result.isConfirmed) {
+            conf_adicionar_estoque();
+       }
+     });
 }
 
 $("#btn_estoque").click(adicionar_estoque)

@@ -87,4 +87,12 @@ public class S_Ticket {
 
     }
 
+    /**
+     * Valida um ticket para ser alterado
+     * @param m_ticket {@link M_Ticket}
+     * @return validade do ticket para alterações de seus conteúdos.
+     */
+    public boolean validarTicketParaAlterarConteudos(M_Ticket m_ticket) {
+        return m_ticket.getStatus()==M_Ticket.StatusCompra.CARRINHO;
+    }
 }

@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class S_Compra {
@@ -97,5 +98,40 @@ public class S_Compra {
             total = total.add(m_compra.getPreco().multiply(new BigDecimal(m_compra.getQuantidade())));
         }
         return total;
+    }
+
+    /**
+     * Valida se os parâmetros são adequados para usar no método {@link com.tcc.gelato.controller.C_Produto#removerDoCarrinho(String, HttpSession)}
+     * @param id_compra ID da compra
+     */
+    public boolean checkRemoverDoCarrinhoValido(String id_compra) {
+        long id_val;
+        try {
+            id_val = Long.parseLong(id_compra);
+        } catch (Exception e) {
+            return false;
+        }
+        if (id_val<1) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Retorna uma {@link M_Compra} pelo ID
+     * @param id ID da {@link M_Compra}}
+     * @return {@link M_Compra}
+     */
+    public M_Compra getCompraById(long id) {
+        Optional<M_Compra> m_compra = r_compra.findById(id);
+        return m_compra.orElse(null);
+    }
+
+    /**
+     * Remove uma {@link M_Compra} do banco de dados
+     * @param m_compra A compra a ser apagada
+     */
+    public void removerCompra(M_Compra m_compra) {
+        r_compra.delete(m_compra);
     }
 }
