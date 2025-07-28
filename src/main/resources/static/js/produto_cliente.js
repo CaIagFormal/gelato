@@ -6,7 +6,7 @@ function mostrar_erro(titulo,erro) {
     });
 }
 
-function adicionar_ao_carrinho() {
+function conf_adicionar_ao_carrinho() {
     let qtd = $("#qtd").val();
     let id_produto = $("#id_produto").text();
 
@@ -38,7 +38,7 @@ function adicionar_ao_carrinho() {
                   title: "Êxito!",
                   html: retorno.mensagem,
                   icon: "success"
-                });
+                }).then(() => {location.reload();});
             } else {
                 Swal.fire({
                   title: "Algo de errado aconteceu",
@@ -47,7 +47,23 @@ function adicionar_ao_carrinho() {
                 });
             }
         }
-    })
+    });
 }
 
-$("#btn_comprar").click(adicionar_ao_carrinho)
+function adicionar_ao_carrinho() {
+    swalWithBootstrapButtons.fire({
+       title: "Você deseja comprar este item?",
+       text: "Você poderá remover do carrinho na tela do mesmo depois.",
+       icon: "warning",
+       showCancelButton: true,
+       confirmButtonText: "Sim.",
+       cancelButtonText: "Não.",
+       reverseButtons: true
+     }).then((result) => {
+       if (result.isConfirmed) {
+            conf_adicionar_ao_carrinho()
+       }
+     });
+}
+
+$("#btn_comprar").click(adicionar_ao_carrinho);

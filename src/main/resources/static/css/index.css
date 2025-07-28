@@ -23,3 +23,9 @@ img.icone {
     max-height: 10em;
     border-radius: 1em;
 }
+
+a.navbar-brand:focus, a.nav-link:focus {
+    background-color: #ffffff;
+    border-radius: 0px;
+    color: #5080ff !important;
+}

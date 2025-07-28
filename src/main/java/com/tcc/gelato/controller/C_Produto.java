@@ -75,6 +75,12 @@ public class C_Produto {
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
 
+        if (!s_ticket.validarTicketParaAlterarConteudos(m_ticket)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
+            return m_resposta;
+        }
+
         if (!s_compra.checkAdicionarAoCarrinhoValido(qtd,id_produto)) {
             m_resposta.setSucesso(false);
             m_resposta.setMensagem("Sua compra é inválida.");
@@ -184,5 +190,53 @@ public class C_Produto {
         model.addAttribute("carrinho",m_compras);
         model.addAttribute("total",s_compra.getPrecoTotalDeCompras(m_compras));
         return "cliente/carrinho";
+    }
+
+    /**
+     * Cria uma {@link com.tcc.gelato.model.M_Compra} com
+     * @param id_compra ID da compra no carrinho para ser removida
+     * @param session Sessão para extrair o {@link M_Usuario}
+     * @return Mensagem de sucesso ou falha para a página
+     */
+    @PostMapping(path="/remover_carrinho")
+    @ResponseBody
+    public M_Resposta removerDoCarrinho(@RequestParam("id_compra") String id_compra, HttpSession session) {
+        M_Resposta m_resposta = new M_Resposta();
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        if (!s_cargo.validarCliente(m_usuario)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Você não está cadastrado no momento.");
+            return m_resposta;
+        }
+
+        if (!s_compra.checkRemoverDoCarrinhoValido(id_compra)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Sua compra é inválida.");
+            return m_resposta;
+        }
+
+        M_Compra m_compra = s_compra.getCompraById(Long.parseLong(id_compra));
+        if (m_compra == null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Compra inválida.");
+            return m_resposta;
+        }
+
+        M_Ticket m_ticket = m_compra.getTicket();
+
+        if (!s_ticket.validarTicketParaAlterarConteudos(m_ticket)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
+            return m_resposta;
+        }
+
+        s_compra.removerCompra(m_compra);
+
+        // Atualizar quantidade de itens no carrinho
+        session.setAttribute("qtd_itens_carrinho", s_compra.getQtdComprasDeTicket(m_ticket));
+
+        m_resposta.setSucesso(true);
+        m_resposta.setMensagem(m_compra.getQuantidade() + " " + m_compra.getProduto().getMedida() + "(s) de " + m_compra.getProduto().getNome() + " foram removidos do seu carrinho.");
+        return m_resposta;
     }
 }
