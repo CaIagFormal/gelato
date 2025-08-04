@@ -78,14 +78,6 @@ public class S_Compra {
         return r_compra.getQtdComprasDeTicket(m_ticket.getId());
     }
 
-    /**
-     * Pega as compras de um ticket
-     * @param m_ticket {@link M_Ticket
-     * @return {@link M_Compra}s no carrinho
-     */
-    public List<M_Compra> getComprasDeTicket(M_Ticket m_ticket) {
-        return r_compra.getComprasDeTicket(m_ticket.getId());
-    }
 
     /**
      * Calcula o preço total de uma lista de compras
@@ -94,10 +86,19 @@ public class S_Compra {
      */
     public BigDecimal getPrecoTotalDeCompras(List<M_Compra> m_compras) {
         BigDecimal total = new BigDecimal(0).setScale(2, RoundingMode.UNNECESSARY);
-        for (M_Compra m_compra : m_compras) {
-            total = total.add(m_compra.getPreco().multiply(new BigDecimal(m_compra.getQuantidade())));
+        for (M_Compra m_compra: m_compras) {
+            total.add(totalDeCompraUnica(m_compra));
         }
         return total;
+    }
+
+    /**
+     * Calcula o preço total de uma compra
+     * @param m_compra
+     * @return
+     */
+    public BigDecimal totalDeCompraUnica(M_Compra m_compra) {
+        return m_compra.getPreco().multiply(new BigDecimal(m_compra.getQuantidade()));
     }
 
     /**
