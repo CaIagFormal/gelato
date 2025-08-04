@@ -49,7 +49,8 @@ public class C_Produto {
 
         if (s_cargo.validarCliente(m_usuario)) {
             M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
-            model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
+            s_cargo.session_to_model_navbar(model,session);
+
             model.addAttribute("qtd_produto_carrinho",s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket));
         }
         return "cliente/produto";
@@ -181,7 +182,7 @@ public class C_Produto {
             return "redirect:/";
         }
 
-        model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
+        s_cargo.session_to_model_navbar(model,session);
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
         model.addAttribute("ticket",m_ticket);

@@ -26,7 +26,7 @@
   </div>
 </nav>
 
-<nav class="navbar navbar-expand-lg" th:fragment="cliente (v_qtd_itens)">
+<nav class="navbar navbar-expand-lg" th:fragment="cliente (v_navbar)">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Gelato</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,8 +41,11 @@
     <div class="d-flex">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/carrinho" th:unless="${v_qtd_itens} eq 1" th:text="${'Carrinho: '+v_qtd_itens+' Itens'}"></a>
-          <a class="nav-link" href="/carrinho" th:if="${v_qtd_itens} eq 1" th:text="${'Carrinho: '+v_qtd_itens+' Item'}"></a>
+          <a class="nav-link" href="/carrinho" th:unless="${v_qtd_itens} eq 1" th:text="${'Carrinho: '+v_navbar.quantidade_compras+' Compras'}"></a>
+          <a class="nav-link" href="/carrinho" th:if="${v_qtd_itens} eq 1" th:text="${'Carrinho: '+v_navbar.quantidade_compras+' Compra'}"></a>
+        </li>
+        <li class="nav-item">
+          <a th:text="${'Saldo: $'+v_navbar.saldo}"></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/redefinir-senha">Redefinir Senha</a>
@@ -69,7 +72,7 @@
           <a class="nav-link" href="/catalogo">Catálogo</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/dividas">Dívidas</a>
+          <a class="nav-link" href="/gerir_saldo">Gerir Saldo</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/pedidos">Pedidos</a>

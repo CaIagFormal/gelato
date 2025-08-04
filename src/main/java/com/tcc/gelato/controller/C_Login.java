@@ -56,8 +56,8 @@ public class C_Login {
         if (s_cargo.validarCliente(m_usuario)) {
             M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
 
-            // Obter quantidade de itens no carrinho
-            session.setAttribute("qtd_itens_carrinho", s_compra.getQtdComprasDeTicket(m_ticket));
+            // Definir quantidade de itens no carrinho
+            s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
         }
         return "redirect:/catalogo";
     }
