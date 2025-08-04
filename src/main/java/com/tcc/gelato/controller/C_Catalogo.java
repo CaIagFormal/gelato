@@ -1,7 +1,6 @@
 package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
-import com.tcc.gelato.repository.produto.R_Produto;
 import com.tcc.gelato.service.S_Cargo;
 import com.tcc.gelato.service.S_Produto;
 import jakarta.servlet.http.HttpSession;
@@ -31,7 +30,7 @@ public class C_Catalogo {
         model.addAttribute("produtos",s_produto.getProdutosDisponiveis());
 
         if (s_cargo.validarCliente(m_usuario)) {
-            model.addAttribute("qtd_itens_carrinho",session.getAttribute("qtd_itens_carrinho"));
+            s_cargo.session_to_model_navbar(model,session);
         }
         return "cliente/catalogo";
 

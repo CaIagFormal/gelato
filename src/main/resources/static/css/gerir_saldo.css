@@ -1,0 +1,12 @@
+div.btn_func, button.btn_func {
+    height: 10vh;
+    min-width: 10vw;
+    max-width: 20vw;
+    text-align: center;
+    align-content: center;
+}
+
+row {
+    flex-wrap: wrap;
+    align-content: center;
+}
