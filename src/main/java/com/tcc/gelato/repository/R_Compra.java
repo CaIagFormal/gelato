@@ -20,11 +20,4 @@ public interface R_Compra extends JpaRepository<M_Compra, Long> {
     @Query(value = "select count(*) from gelato.compra where fk_ticket=:ID_TICKET",nativeQuery = true)
     Integer getQtdComprasDeTicket(@Param("ID_TICKET") Long id_ticket);
 
-    /**
-     * Pega as compras de um ticket em order cronológica do mais recente ao mais antigo
-     * @param id_ticket ID do {@link com.tcc.gelato.model.produto.M_Ticket} em questão
-     * @return {@link M_Compra}s no ticket
-     */
-    @Query(value = "select * from gelato.compra where fk_ticket=:ID_TICKET order by horario desc",nativeQuery = true)
-    List<M_Compra> getComprasDeTicket(@Param("ID_TICKET") Long id_ticket);
 }

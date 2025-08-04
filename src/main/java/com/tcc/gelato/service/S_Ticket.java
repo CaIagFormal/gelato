@@ -1,12 +1,15 @@
 package com.tcc.gelato.service;
 
+import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
+import com.tcc.gelato.repository.R_Compra;
 import com.tcc.gelato.repository.produto.R_Ticket;
-import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -17,9 +20,11 @@ import java.util.Random;
 public class S_Ticket {
 
     private final R_Ticket r_ticket;
+    private final R_Compra r_compra;
 
-    public S_Ticket(R_Ticket r_ticket) {
+    public S_Ticket(R_Ticket r_ticket, R_Compra r_compra) {
         this.r_ticket = r_ticket;
+        this.r_compra = r_compra;
     }
 
     /**
@@ -94,5 +99,29 @@ public class S_Ticket {
      */
     public boolean validarTicketParaAlterarConteudos(M_Ticket m_ticket) {
         return m_ticket.getStatus()==M_Ticket.StatusCompra.CARRINHO;
+    }
+
+    /**
+     * Apaga todos os {@link M_Ticket}s em status {@link M_Ticket.StatusCompra#CARRINHO}
+     */
+    @Transactional
+    public void apagarTicketsDescartaveis() {
+        List<M_Ticket> descartaveis = r_ticket.selecionarTicketsDescartaveis();
+        descartaveis.forEach(this::apagarTicket);
+    }
+
+    public void apagarTicket(M_Ticket ticket) {
+        List<M_Compra> m_compras = r_ticket.getComprasDeTicket(ticket.getId());
+        r_compra.deleteAll(m_compras);
+        r_ticket.delete(ticket);
+    }
+
+    /**
+     * Pega as compras de um ticket
+     * @param m_ticket {@link M_Ticket
+     * @return {@link M_Compra}s no carrinho
+     */
+    public List<M_Compra> getComprasDeTicket(M_Ticket m_ticket) {
+        return r_ticket.getComprasDeTicket(m_ticket.getId());
     }
 }

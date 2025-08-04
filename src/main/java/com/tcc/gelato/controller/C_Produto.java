@@ -186,7 +186,7 @@ public class C_Produto {
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
         model.addAttribute("ticket",m_ticket);
 
-        List<M_Compra> m_compras = s_compra.getComprasDeTicket(m_ticket);
+        List<M_Compra> m_compras = s_ticket.getComprasDeTicket(m_ticket);
         model.addAttribute("carrinho",m_compras);
         model.addAttribute("total",s_compra.getPrecoTotalDeCompras(m_compras));
         return "cliente/carrinho";
