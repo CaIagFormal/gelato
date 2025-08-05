@@ -32,7 +32,7 @@ public class C_Catalogo {
         if (s_cargo.validarCliente(m_usuario)) {
             s_cargo.session_to_model_navbar(model,session);
         }
-        return "cliente/catalogo";
+        return "catalogo";
 
     }
 }

@@ -53,7 +53,7 @@ public class C_Produto {
 
             model.addAttribute("qtd_produto_carrinho",s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket));
         }
-        return "cliente/produto";
+        return "produto";
     }
 
     /**
