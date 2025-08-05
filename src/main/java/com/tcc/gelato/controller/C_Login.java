@@ -35,7 +35,7 @@ public class C_Login {
         if (session.getAttribute("usuario")!=null) {
             return "redirect:/";
         }
-        return "login";
+        return "visitante/login";
     }
 
     /**

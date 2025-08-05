@@ -93,10 +93,10 @@
   </div>
 </nav>
 
-<div th:fragment="navbar_cargo (v_usuario,v_qtd_itens)">
+<div th:fragment="navbar_cargo (v_usuario,v_navbar)">
 <div th:if="${v_usuario}==null" class="sticky-top"><div th:replace="~{pv/navbar.html :: sem_registro}"></div></div>
 <div th:unless="${v_usuario}==null" class="sticky-top">
-  <div th:if="${v_usuario.cargo.toString()=='CLIENTE'}"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${v_qtd_itens})}"></div></div>
+  <div th:if="${v_usuario.cargo.toString()=='CLIENTE'}"><div th:replace="~{pv/navbar.html :: cliente (v_navbar=${v_qtd_itens})}"></div></div>
   <div th:if="${v_usuario.cargo.toString()=='VENDEDOR'}"><div th:replace="~{pv/navbar.html :: vendedor}"></div></div>
 </div>
 </div>

@@ -26,7 +26,7 @@ public class C_Cadastro {
         if (session.getAttribute("usuario")!=null) {
             return "redirect:/";
         }
-        return "cliente/cadastro";
+        return "visitante/cadastro";
     }
 
     /**

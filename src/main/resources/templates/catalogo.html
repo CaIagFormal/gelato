@@ -21,7 +21,7 @@
 <body>
 
 <!-- Navbars --->
-<div class="sticky-top" th:replace="~{pv/navbar.html :: navbar_cargo (v_usuario=${usuario},v_qtd_itens=${qtd_itens_carrinho})}"></div>
+<div class="sticky-top" th:replace="~{pv/navbar.html :: navbar_cargo (v_usuario=${usuario},v_navbar=${m_navbar})}"></div>
 
 <div class="container">
     <h4 class="mt-4" th:if="${usuario}==null"><a href="/cadastro">Crie uma conta</a> ou <a href="/login">entre em uma</a> para poder comprar, você pode explorar o catálogo por enquanto.</h4>

@@ -20,7 +20,7 @@
 </head>
 <body>
 <!-- Navbars --->
-<div class="sticky-top"><div th:replace="~{pv/navbar.html :: cliente (v_qtd_itens=${qtd_itens_carrinho})}"></div></div>
+<div class="sticky-top"><div th:replace="~{pv/navbar.html :: cliente (v_navbar=${m_navbar})}"></div></div>
 
 <div class="container" th:if="${carrinho.size > 0}">
     <h4 th:text="${'Ticket: '+ticket.ticket}"></h4>
