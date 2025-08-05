@@ -1,11 +1,3 @@
-function mostrar_erro(titulo,erro) {
-    Swal.fire({
-      title: titulo,
-      html: erro,
-      icon: "error"
-    });
-}
-
 function login() {
     let nome = $("#nome").val()
     let senha = $("#senha").val();

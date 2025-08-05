@@ -1,11 +1,3 @@
-function mostrar_erro(titulo,erro) {
-    Swal.fire({
-      title: titulo,
-      html: erro,
-      icon: "error"
-    });
-}
-
 function conf_adicionar_ao_carrinho() {
     let qtd = $("#qtd").val();
     let id_produto = $("#id_produto").text();

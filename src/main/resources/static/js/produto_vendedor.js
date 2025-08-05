@@ -1,11 +1,3 @@
-function mostrar_erro(titulo,erro) {
-    Swal.fire({
-      title: titulo,
-      html: erro,
-      icon: "error"
-    });
-}
-
 function conf_adicionar_estoque() {
     let qtd = $("#qtd_e").val();
     let id_produto = $("#id_produto").text();
@@ -16,7 +8,7 @@ function conf_adicionar_estoque() {
     }
 
     if (parseInt(qtd)==0) {
-            erro += "A quantidade inserida é zero."
+        erro += "A quantidade inserida é zero."
     }
 
     if (erro!="") {
