@@ -2,6 +2,8 @@ package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
+import com.tcc.gelato.model.servidor.M_Navbar;
+import com.tcc.gelato.model.servidor.M_NavbarCliente;
 import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -55,6 +57,10 @@ public class C_Login {
 
         if (s_cargo.validarCliente(m_usuario)) {
             M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
+
+            // Criar navbar do cliente
+            M_Navbar m_navbar = new M_NavbarCliente();
+            session.setAttribute("m_navbar",m_navbar);
 
             // Definir quantidade de itens no carrinho
             s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));

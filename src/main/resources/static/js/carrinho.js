@@ -1,11 +1,3 @@
-function mostrar_erro(titulo,erro) {
-    Swal.fire({
-      title: titulo,
-      html: erro,
-      icon: "error"
-    });
-}
-
 function conf_remover_item_do_carrinho(btn) {
     let id = $(btn).parent().parent().parent().parent().children("p.id_compra").text()
 
