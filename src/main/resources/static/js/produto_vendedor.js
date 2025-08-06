@@ -3,45 +3,20 @@ function conf_adicionar_estoque() {
     let id_produto = $("#id_produto").text();
 
     let erro = ""
-    if (parseInt(qtd)===NaN) {
-        erro += "A quantidade inserida é invalida.<br>"
-    }
-
-    if (parseInt(qtd)==0) {
-        erro += "A quantidade inserida é zero."
-    }
+    erro = conf_qtd(qtd,erro,neg=false);
 
     if (erro!="") {
         mostrar_erro("Algo ocorreu reestocando...",erro);
         return;
     }
 
-    $.ajax({
-        type: "POST",
-        url: "/adicionar_estoque",
-        data: {qtd:qtd,id_produto:id_produto},
-        success: function(retorno) {
-            if (retorno.sucesso) {
-                Swal.fire({
-                  title: "Êxito!",
-                  html: retorno.mensagem,
-                  icon: "success"
-                });
-            } else {
-                Swal.fire({
-                  title: "Algo de errado aconteceu",
-                  html: retorno.mensagem,
-                  icon: "error"
-                });
-            }
-        }
-    })
+    ajax("/adicionar_estoque",{qtd:qtd,id_produto:id_produto});
 }
 
 function adicionar_estoque() {
     swalWithBootstrapButtons.fire({
-       title: "Você deseja comprar este item?",
-       text: "Você poderá remover do carrinho na tela do mesmo depois.",
+       title: "Você deseja adicionar estoque?",
+       text: "Todas as operações de estoque são registradas.",
        icon: "warning",
        showCancelButton: true,
        confirmButtonText: "Sim.",
