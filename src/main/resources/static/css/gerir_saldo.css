@@ -6,7 +6,7 @@ div.btn_func, button.btn_func {
     align-content: center;
 }
 
-row {
+.row {
     flex-wrap: wrap;
     align-content: center;
 }

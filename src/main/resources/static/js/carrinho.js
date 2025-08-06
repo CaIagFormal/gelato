@@ -14,27 +14,7 @@ function conf_remover_item_do_carrinho(btn) {
         return;
     }
 
-    $.ajax({
-        type: "POST",
-        url: "/remover_carrinho",
-        data: {id_compra:id},
-        success: function(retorno) {
-            if (retorno.sucesso) {
-                Swal.fire({
-                  title: "Êxito!",
-                  html: retorno.mensagem,
-                  icon: "success"
-                }).then(() => {location.reload();});
-            } else {
-                Swal.fire({
-                  title: "Algo de errado aconteceu",
-                  html: retorno.mensagem,
-                  icon: "error"
-                });
-            }
-        }
-    })
-
+    ajax("/remover_carrinho",{id_compra:id})
 }
 
 function remover_item_do_carrinho() {

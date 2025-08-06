@@ -63,4 +63,13 @@ public class S_Cadastro {
             return null;
         }
     }
+
+    /**
+     * Procura por um usuário baseado em seu nome ou e-mail
+     * @param str_cliente nome ou e-mail
+     * @return {@link M_Usuario}
+     */
+    public M_Usuario getUsuarioByNomeOrEmail(String nome) {
+        return r_usuario.getUsuarioByNomeOrEmail(nome);
+    }
 }
