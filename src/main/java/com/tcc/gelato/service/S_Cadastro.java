@@ -17,9 +17,11 @@ import java.util.regex.Pattern;
 public class S_Cadastro {
 
     private final R_Usuario r_usuario;
+    private final Pattern senha_valida;
 
     public S_Cadastro(R_Usuario r_usuario) {
         this.r_usuario = r_usuario;
+        senha_valida = Pattern.compile("(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*[0-9]+)(?=.*[!-\\/:-@\\[-`{-~]+)");
     }
 
     /**
@@ -37,6 +39,11 @@ public class S_Cadastro {
                 !email.trim().isBlank();
 
         if (!validade) return false;
+
+        if (senha.length()<8) return false;
+
+        Matcher matcher = senha_valida.matcher(senha);
+        if (!matcher.find()) return false;
 
         return senha.equals(conf_senha);
     }
@@ -66,7 +73,7 @@ public class S_Cadastro {
 
     /**
      * Procura por um usuário baseado em seu nome ou e-mail
-     * @param str_cliente nome ou e-mail
+     * @param nome nome ou e-mail
      * @return {@link M_Usuario}
      */
     public M_Usuario getUsuarioByNomeOrEmail(String nome) {
