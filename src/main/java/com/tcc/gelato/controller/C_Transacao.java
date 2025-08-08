@@ -80,6 +80,12 @@ public class C_Transacao {
         }
 
         BigDecimal qtd = new BigDecimal(str_qtd);
+        BigDecimal saldo_cliente = s_transacao.getSaldoDeCliente(cliente);
+        if (!s_transacao.validarQtdAlterarSaldo(qtd,saldo_cliente)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Saldo inválido.");
+            return m_resposta;
+        }
 
         M_Transacao m_transacao = s_transacao.alterarSaldo(qtd,m_usuario,cliente);
 
@@ -92,5 +98,47 @@ public class C_Transacao {
         m_resposta.setSucesso(true);
         m_resposta.setMensagem("Foi "+(m_transacao.isAo_vendedor()?"removido":"adicionado")+" R$"+m_transacao.getValor()+" para o saldo de "+cliente.getNome());
         return m_resposta;
+    }
+
+    @PostMapping(path = "esvaziar_saldo")
+    @ResponseBody
+    public M_Resposta esvaziarSaldo(HttpSession session, @RequestParam("cliente") String str_cliente) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+
+        M_Resposta m_resposta = new M_Resposta();
+
+        if (!s_cargo.validarVendedor(m_usuario)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Você não está cadastrado como um vendedor.");
+            return m_resposta;
+        }
+
+        if (!s_transacao.checkParamAlterarSaldoValido(str_cliente,"1")) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Parâmetros inválidos.");
+            return m_resposta;
+        }
+
+        M_Usuario cliente = s_cadastro.getUsuarioByNomeOrEmail(str_cliente);
+        if (!s_cargo.validarCliente(cliente)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Usuário inserido não é cliente.");
+            return m_resposta;
+        }
+
+        BigDecimal qtd = s_transacao.getSaldoDeCliente(cliente).negate();
+
+        M_Transacao m_transacao = s_transacao.alterarSaldo(qtd,m_usuario,cliente);
+
+        if (m_transacao == null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("O servidor não consegui se comunicar com o banco de dados.");
+            return m_resposta;
+        }
+
+        m_resposta.setSucesso(true);
+        m_resposta.setMensagem("Foi "+(m_transacao.isAo_vendedor()?"removido":"adicionado")+" R$"+m_transacao.getValor()+" para o saldo de "+cliente.getNome());
+        return m_resposta;
+
     }
 }

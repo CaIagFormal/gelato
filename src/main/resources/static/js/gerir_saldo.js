@@ -1,4 +1,4 @@
-function saldo_func(erro_txt,url,dir=1) {
+function saldo_func(erro_txt,dir=1) {
     let qtd = $("#quantidade").val();
     let cliente = $("#cliente").val();
 
@@ -27,7 +27,19 @@ function f_remover_saldo() {
 }
 
 function f_esvaziar_saldo() {
-    saldo_func("Algo ocorreu esvaziando saldo...")
+    let cliente = $("#cliente").val();
+    let erro = ""
+
+    if (cliente.trim()=="") {
+        erro += "O cliente está vazio, por favor preencha o campo.<br>";
+    }
+
+    if (erro!="") {
+        mostrar_erro("Algo ocorreu esvaziando saldo...",erro);
+        return;
+    }
+
+    ajax("/esvaziar_saldo",{cliente:cliente});
 }
 
 $("#btn_add_saldo").click(f_adicionar_saldo);

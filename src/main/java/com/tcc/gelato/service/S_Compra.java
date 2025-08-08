@@ -87,7 +87,7 @@ public class S_Compra {
     public BigDecimal getPrecoTotalDeCompras(List<M_Compra> m_compras) {
         BigDecimal total = new BigDecimal(0).setScale(2, RoundingMode.UNNECESSARY);
         for (M_Compra m_compra: m_compras) {
-            total.add(totalDeCompraUnica(m_compra));
+            total = total.add(totalDeCompraUnica(m_compra));
         }
         return total;
     }
