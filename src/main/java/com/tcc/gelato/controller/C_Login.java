@@ -21,11 +21,14 @@ public class C_Login {
 
     private final S_Ticket s_ticket;
 
-    public C_Login(S_Login s_login, S_Compra s_compra, S_Cargo s_cargo, S_Ticket s_ticket) {
+    private final S_Transacao s_transacao;
+
+    public C_Login(S_Login s_login, S_Compra s_compra, S_Cargo s_cargo, S_Ticket s_ticket, S_Transacao s_transacao) {
         this.s_login = s_login;
         this.s_compra = s_compra;
         this.s_cargo = s_cargo;
         this.s_ticket = s_ticket;
+        this.s_transacao = s_transacao;
     }
 
     /**
@@ -64,6 +67,7 @@ public class C_Login {
 
             // Definir quantidade de itens no carrinho
             s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
+            s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
         }
         return "redirect:/catalogo";
     }
