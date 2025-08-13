@@ -22,7 +22,8 @@
     <h4 th:text="${'Total: R$'+total}"></h4>
 </div>
 <div class="container" th:unless="${carrinho.size > 0}">
-    <h4 th:text="${'Ticket: '+ticket.ticket}"></h4>
+    <h4 class="mt-4" th:text="${'Ticket: '+ticket.ticket}"></h4>
+    <p>Esse valor é único ao seu pedido e serve para apresentar ao vendedor na retirada, poderá vê-lo a qualquer etapa.</p>
     <h2>Seu carrinho está vazio!</h2>
     <h3><a href="/catalogo">Retorne para o catálogo</a> para continuar comprando</h3>
 </div>

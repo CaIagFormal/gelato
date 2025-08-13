@@ -1,9 +1,15 @@
-function mostrar_erro(titulo,erro) {
+function mostrar_erro(titulo,erro,f_then=null) {
     Swal.fire({
       title: titulo,
       html: erro,
       icon: "error"
-    });
+    }).then(() => {
+      if (f_then===null) {
+          return;
+      } else {
+          f_then({mensagem:erro,sucesso:false});
+      }
+  });
 }
 
 function conf_qtd(qtd,erro,neg=true) {
@@ -30,26 +36,38 @@ function conf_qtd(qtd,erro,neg=true) {
     return erro
 }
 
-function ajax(v_url,v_data) {
+function ajax(v_url,v_data,f_then=null,exito=true) {
     $.ajax({
             type: "POST",
             url: v_url,
             data: v_data,
             success: function(retorno) {
                 if (retorno.sucesso) {
+                    if (!exito) {
+                        if (f_then===null) {return;}
+                        f_then(retorno);
+                        return;
+                    }
                     Swal.fire({
                       title: "Êxito!",
                       html: retorno.mensagem,
                       icon: "success"
+                    }).then(() => {
+                        if (f_then===null) {
+                            return;
+                        } else {
+                            f_then(retorno);
+                        }
                     });
+
                 } else {
-                    mostrar_erro("Algo de errado ocorreu.",retorno.mensagem)
+                    mostrar_erro("Algo de errado ocorreu.",retorno.mensagem,f_then);
                 }
             },
             error: function(retorno) {
-                mostrar_erro("Erro no servidor","Cód. "+retorno.status+" ("+retorno.responseJSON.error+")")
+                mostrar_erro("Erro no servidor","Cód. "+retorno.status,f_then);
             }
-        })
+        });
 }
 
 const swalWithBootstrapButtons = Swal.mixin({

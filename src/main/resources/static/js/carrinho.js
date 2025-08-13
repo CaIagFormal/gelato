@@ -19,8 +19,8 @@ function conf_remover_item_do_carrinho(btn) {
 
 function remover_item_do_carrinho() {
     swalWithBootstrapButtons.fire({
-       title: "Você deseja comprar este item?",
-       text: "Você poderá remover do carrinho na tela do mesmo depois.",
+       title: "Você deseja remover este item?",
+       text: "Você poderá adicionar ao carrinho pela tela do produto do mesmo depois, a não ser que o pedido já seja encomendado.",
        icon: "warning",
        showCancelButton: true,
        confirmButtonText: "Sim.",
