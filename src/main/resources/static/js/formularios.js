@@ -15,7 +15,7 @@ function login() {
         return
     }
 
-    $("form").trigger("submit");
+    ajax("/login",{nome:nome,senha:senha},apos_login);
 }
 
 function cadastro() {
@@ -47,7 +47,19 @@ function cadastro() {
         return
     }
 
-    $("form").trigger("submit");
+    ajax("/cadastro",{nome:nome,senha:senha,conf_senha:conf_senha,email:email},apos_cadastro);
+}
+
+function apos_cadastro(resposta) {
+    if (resposta.sucesso) {
+        window.location = "/login";
+    }
+}
+
+function apos_login(resposta) {
+    if (resposta.sucesso) {
+        window.location = "/catalogo";
+    }
 }
 
 $("#f-login").click(login)

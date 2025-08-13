@@ -9,12 +9,7 @@ function logout() {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire({
-          title: "Saístes de sua conta",
-          text: "Estás sendo redirecionado para a página de cadastro",
-          icon: "success"
-        });
-        $("#logout_form").trigger("submit");
+        ajax("logout",{},apos_logout);
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
@@ -26,6 +21,10 @@ function logout() {
         });
       }
     });
+}
+
+function apos_logout(retorno) {
+    location.reload();
 }
 
 $("#logout").click(logout);

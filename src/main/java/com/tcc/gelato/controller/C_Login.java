@@ -4,12 +4,14 @@ import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Navbar;
 import com.tcc.gelato.model.servidor.M_NavbarCliente;
+import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class C_Login {
@@ -49,12 +51,16 @@ public class C_Login {
      * @param senha Senha do usuário
      */
     @PostMapping(path = "/login")
-    public String loginUsuario(@RequestParam String nome,
-                               @RequestParam String senha,
-                               HttpSession session) {
+    @ResponseBody
+    public M_Resposta loginUsuario(@RequestParam String nome,
+                                   @RequestParam String senha,
+                                   HttpSession session) {
+        M_Resposta m_resposta = new M_Resposta();
         M_Usuario m_usuario = s_login.loginUsuario(nome, senha);
         if (m_usuario==null) {
-            return "redirect:/login";
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Nome ou senha não estão corretos...");
+            return m_resposta;
         }
         session.setAttribute("usuario",m_usuario);
 
@@ -69,6 +75,9 @@ public class C_Login {
             s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
             s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
         }
-        return "redirect:/catalogo";
+
+        m_resposta.setMensagem("Fez login como "+m_usuario.getNome()+" ["+m_usuario.getCargo().toString()+"]");
+        m_resposta.setSucesso(true);
+        return m_resposta;
     }
 }

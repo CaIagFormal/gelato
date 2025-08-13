@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Serviço para lidar com regras de negócio do controller {@link com.tcc.gelato.controller.C_Transacao}
@@ -80,5 +81,33 @@ public class S_Transacao {
      */
     public boolean validarQtdAlterarSaldo(BigDecimal qtd,BigDecimal saldo_cliente) {
         return saldo_cliente.add(qtd).compareTo(BigDecimal.ZERO) > -1;
+    }
+
+    /**
+     * @param cliente {@link M_Usuario}
+     * @return Transações de um cliente
+     */
+    public List<M_Transacao> getTransacoesDeCliente(M_Usuario cliente) {
+        return r_transacao.getTransacoesDeCliente(cliente.getId());
+    }
+
+    /**
+     * Para {@link com.tcc.gelato.controller.C_Transacao#inspecionarTransacoes(HttpSession, String)}
+     * @param m_transacoes
+     * @return Prepara as mensagens de um histórico de transação;
+     */
+    public String prepararMensagemTransacao(List<M_Transacao> m_transacoes) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (M_Transacao m_transacao: m_transacoes) {
+            stringBuilder.append(m_transacao.getValor()).append(";");
+            stringBuilder.append(m_transacao.isAo_vendedor()?"Ao vendedor":"Ao cliente").append(";");
+            stringBuilder.append(m_transacao.getCliente().getNome()).append(";");
+            stringBuilder.append(m_transacao.getVendedor().getNome()).append(";");
+            stringBuilder.append(m_transacao.getHorario_fornecido()).append("||");
+        }
+        if (stringBuilder.length()==0) {
+            return null;
+        }
+        return stringBuilder.substring(0,stringBuilder.length()-2);
     }
 }

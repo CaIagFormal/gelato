@@ -112,7 +112,7 @@ public class C_Produto {
         }
 
         // Atualizar quantidade de itens no carrinho
-        session.setAttribute("qtd_itens_carrinho",s_compra.getQtdComprasDeTicket(m_ticket));
+        s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
 
         m_resposta.setSucesso(true);
         m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
@@ -234,7 +234,7 @@ public class C_Produto {
         s_compra.removerCompra(m_compra);
 
         // Atualizar quantidade de itens no carrinho
-        session.setAttribute("qtd_itens_carrinho", s_compra.getQtdComprasDeTicket(m_ticket));
+        s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
 
         m_resposta.setSucesso(true);
         m_resposta.setMensagem(m_compra.getQuantidade() + " " + m_compra.getProduto().getMedida() + "(s) de " + m_compra.getProduto().getNome() + " foram removidos do seu carrinho.");

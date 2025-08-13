@@ -14,47 +14,45 @@
     <div class="container">
         <h2 class="mt-4">Cadastro</h2>
         <p class="mb-3">é obrigatório preencher todos os campos</p>
-        <form action="/cadastro" method="POST">
-            <div class="row container">
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="nome">Usuário</label>
-                        <input type="text" class="form-control" placeholder="Insira um nome" id="nome" name="nome">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="email">E-mail</label>
-                        <input type="email" class="form-control" placeholder="Insira seu endereço de e-mail" id="email" name="email">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="senha">Senha</label>
-                        <input type="password" class="form-control" placeholder="Insira uma senha" id="senha" name="senha">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="conf_senha">Confirmar</label>
-                        <input type="password" class="form-control" placeholder="Insira novamente sua senha" id="conf_senha" name="conf_senha">
-                    </div>
-                </div>
-                <div class="col-2 text-end">
-                    <button type="button" class="btn btn-primary" id="f-cadastro">Cadastrar</button>
-                </div>
-                <div class="col-4"></div>
-                <div class="col">
-                    <p class="text-start container">Sua senha deve conter no mínimo:<br>
-                        <span id="senha_teste0">⨂</span> 8 caracteres<br>
-                        <span id="senha_teste1">⨂</span> 1 letra maiúscula<br>
-                        <span id="senha_teste2">⨂</span> 1 letra minuscula<br>
-                        <span id="senha_teste3">⨂</span> 1 número<br>
-                        <span id="senha_teste4">⨂</span> 1 caractere especial
-                    </p>
+        <div class="row container">
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="nome">Usuário</label>
+                    <input type="text" class="form-control" placeholder="Insira um nome" id="nome" name="nome">
                 </div>
             </div>
-        </form>
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="email">E-mail</label>
+                    <input type="email" class="form-control" placeholder="Insira seu endereço de e-mail" id="email" name="email">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="senha">Senha</label>
+                    <input type="password" class="form-control" placeholder="Insira uma senha" id="senha" name="senha">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="conf_senha">Confirmar</label>
+                    <input type="password" class="form-control" placeholder="Insira novamente sua senha" id="conf_senha" name="conf_senha">
+                </div>
+            </div>
+            <div class="col-2 text-end">
+                <button type="button" class="btn btn-primary" id="f-cadastro">Cadastrar</button>
+            </div>
+            <div class="col-4"></div>
+            <div class="col">
+                <p class="text-start container">Sua senha deve conter no mínimo:<br>
+                    <span id="senha_teste0">⨂</span> 8 caracteres<br>
+                    <span id="senha_teste1">⨂</span> 1 letra maiúscula<br>
+                    <span id="senha_teste2">⨂</span> 1 letra minuscula<br>
+                    <span id="senha_teste3">⨂</span> 1 número<br>
+                    <span id="senha_teste4">⨂</span> 1 caractere especial
+                </p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

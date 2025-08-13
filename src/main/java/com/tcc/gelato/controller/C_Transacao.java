@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Funcionalidades relacionadas a classe {@link com.tcc.gelato.model.M_Transacao}
@@ -100,6 +101,12 @@ public class C_Transacao {
         return m_resposta;
     }
 
+    /**
+     * Esvazia o saldo do {@link M_Usuario.Cargo#CLIENTE} fornecido
+     * @param session Sessão do vendedor
+     * @param str_cliente String contendo o nome de um cliente
+     * @return
+     */
     @PostMapping(path = "esvaziar_saldo")
     @ResponseBody
     public M_Resposta esvaziarSaldo(HttpSession session, @RequestParam("cliente") String str_cliente) {
@@ -140,5 +147,74 @@ public class C_Transacao {
         m_resposta.setMensagem("Foi "+(m_transacao.isAo_vendedor()?"removido":"adicionado")+" R$"+m_transacao.getValor()+" para o saldo de "+cliente.getNome());
         return m_resposta;
 
+    }
+
+
+    @PostMapping(path="/inspecionar_saldo")
+    @ResponseBody
+    public M_Resposta inspecionarSaldo(HttpSession session, @RequestParam("cliente") String str_cliente) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+
+        M_Resposta m_resposta = new M_Resposta();
+
+        if (!s_cargo.validarVendedor(m_usuario)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Você não está cadastrado como um vendedor.");
+            return m_resposta;
+        }
+
+        M_Usuario cliente = s_cadastro.getUsuarioByNomeOrEmail(str_cliente);
+        if (!s_cargo.validarCliente(cliente)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Usuário inserido não é cliente.");
+            return m_resposta;
+        }
+        BigDecimal saldo = s_transacao.getSaldoDeCliente(cliente);
+        if (saldo==null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Não foi possível obter o saldo de "+str_cliente);
+            return m_resposta;
+        }
+
+        m_resposta.setMensagem(saldo.toString());
+        m_resposta.setSucesso(true);
+        return m_resposta;
+    }
+
+    @PostMapping(path="/inspecionar_transacoes")
+    @ResponseBody
+    public M_Resposta inspecionarTransacoes(HttpSession session, @RequestParam("cliente") String str_cliente) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+
+        M_Resposta m_resposta = new M_Resposta();
+
+        if (!s_cargo.validarVendedor(m_usuario)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Você não está cadastrado como um vendedor.");
+            return m_resposta;
+        }
+
+        M_Usuario cliente = s_cadastro.getUsuarioByNomeOrEmail(str_cliente);
+        if (!s_cargo.validarCliente(cliente)) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Usuário inserido não é cliente.");
+            return m_resposta;
+        }
+        List<M_Transacao> m_transacoes = s_transacao.getTransacoesDeCliente(cliente);
+        if (m_transacoes==null) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Não foi possível obter as transações de "+str_cliente);
+            return m_resposta;
+        }
+
+        if (m_transacoes.size()==0) {
+            m_resposta.setSucesso(false);
+            m_resposta.setMensagem("Não há transações feitas com "+str_cliente);
+            return m_resposta;
+        }
+
+        m_resposta.setMensagem(s_transacao.prepararMensagemTransacao(m_transacoes));
+        m_resposta.setSucesso(true);
+        return m_resposta;
     }
 }

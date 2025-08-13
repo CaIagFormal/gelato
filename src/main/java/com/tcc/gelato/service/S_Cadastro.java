@@ -1,6 +1,7 @@
 package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.repository.R_Usuario;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +33,48 @@ public class S_Cadastro {
      * @param email E-mail do cliente
      * @return se é valido
      */
-    public boolean validarCadastroCliente(String nome, String senha, String conf_senha, String email) {
-        boolean validade = !nome.trim().isBlank() &&
-                !senha.trim().isBlank() &&
-                !conf_senha.trim().isBlank() &&
-                !email.trim().isBlank();
+    public M_Resposta validarCadastroCliente(String nome, String senha, String conf_senha, String email) {
+        M_Resposta m_resposta = new M_Resposta();
+        m_resposta.setMensagem("");
 
-        if (!validade) return false;
+        if (nome.trim().isBlank()) {
+            m_resposta.setMensagem(m_resposta.getMensagem()+"Nome está vazio<br>");
+            m_resposta.setSucesso(false);
+        }
 
-        if (senha.length()<8) return false;
+        if (email.trim().isBlank()) {
+            m_resposta.setMensagem(m_resposta.getMensagem()+"E-mail está vazio<br>");
+            m_resposta.setSucesso(false);
+        }
+
+        if (conf_senha.trim().isBlank()) {
+            m_resposta.setMensagem(m_resposta.getMensagem()+"Confirmação da senha está vazia<br>");
+            m_resposta.setSucesso(false);
+        }
+
+        if (senha.trim().isBlank()) {
+            m_resposta.setMensagem(m_resposta.getMensagem()+"Senha está vazia<br>");
+            m_resposta.setSucesso(false);
+            return m_resposta;
+        }
+
+        if (senha.length()<8) {
+            m_resposta.setMensagem(m_resposta.getMensagem()+"Senha tem menos de 8 dígitos<br>");
+            m_resposta.setSucesso(false);
+        }
 
         Matcher matcher = senha_valida.matcher(senha);
-        if (!matcher.find()) return false;
+        if (!matcher.find()) {
+            m_resposta.setMensagem(m_resposta.getMensagem()+"Senha não possui um dos requerimentos<br>");
+            m_resposta.setSucesso(false);
+        }
 
-        return senha.equals(conf_senha);
+        if (!senha.equals(conf_senha)) {
+            m_resposta.setMensagem(m_resposta.getMensagem()+"Confirmação de senha não é o mesmo que a senha;");
+            m_resposta.setSucesso(false);
+        }
+
+        return m_resposta;
     }
 
 
