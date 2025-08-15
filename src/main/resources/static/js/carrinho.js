@@ -14,7 +14,7 @@ function conf_remover_item_do_carrinho(btn) {
         return;
     }
 
-    ajax("/remover_carrinho",{id_compra:id})
+    ajax("/remover_carrinho",{id_compra:id},recarregar_no_sucesso)
 }
 
 function remover_item_do_carrinho() {

@@ -2,6 +2,7 @@ package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.repository.R_Compra;
 import com.tcc.gelato.repository.produto.R_Ticket;

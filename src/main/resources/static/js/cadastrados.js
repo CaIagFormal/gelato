@@ -9,7 +9,7 @@ function logout() {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        ajax("logout",{},apos_logout);
+        ajax("/logout",{},recarregar_no_sucesso);
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
@@ -21,10 +21,6 @@ function logout() {
         });
       }
     });
-}
-
-function apos_logout(retorno) {
-    location.reload();
 }
 
 $("#logout").click(logout);

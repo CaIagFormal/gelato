@@ -1,13 +1,10 @@
 package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Usuario;
-import com.tcc.gelato.model.servidor.M_Resposta;
+import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.repository.R_Usuario;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,48 +30,48 @@ public class S_Cadastro {
      * @param email E-mail do cliente
      * @return se é valido
      */
-    public M_Resposta validarCadastroCliente(String nome, String senha, String conf_senha, String email) {
-        M_Resposta m_resposta = new M_Resposta();
-        m_resposta.setMensagem("");
+    public M_RespostaTexto validarCadastroCliente(String nome, String senha, String conf_senha, String email) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+        m_respostaTexto.setMensagem("");
 
         if (nome.trim().isBlank()) {
-            m_resposta.setMensagem(m_resposta.getMensagem()+"Nome está vazio<br>");
-            m_resposta.setSucesso(false);
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Nome está vazio<br>");
+            m_respostaTexto.setSucesso(false);
         }
 
         if (email.trim().isBlank()) {
-            m_resposta.setMensagem(m_resposta.getMensagem()+"E-mail está vazio<br>");
-            m_resposta.setSucesso(false);
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"E-mail está vazio<br>");
+            m_respostaTexto.setSucesso(false);
         }
 
         if (conf_senha.trim().isBlank()) {
-            m_resposta.setMensagem(m_resposta.getMensagem()+"Confirmação da senha está vazia<br>");
-            m_resposta.setSucesso(false);
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Confirmação da senha está vazia<br>");
+            m_respostaTexto.setSucesso(false);
         }
 
         if (senha.trim().isBlank()) {
-            m_resposta.setMensagem(m_resposta.getMensagem()+"Senha está vazia<br>");
-            m_resposta.setSucesso(false);
-            return m_resposta;
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Senha está vazia<br>");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
         }
 
         if (senha.length()<8) {
-            m_resposta.setMensagem(m_resposta.getMensagem()+"Senha tem menos de 8 dígitos<br>");
-            m_resposta.setSucesso(false);
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Senha tem menos de 8 dígitos<br>");
+            m_respostaTexto.setSucesso(false);
         }
 
         Matcher matcher = senha_valida.matcher(senha);
         if (!matcher.find()) {
-            m_resposta.setMensagem(m_resposta.getMensagem()+"Senha não possui um dos requerimentos<br>");
-            m_resposta.setSucesso(false);
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Senha não possui um dos requerimentos<br>");
+            m_respostaTexto.setSucesso(false);
         }
 
         if (!senha.equals(conf_senha)) {
-            m_resposta.setMensagem(m_resposta.getMensagem()+"Confirmação de senha não é o mesmo que a senha;");
-            m_resposta.setSucesso(false);
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Confirmação de senha não é o mesmo que a senha;");
+            m_respostaTexto.setSucesso(false);
         }
 
-        return m_resposta;
+        return m_respostaTexto;
     }
 
 

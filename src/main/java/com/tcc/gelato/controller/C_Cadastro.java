@@ -2,10 +2,10 @@ package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.servidor.M_Resposta;
+import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.S_Cadastro;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,23 +41,23 @@ public class C_Cadastro {
      */
     @PostMapping(path="/cadastro")
     @ResponseBody
-    public M_Resposta cadastrarCliente(
+    public M_RespostaTexto cadastrarCliente(
             @RequestParam("nome") String nome,
             @RequestParam("senha") String senha,
             @RequestParam("conf_senha") String conf_senha,
             @RequestParam("email") String email) {
-        M_Resposta m_resposta = s_cadastro.validarCadastroCliente(nome, senha, conf_senha, email);
-        if (!m_resposta.isSucesso()) {
-            return m_resposta;
+        M_RespostaTexto m_respostaTexto = s_cadastro.validarCadastroCliente(nome, senha, conf_senha, email);
+        if (!m_respostaTexto.isSucesso()) {
+            return m_respostaTexto;
         }
 
        if (s_cadastro.criarCadastroCliente(nome, senha, email)==null) {
-           m_resposta.setMensagem("Erro ao acessar banco de dados");
-           m_resposta.setSucesso(false);
-           return m_resposta;
+           m_respostaTexto.setMensagem("Erro ao acessar banco de dados");
+           m_respostaTexto.setSucesso(false);
+           return m_respostaTexto;
        }
-       m_resposta.setMensagem("Conta cadastrada com sucesso.");
-       return m_resposta;
+       m_respostaTexto.setMensagem("Conta cadastrada com sucesso.");
+       return m_respostaTexto;
     }
 
     /**
@@ -67,19 +67,19 @@ public class C_Cadastro {
      */
     @PostMapping(path="/logout")
     @ResponseBody
-    public M_Resposta Logout(HttpSession session){
-        M_Resposta m_resposta = new M_Resposta();
+    public M_RespostaTexto Logout(HttpSession session){
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         if (session.getAttribute("usuario")==null) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Você não está cadastrado");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Você não está cadastrado");
+            return m_respostaTexto;
         }
 
         M_Usuario m_usuario = (M_Usuario) session.getAttribute("usuario");
         session.removeAttribute("usuario");
         session.removeAttribute("navbar");
-        m_resposta.setMensagem("Saiu da conta com sucesso, terá de se cadastrar novamente para acessar recursos de "+m_usuario.getCargo().toString()+".");
-        m_resposta.setSucesso(true);
-        return m_resposta;
+        m_respostaTexto.setMensagem("Saiu da conta com sucesso, terá de se cadastrar novamente para acessar recursos de "+m_usuario.getCargo().toString()+".");
+        m_respostaTexto.setSucesso(true);
+        return m_respostaTexto;
     }
 }

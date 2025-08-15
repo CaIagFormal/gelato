@@ -6,6 +6,7 @@ import com.tcc.gelato.model.produto.M_Estoque;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Resposta;
+import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -65,58 +66,72 @@ public class C_Produto {
      */
     @PostMapping(path="/adicionar_carrinho")
     @ResponseBody
-    public M_Resposta adicionarAoCarrinho(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
-        M_Resposta m_resposta = new M_Resposta();
+    public M_RespostaTexto adicionarAoCarrinho(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
         if (!s_cargo.validarCliente(m_usuario)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Você não está cadastrado no momento.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Você não está cadastrado no momento.");
+            return m_respostaTexto;
         }
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
 
         if (!s_ticket.validarTicketParaAlterarConteudos(m_ticket)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
+            return m_respostaTexto;
         }
 
         if (!s_compra.checkAdicionarAoCarrinhoValido(qtd,id_produto)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Sua compra é inválida.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Sua compra é inválida.");
+            return m_respostaTexto;
         }
 
         M_Produto m_produto = s_produto.getProdutoById(Long.parseLong(id_produto));
         if (m_produto==null) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Produto inválido.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Produto inválido.");
+            return m_respostaTexto;
         }
 
         int qtd_int = Integer.parseInt(qtd);
 
-        if (!s_estoque.conferirValidadeDeEstoque(m_produto,-(qtd_int+s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket)))) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Quantidade inválida.");
-            return m_resposta;
+        int qtd_no_carrinho = s_produto.getQtdDeProdutoEmTicket(m_produto,m_ticket);
+        if (!s_estoque.conferirValidadeDeEstoque(m_produto,-(qtd_int+qtd_no_carrinho))) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Quantidade inválida.");
+            return m_respostaTexto;
+        }
+
+        if (qtd_no_carrinho>0) {
+            M_Compra m_compra = s_compra.getCompraComProdutoEmTicket(m_produto,m_ticket,m_produto.getPreco());
+            if (m_compra==null) {
+                m_respostaTexto.setSucesso(false);
+                m_respostaTexto.setMensagem("Ocorreu um erro ao comunicar com o banco de dados.");
+                return m_respostaTexto;
+            }
+            s_compra.adicionarQuantidade(m_compra,qtd_int);
+            m_respostaTexto.setSucesso(true);
+            m_respostaTexto.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
+            return m_respostaTexto;
         }
 
         M_Compra m_compra = s_compra.gerarCompraDoCarrinho(m_usuario,m_ticket,m_produto,qtd_int);
 
         if (m_compra==null) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Não foi possível registrar sua compra.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Não foi possível registrar sua compra.");
+            return m_respostaTexto;
         }
 
         // Atualizar quantidade de itens no carrinho
         s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
 
-        m_resposta.setSucesso(true);
-        m_resposta.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
-        return m_resposta;
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem(qtd+" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram adicionados ao seu carrinho.");
+        return m_respostaTexto;
     }
 
     /**
@@ -128,47 +143,49 @@ public class C_Produto {
      */
     @PostMapping(path="/adicionar_estoque")
     @ResponseBody
-    public M_Resposta adicionarEstoque(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
-        M_Resposta m_resposta = new M_Resposta();
+    public M_RespostaTexto adicionarEstoque(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
         if (!s_cargo.validarVendedor(m_usuario)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Você não está cadastrado como vendedor.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Você não está cadastrado como vendedor.");
+            return m_respostaTexto;
         }
 
         if (!s_estoque.checkAdicionarEstoqueValido(qtd,id_produto)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Parâmetros inválidos.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Parâmetros inválidos.");
+            return m_respostaTexto;
         }
 
         M_Produto m_produto = s_produto.getProdutoById(Long.parseLong(id_produto));
         if (m_produto==null) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Produto inválido.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Produto inválido.");
+            return m_respostaTexto;
         }
 
         int qtd_int = Integer.parseInt(qtd);
 
         if (!s_estoque.conferirValidadeDeEstoque(m_produto,qtd_int)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Quantidade de estoque a ser adicionada é inválida.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Quantidade de estoque a ser adicionada é inválida.");
+            return m_respostaTexto;
         }
 
         M_Estoque m_estoque = s_estoque.gerarEstoque(m_produto,qtd_int);
 
         if (m_estoque==null) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Não foi possível alterar o estoque.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Não foi possível alterar o estoque.");
+            return m_respostaTexto;
         }
 
-        m_resposta.setSucesso(true);
-        m_resposta.setMensagem(Math.abs(qtd_int) +" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram "+((qtd_int>0)?"adicionados ao ":"removidos do ")+"estoque.");
-        return m_resposta;
+        s_compra.corrigirComprasDeProdutoComQtdMaior(m_produto,s_estoque.getEstoqueForProduto(m_produto));
+
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem(Math.abs(qtd_int) +" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram "+((qtd_int>0)?"adicionados ao ":"removidos do ")+"estoque.");
+        return m_respostaTexto;
     }
 
     /**
@@ -202,33 +219,33 @@ public class C_Produto {
     @PostMapping(path="/remover_carrinho")
     @ResponseBody
     public M_Resposta removerDoCarrinho(@RequestParam("id_compra") String id_compra, HttpSession session) {
-        M_Resposta m_resposta = new M_Resposta();
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
         if (!s_cargo.validarCliente(m_usuario)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Você não está cadastrado no momento.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Você não está cadastrado no momento.");
+            return m_respostaTexto;
         }
 
         if (!s_compra.checkRemoverDoCarrinhoValido(id_compra)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Sua compra é inválida.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Sua compra é inválida.");
+            return m_respostaTexto;
         }
 
         M_Compra m_compra = s_compra.getCompraById(Long.parseLong(id_compra));
         if (m_compra == null) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Compra inválida.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Compra inválida.");
+            return m_respostaTexto;
         }
 
         M_Ticket m_ticket = m_compra.getTicket();
 
         if (!s_ticket.validarTicketParaAlterarConteudos(m_ticket)) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
+            return m_respostaTexto;
         }
 
         s_compra.removerCompra(m_compra);
@@ -236,8 +253,8 @@ public class C_Produto {
         // Atualizar quantidade de itens no carrinho
         s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
 
-        m_resposta.setSucesso(true);
-        m_resposta.setMensagem(m_compra.getQuantidade() + " " + m_compra.getProduto().getMedida() + "(s) de " + m_compra.getProduto().getNome() + " foram removidos do seu carrinho.");
-        return m_resposta;
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem(m_compra.getQuantidade() + " " + m_compra.getProduto().getMedida() + "(s) de " + m_compra.getProduto().getNome() + " foram removidos do seu carrinho.");
+        return m_respostaTexto;
     }
 }

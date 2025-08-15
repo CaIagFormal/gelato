@@ -70,6 +70,12 @@ function ajax(v_url,v_data,f_then=null,exito=true) {
         });
 }
 
+function recarregar_no_sucesso(resposta) {
+    if (resposta.sucesso) {
+        location.reload()
+    }
+}
+
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
     confirmButton: "btn btn-success m-2",
@@ -77,3 +83,7 @@ const swalWithBootstrapButtons = Swal.mixin({
   },
   buttonsStyling: true
 });
+
+function data_to_string(data) {
+    return data.getDate()+"/"+(data.getMonth()+1)+"/"+data.getFullYear()+" "+data.getHours()+":"+data.getMinutes()+":"+data.getSeconds();
+}

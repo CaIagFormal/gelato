@@ -5,6 +5,7 @@ import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Navbar;
 import com.tcc.gelato.model.servidor.M_NavbarCliente;
 import com.tcc.gelato.model.servidor.M_Resposta;
+import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -52,15 +53,15 @@ public class C_Login {
      */
     @PostMapping(path = "/login")
     @ResponseBody
-    public M_Resposta loginUsuario(@RequestParam String nome,
+    public M_RespostaTexto loginUsuario(@RequestParam String nome,
                                    @RequestParam String senha,
                                    HttpSession session) {
-        M_Resposta m_resposta = new M_Resposta();
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         M_Usuario m_usuario = s_login.loginUsuario(nome, senha);
         if (m_usuario==null) {
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Nome ou senha não estão corretos...");
-            return m_resposta;
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Nome ou senha não estão corretos...");
+            return m_respostaTexto;
         }
         session.setAttribute("usuario",m_usuario);
 
@@ -76,8 +77,8 @@ public class C_Login {
             s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
         }
 
-        m_resposta.setMensagem("Fez login como "+m_usuario.getNome()+" ["+m_usuario.getCargo().toString()+"]");
-        m_resposta.setSucesso(true);
-        return m_resposta;
+        m_respostaTexto.setMensagem("Fez login como "+m_usuario.getNome()+" ["+m_usuario.getCargo().toString()+"]");
+        m_respostaTexto.setSucesso(true);
+        return m_respostaTexto;
     }
 }

@@ -4,10 +4,13 @@ import com.tcc.gelato.model.M_Transacao;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.repository.R_Transacao;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +21,8 @@ import java.util.List;
 public class S_Transacao {
 
     private final R_Transacao r_transacao;
+
+    public static BigDecimal psql_big_decimal_limit = new BigDecimal("100000000.00");
 
     public S_Transacao(R_Transacao r_transacao) {
         this.r_transacao = r_transacao;
@@ -80,7 +85,10 @@ public class S_Transacao {
      * @return Validade da operação
      */
     public boolean validarQtdAlterarSaldo(BigDecimal qtd,BigDecimal saldo_cliente) {
-        return saldo_cliente.add(qtd).compareTo(BigDecimal.ZERO) > -1;
+        BigDecimal total = saldo_cliente.add(qtd);
+        if (qtd.abs().compareTo(psql_big_decimal_limit)> -1) return false;
+        if (total.compareTo(psql_big_decimal_limit)> -1) return false; // Limite do PSQL
+        return total.compareTo(BigDecimal.ZERO) > -1;
     }
 
     /**
@@ -96,18 +104,20 @@ public class S_Transacao {
      * @param m_transacoes
      * @return Prepara as mensagens de um histórico de transação;
      */
-    public String prepararMensagemTransacao(List<M_Transacao> m_transacoes) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public List<List<String>> prepararMensagemTransacao(List<M_Transacao> m_transacoes) {
+
+        List<List<String>> mensagem = new ArrayList<>();
+
         for (M_Transacao m_transacao: m_transacoes) {
-            stringBuilder.append(m_transacao.getValor()).append(";");
-            stringBuilder.append(m_transacao.isAo_vendedor()?"Ao vendedor":"Ao cliente").append(";");
-            stringBuilder.append(m_transacao.getCliente().getNome()).append(";");
-            stringBuilder.append(m_transacao.getVendedor().getNome()).append(";");
-            stringBuilder.append(m_transacao.getHorario_fornecido()).append("||");
+            List<String> str_transcacao = new ArrayList<>();
+            str_transcacao.add(m_transacao.getValor().toString());
+            str_transcacao.add(m_transacao.isAo_vendedor()?"Ao vendedor":"Ao cliente");
+            str_transcacao.add(m_transacao.getCliente().getNome());
+            str_transcacao.add(m_transacao.getVendedor().getNome());
+            str_transcacao.add(m_transacao.getHorario_fornecido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+
+            mensagem.add(str_transcacao);
         }
-        if (stringBuilder.length()==0) {
-            return null;
-        }
-        return stringBuilder.substring(0,stringBuilder.length()-2);
+        return mensagem;
     }
 }
