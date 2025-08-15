@@ -10,7 +10,7 @@ function conf_adicionar_estoque() {
         return;
     }
 
-    ajax("/adicionar_estoque",{qtd:qtd,id_produto:id_produto});
+    ajax("/adicionar_estoque",{qtd:qtd,id_produto:id_produto},recarregar_no_sucesso);
 }
 
 function adicionar_estoque() {

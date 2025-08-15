@@ -16,4 +16,41 @@ div.consulta {
     border-width: 2px;
     border-radius: 10px;
     border-color: #CCCCCC;
+    background: #FFFFFF;
+    margin: 1%;
+    width: 48%;
+}
+
+p.pos {
+    color: #008800;
+}
+p.pos > b {
+    color: #004400;
+}
+p.pos:before {
+    content: "+";
+}
+
+p.neg {
+    color: #CC0000;
+}
+p.neg > b {
+    color: #880000;
+}
+p.neg:before {
+    content: "-";
+}
+
+div.consulta-container {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: #CCBBEE;
+    background: #EEEEF8;
+    margin: 1%;
+    width: 100%;
+}
+
+div.consulta-container > h5 {
+    color: #6820E0;
 }

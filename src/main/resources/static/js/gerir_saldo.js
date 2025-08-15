@@ -71,6 +71,7 @@ function f_inspecionar_transacoes() {
 }
 
 var consulta_template = $("#template-consulta")
+var consulta_template_container = $("#template-consulta-container")
 
 function pos_insp_saldo(resposta) {
     if (!resposta.sucesso) { return; }
@@ -83,7 +84,7 @@ function pos_insp_saldo(resposta) {
 
     con_div.append("<p class='col'> <b>Cliente:</b> "+cliente+"</p>")
     con_div.append("<p class='col'> <b>Saldo:</b> "+resposta.mensagem+"R$</p>")
-    con_div.append("<p class='col'> <b>Horário:</b> "+(new Date()).toString()+"</p>")
+    con_div.append("<p class='col'> <b>Horário:</b> "+data_to_string(new Date())+"</p>")
 
     consultas.prepend(con_div);
     return;
@@ -94,21 +95,26 @@ function pos_insp_trans(resposta) {
     let cliente = $("#cliente").val();
     let consultas = $("#consultas")
 
-    $(resposta.mensagem.split("||")).each((i,str) => {
-        transacao = str.split(";");
+    let big_con_div = $(consulta_template_container).clone()
+    big_con_div.removeAttr("id");
+    big_con_div.removeClass("d-none");
+
+    $(resposta.mensagem).each((i,transacao) => {
         let con_div = consulta_template.clone();
         con_div.removeAttr("id");
-        con_div.removeClass("d-none")
-
-        con_div.append("<p class='col'> <b>Valor:</b> "+transacao[0]+"R$</p>")
+        con_div.removeClass("d-none");
+        let sinal = (transacao[1][3] == 'v')?"neg":"pos"; // 'Ao [v]endedor' / 'Ao [c]liente'
+        con_div.append("<p class='col "+sinal+"'> <b>Valor:</b> "+transacao[0]+"R$</p>")
         con_div.append("<p class='col'> <b>Ao Vendedor:</b> "+transacao[1]+"</p>")
         con_div.append("<p class='col'> <b>Cliente:</b> "+transacao[2]+"</p>")
         con_div.append("<p class='col'> <b>Vendedor:</b> "+transacao[3]+"</p>")
         con_div.append("<p class='col'> <b>Horário:</b> "+transacao[4]+"</p>")
 
-        consultas.prepend(con_div);
+        big_con_div.prepend(con_div);
     })
 
+    $(big_con_div).prepend("<h5>CONSULTOU TRANSAÇÕES DE CLIENTE "+cliente+" ÀS "+data_to_string(new Date())+"</h5>");
+    consultas.prepend(big_con_div)
     return;
 }
 $("#btn_insp_saldo").click(f_inspecionar_saldo);

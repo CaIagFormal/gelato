@@ -135,4 +135,42 @@ public class S_Compra {
     public void removerCompra(M_Compra m_compra) {
         r_compra.delete(m_compra);
     }
+
+
+    /**
+     * obtêm uma compra de um produto específico num ticket
+     * @param m_produto {@link M_Produto} em modelo
+     * @param m_ticket {@link M_Ticket} em modelo
+     * @param preco O preço do produto atualmente
+     */
+    public M_Compra getCompraComProdutoEmTicket(M_Produto m_produto, M_Ticket m_ticket,BigDecimal preco) {
+        return r_compra.getCompraComProdutoEmTicket(m_produto.getId(),m_ticket.getId(),preco);
+    }
+
+    /**
+     * Adiciona uma quantidade a uma compra
+     * @param m_compra Compra a ter a quantidade alterada
+     * @param qtd_int quantidade que alterará
+     */
+    public void adicionarQuantidade(M_Compra m_compra, int qtd_int) {
+        m_compra.setQuantidade(m_compra.getQuantidade()+qtd_int);
+        r_compra.save(m_compra);
+    }
+
+    /**
+     * Corrige compras no carrinho com estoque inválido, usado em {@link com.tcc.gelato.controller.C_Produto#adicionarEstoque(String, String, HttpSession)}
+     * @param m_produto Produto a ter compras conferidas
+     * @param estoque O estoque do produto, use {@link S_Estoque#getEstoqueForProduto(M_Produto)}
+     */
+    public void corrigirComprasDeProdutoComQtdMaior(M_Produto m_produto, Integer estoque) {
+        List<M_Compra> m_compras = r_compra.getComprasDeProdutoComQtdMaiorNoCarrinho(m_produto.getId(),estoque);
+        if (estoque==0) {
+            r_compra.deleteAll(m_compras);
+            return;
+        }
+        for (M_Compra m_compra: m_compras) {
+            m_compra.setQuantidade(estoque);
+        }
+        r_compra.saveAll(m_compras);
+    }
 }

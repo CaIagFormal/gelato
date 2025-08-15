@@ -10,7 +10,7 @@ function conf_adicionar_ao_carrinho() {
         return;
     }
 
-    ajax("/adicionar_carrinho",{qtd:qtd,id_produto:id_produto});
+    ajax("/adicionar_carrinho",{qtd:qtd,id_produto:id_produto},recarregar_no_sucesso);
 }
 
 function adicionar_ao_carrinho() {
