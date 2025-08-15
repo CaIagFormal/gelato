@@ -85,5 +85,9 @@ const swalWithBootstrapButtons = Swal.mixin({
 });
 
 function data_to_string(data) {
-    return data.getDate()+"/"+(data.getMonth()+1)+"/"+data.getFullYear()+" "+data.getHours()+":"+data.getMinutes()+":"+data.getSeconds();
+    return pad(data.getDate())+"/"+pad(data.getMonth()+1)+"/"+data.getFullYear()+" "+pad(data.getHours())+":"+pad(data.getMinutes())+":"+pad(data.getSeconds());
+}
+
+function pad(val) {
+    return String(val).padStart(2, '0');
 }
