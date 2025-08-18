@@ -29,7 +29,7 @@
             <h3 th:text="${'R$'+produto.preco+'/'+produto.medida}"></h3>
             <p th:text="${produto.descricao}"></p>
             <div th:if="${usuario}==null">
-                <div class="row" th:if="${estoque}>0">
+                <div class="row" th:if="${estoque}>0 and ${produto.disponivel}">
                     <div class="col">
                         <p>Cadastre-se para comprar.</p>
                     </div>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="row" th:if="${estoque}>0 and ${usuario.cargo.toString()}=='CLIENTE'">
+                <div class="row" th:if="${estoque}>0 and ${usuario.cargo.toString()}=='CLIENTE' and ${produto.disponivel}">
                     <div class="col">
                         <button class="btn btn-primary" id="btn_comprar">Adicionar ao Carrinho</button>
                     </div>

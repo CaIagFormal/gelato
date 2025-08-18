@@ -33,4 +33,29 @@ function remover_item_do_carrinho() {
      });
 }
 
-$(".remover-item").click(remover_item_do_carrinho)
+$(".remover-item").click(remover_item_do_carrinho);
+
+function definir_horario_retirada() {
+    let horario = $("#horario_retirada").val();
+    erro = ""
+
+    let time = new Date(horario).getTime()
+    if (time===NaN) {
+        erro += "Horário não foi definido (recarregue a página para ver o horário caso já tenha o definido)<br>";
+    }
+    if (time < new Date().getTime()) {
+        erro += "Não pode se pedir com retirada no passado<br>";
+    }
+    else if (time < new Date().getTime()+1000*60*30) {
+        erro += "A retirada não pode acontecer em menos de 30 minutos.";
+    }
+
+    if (erro != "") {
+        mostrar_erro("Algo de errado ocorreu!",erro);
+        return;
+    }
+
+    ajax("/definir_horario_retirada_ticket",{horario:time/1000}); // ms -> s
+}
+
+$("#btn-horario-retirada").click(definir_horario_retirada);

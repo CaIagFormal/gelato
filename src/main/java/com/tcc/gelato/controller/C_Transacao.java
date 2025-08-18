@@ -136,6 +136,11 @@ public class C_Transacao {
         }
 
         BigDecimal qtd = s_transacao.getSaldoDeCliente(cliente).negate();
+        if (qtd.compareTo(BigDecimal.ZERO)==0) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("O saldo do cliente está limpo já.");
+            return m_respostaTexto;
+        }
         if (!s_transacao.validarQtdAlterarSaldo(qtd,qtd.negate())) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("O cliente têm um saldo alto demais para apagar, por favor chame um técnico.");

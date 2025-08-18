@@ -181,33 +181,19 @@ public class C_Produto {
             return m_respostaTexto;
         }
 
-        s_compra.corrigirComprasDeProdutoComQtdMaior(m_produto,s_estoque.getEstoqueForProduto(m_produto));
+        Integer estoque = s_estoque.getEstoqueForProduto(m_produto);
+        if (estoque==0) {
+            m_produto.setDisponivel(false);
+        }
+
+        s_compra.corrigirComprasDeProdutoComQtdMaior(m_produto,estoque);
 
         m_respostaTexto.setSucesso(true);
         m_respostaTexto.setMensagem(Math.abs(qtd_int) +" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram "+((qtd_int>0)?"adicionados ao ":"removidos do ")+"estoque.");
-        return m_respostaTexto;
-    }
-
-    /**
-     * @param session Redireciona para {@link C_Inicio#redirecionar(HttpSession)} caso não haja um {@link M_Usuario} vinculado
-     * @return Tela de carrinho
-     */
-    @GetMapping("/carrinho")
-    public String getCarrinho(HttpSession session, Model model) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
-        if (!s_cargo.validarCliente(m_usuario)) {
-            return "redirect:/";
+        if (estoque==0) {
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+" (Produto não está mais disponível por estoque)");
         }
-
-        s_cargo.session_to_model_navbar(model,session);
-
-        M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
-        model.addAttribute("ticket",m_ticket);
-
-        List<M_Compra> m_compras = s_ticket.getComprasDeTicket(m_ticket);
-        model.addAttribute("carrinho",m_compras);
-        model.addAttribute("total",s_compra.getPrecoTotalDeCompras(m_compras));
-        return "cliente/carrinho";
+        return m_respostaTexto;
     }
 
     /**

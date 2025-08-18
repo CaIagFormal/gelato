@@ -40,8 +40,8 @@ public class M_Ticket {
     @Column()
     private LocalDateTime horario_encaminhado;
 
-    @Column(nullable = false)
-    private boolean pagamento;
+    @Column()
+    private LocalDateTime horario_retirada;
 
     public Long getId() {
         return id;
@@ -91,11 +91,11 @@ public class M_Ticket {
         this.horario_encaminhado = horario_encaminhado;
     }
 
-    public boolean isPagamento() {
-        return pagamento;
+    public LocalDateTime getHorario_retirada() {
+        return horario_retirada;
     }
 
-    public void setPagamento(boolean pagamento) {
-        this.pagamento = pagamento;
+    public void setHorario_retirada(LocalDateTime horario_retirada) {
+        this.horario_retirada = horario_retirada;
     }
 }
