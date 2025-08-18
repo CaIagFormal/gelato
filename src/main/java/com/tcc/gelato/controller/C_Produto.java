@@ -7,13 +7,12 @@ import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
+import com.tcc.gelato.mvc.service.*;
 import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 public class C_Produto {
@@ -58,7 +57,7 @@ public class C_Produto {
     }
 
     /**
-     * Cria uma {@link com.tcc.gelato.model.M_Compra} com
+     * Cria uma {@link M_Compra} com
      * @param qtd Quantidade do produto
      * @param id_produto ID do produto
      * @param session Sessão para extrair o {@link M_Usuario}
@@ -135,7 +134,7 @@ public class C_Produto {
     }
 
     /**
-     * Cria {@link com.tcc.gelato.model.produto.M_Estoque} com
+     * Cria {@link M_Estoque} com
      * @param qtd Quantidade do produto
      * @param id_produto ID do produto
      * @param session Sessão para extrair o {@link M_Usuario}
@@ -197,7 +196,7 @@ public class C_Produto {
     }
 
     /**
-     * Cria uma {@link com.tcc.gelato.model.M_Compra} com
+     * Cria uma {@link M_Compra} com
      * @param id_compra ID da compra no carrinho para ser removida
      * @param session Sessão para extrair o {@link M_Usuario}
      * @return Mensagem de sucesso ou falha para a página

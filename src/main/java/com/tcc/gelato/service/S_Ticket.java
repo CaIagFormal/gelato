@@ -2,9 +2,8 @@ package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
-import com.tcc.gelato.model.produto.M_Produto;
+import com.tcc.gelato.controller.C_Ticket;
 import com.tcc.gelato.model.produto.M_Ticket;
-import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.repository.R_Compra;
 import com.tcc.gelato.repository.produto.R_Ticket;
@@ -19,7 +18,7 @@ import java.util.Optional;
 import java.util.Random;
 
 /**
- * Aplicação de regras de negócio relacionados ao {@link com.tcc.gelato.model.produto.M_Ticket}
+ * Aplicação de regras de negócio relacionados ao {@link M_Ticket}
  */
 @Service
 public class S_Ticket {
@@ -83,7 +82,7 @@ public class S_Ticket {
 
     /**
      * Confere o ticket e gera se for necessário
-     * @param m_usuario {@link M_Usuario} que deve ser {@link com.tcc.gelato.model.M_Usuario.Cargo#CLIENTE}
+     * @param m_usuario {@link M_Usuario} que deve ser {@link M_Usuario.Cargo#CLIENTE}
      * @return o ticket em si
      */
     public M_Ticket conferirTicketDeUsuario(M_Usuario m_usuario) {
@@ -130,7 +129,7 @@ public class S_Ticket {
     }
 
     /**
-     * Confere os parâmetros da função {@link com.tcc.gelato.controller.C_Ticket#definirHorarioRetirada(HttpSession, String)}
+     * Confere os parâmetros da função {@link C_Ticket#definirHorarioRetirada(HttpSession, String)}
      * @param str_horario
      * @return Resposta de falha se houver
      */

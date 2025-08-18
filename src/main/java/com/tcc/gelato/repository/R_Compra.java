@@ -1,11 +1,9 @@
 package com.tcc.gelato.repository;
 
 import com.tcc.gelato.model.M_Compra;
-import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.repository.produto.R_Ticket;
-import org.hibernate.annotations.QueryCacheLayout;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +17,7 @@ import java.util.List;
 public interface R_Compra extends JpaRepository<M_Compra, Long> {
     /**
      * Pega a quantidade de compras em um ticket
-     * @param id_ticket ID do {@link com.tcc.gelato.model.produto.M_Ticket} em questão
+     * @param id_ticket ID do {@link M_Ticket} em questão
      * @return Quantidade de {@link M_Compra}s no ticket
      */
     @Query(value = "select count(*) from gelato.compra where fk_ticket=:ID_TICKET",nativeQuery = true)

@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import java.math.BigDecimal;
 
 /**
- * Regras de negócio relacionadas com {@link com.tcc.gelato.model.M_Usuario.Cargo}s
+ * Regras de negócio relacionadas com {@link M_Usuario.Cargo}s
  * Também incluí casos relacionados com {@link HttpSession} para não conflitar com casos onde o cargo é VISITANTE
  */
 @Service
@@ -30,7 +30,7 @@ public class S_Cargo {
     }
 
     /**
-     * Confere se um {@link M_Usuario} é {@link com.tcc.gelato.model.M_Usuario.Cargo#CLIENTE}
+     * Confere se um {@link M_Usuario} é {@link M_Usuario.Cargo#CLIENTE}
      */
     public boolean validarCliente(M_Usuario m_usuario) {
         if (m_usuario==null) {
@@ -40,7 +40,7 @@ public class S_Cargo {
     }
 
     /**
-     * Confere se um {@link M_Usuario} é {@link com.tcc.gelato.model.M_Usuario.Cargo#VENDEDOR}
+     * Confere se um {@link M_Usuario} é {@link M_Usuario.Cargo#VENDEDOR}
      */
     public boolean validarVendedor(M_Usuario m_Usuario) {
         if (m_Usuario==null) {

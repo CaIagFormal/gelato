@@ -1,20 +1,10 @@
 package com.tcc.gelato.service;
 
-import com.tcc.gelato.model.M_Compra;
-import com.tcc.gelato.model.M_Usuario;
-import com.tcc.gelato.model.produto.M_Estoque;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
-import com.tcc.gelato.repository.R_Compra;
-import com.tcc.gelato.repository.produto.R_Estoque;
 import com.tcc.gelato.repository.produto.R_Produto;
-import com.tcc.gelato.repository.produto.R_Ticket;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +29,7 @@ public class S_Produto {
 
     /**
      * @param id Id do produto
-     * @return {@link com.tcc.gelato.model.produto.M_Produto} ou Null se der exceção
+     * @return {@link M_Produto} ou Null se der exceção
      */
     public M_Produto getProdutoById(long id) {
         Optional<M_Produto> m_produto;

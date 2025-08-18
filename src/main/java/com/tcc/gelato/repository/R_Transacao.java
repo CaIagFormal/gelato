@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Repositório ligado à {@link com.tcc.gelato.model.M_Transacao}
+ * Repositório ligado à {@link M_Transacao}
  */
 public interface R_Transacao extends JpaRepository<M_Transacao,Long> {
 

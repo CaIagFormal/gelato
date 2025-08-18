@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * A compra representa uma compra por um {@link M_Usuario} de um ou mais{@link com.tcc.gelato.model.produto.M_Produto}
+ * A compra representa uma compra por um {@link M_Usuario} de um ou mais{@link M_Produto}
  */
 @Entity
 @Table(name="compra")

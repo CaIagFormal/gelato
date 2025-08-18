@@ -4,8 +4,8 @@ import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Navbar;
 import com.tcc.gelato.model.servidor.M_NavbarCliente;
-import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
+import com.tcc.gelato.mvc.service.*;
 import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -36,7 +36,7 @@ public class C_Login {
 
     /**
      * Essa tela atua para todos os atores
-     * @return Tela de login ou redireciona para {@link com.tcc.gelato.controller.C_Inicio#redirecionar(HttpSession)} se já estiver logado
+     * @return Tela de login ou redireciona para {@link C_Inicio#redirecionar(HttpSession)} se já estiver logado
      */
     @GetMapping(path="/login")
     public String getLogin(HttpSession session){

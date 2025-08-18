@@ -1,24 +1,28 @@
 package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.controller.C_Cadastro;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.repository.R_Usuario;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Aplicação de regras de negócio do {@link com.tcc.gelato.controller.C_Cadastro}
+ * Aplicação de regras de negócio do {@link C_Cadastro}
  */
 @Service
 public class S_Cadastro {
 
     private final R_Usuario r_usuario;
     private final Pattern senha_valida;
+    private final BCryptPasswordEncoder encoder;
 
     public S_Cadastro(R_Usuario r_usuario) {
         this.r_usuario = r_usuario;
+        this.encoder = new BCryptPasswordEncoder(12);
         senha_valida = Pattern.compile("(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*[0-9]+)(?=.*[!-\\/:-@\\[-`{-~]+)");
     }
 
@@ -86,7 +90,7 @@ public class S_Cadastro {
 
         m_usuario.setNome(nome);
         m_usuario.setCargo(M_Usuario.Cargo.CLIENTE);
-        m_usuario.setSenha(senha);
+        m_usuario.setSenha(encoder.encode(senha));
         m_usuario.setEmail(email);
 
         try {

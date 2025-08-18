@@ -14,18 +14,18 @@ import org.springframework.stereotype.Repository;
 public interface R_Usuario extends JpaRepository<M_Usuario, Long> {
 
     /**
-     * Resgata um {@link com.tcc.gelato.model.M_Usuario} a partir dos parâmetros
+     * Resgata um {@link M_Usuario} a partir dos parâmetros
      * @param nome Nome ou E-mail do usuário
      * @param senha Senha do usuário
-     * @return {@link com.tcc.gelato.model.M_Usuario} correspondente
+     * @return {@link M_Usuario} correspondente
      */
     @Query(value = "select * from gelato.usuario where (nome=:NOME or email=:NOME) and senha=:SENHA limit 1",nativeQuery = true)
     M_Usuario getUsuarioByNomeOrEmailAndSenha(@Param("NOME") String nome, @Param("SENHA") String senha);
 
     /**
-     * Resgata um {@link com.tcc.gelato.model.M_Usuario} a partir dos parâmetros
+     * Resgata um {@link M_Usuario} a partir dos parâmetros
      * @param nome Nome ou E-mail do usuário
-     * @return {@link com.tcc.gelato.model.M_Usuario} correspondente
+     * @return {@link M_Usuario} correspondente
      */
     @Query(value = "select * from gelato.usuario where (nome=:NOME or email=:NOME) limit 1",nativeQuery = true)
     M_Usuario getUsuarioByNomeOrEmail(@Param("NOME") String nome);

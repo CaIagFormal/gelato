@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Funcionalidades relacionadas a classe {@link com.tcc.gelato.model.M_Transacao}
+ * Funcionalidades relacionadas a classe {@link M_Transacao}
  */
 @Controller
 public class C_Transacao {

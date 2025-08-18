@@ -1,7 +1,6 @@
 package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_Usuario;
-import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.S_Cadastro;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +20,7 @@ public class C_Cadastro {
     }
 
     /**
-     * @return Tela de cadastro do cliente ou redireciona para {@link com.tcc.gelato.controller.C_Inicio#redirecionar(HttpSession)} se já estiver logado
+     * @return Tela de cadastro do cliente ou redireciona para {@link C_Inicio#redirecionar(HttpSession)} se já estiver logado
      */
     @GetMapping(path="/cadastro")
     public String getCadastroCliente(HttpSession session){
@@ -33,7 +32,7 @@ public class C_Cadastro {
 
     /**
      * Cadastra um usuário se foi fornecido com os dados corretamente.
-     * Redireciona para {@link com.tcc.gelato.controller.C_Login#getLogin(HttpSession)}
+     * Redireciona para {@link C_Login#getLogin(HttpSession)}
      * @param nome Nome do cliente
      * @param senha Senha do cliente
      * @param conf_senha Confirmação da senha do cliente
@@ -63,7 +62,7 @@ public class C_Cadastro {
     /**
      * Performa logout da conta do usuário o inibindo de ultilizar os recursos até fazer login novamente
      * @param session Sessão do usuário incluindo conta
-     * @return Redirecionamento padrão sem cadastro {@link com.tcc.gelato.controller.C_Inicio#redirecionar(HttpSession)}
+     * @return Redirecionamento padrão sem cadastro {@link C_Inicio#redirecionar(HttpSession)}
      */
     @PostMapping(path="/logout")
     @ResponseBody

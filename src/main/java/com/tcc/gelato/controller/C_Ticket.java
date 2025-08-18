@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Para funcionalidades regidas ao {@link com.tcc.gelato.model.produto.M_Ticket}
+ * Para funcionalidades regidas ao {@link M_Ticket}
  */
 @Controller
 public class C_Ticket {
