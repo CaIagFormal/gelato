@@ -1,11 +1,12 @@
 package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.controller.C_Login;
 import com.tcc.gelato.repository.R_Usuario;
 import org.springframework.stereotype.Service;
 
 /**
- * Aplicação de regras de negócio do {@link com.tcc.gelato.controller.C_Login}
+ * Aplicação de regras de negócio do {@link C_Login}
  */
 @Service
 public class S_Login {
@@ -20,7 +21,7 @@ public class S_Login {
      * Comunica com o repositório para obter um cadastro a partir dos parâmetros
      * @param nome Nome ou E-mail do usuário
      * @param senha Senha do usuário
-     * @return {@link com.tcc.gelato.model.M_Usuario} correspondente
+     * @return {@link M_Usuario} correspondente
      */
     public M_Usuario loginUsuario(String nome, String senha) {
         return r_usuario.getUsuarioByNomeOrEmailAndSenha(nome,senha);

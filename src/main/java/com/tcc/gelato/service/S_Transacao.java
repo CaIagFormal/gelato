@@ -2,9 +2,9 @@ package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Transacao;
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.controller.C_Transacao;
 import com.tcc.gelato.repository.R_Transacao;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Serviço para lidar com regras de negócio do controller {@link com.tcc.gelato.controller.C_Transacao}
+ * Serviço para lidar com regras de negócio do controller {@link C_Transacao}
  */
 
 @Service
@@ -30,7 +30,7 @@ public class S_Transacao {
 
     /**
      * Confere os parâmetros de funções relacionadas ao saldo
-     * @param cliente {@link com.tcc.gelato.model.M_Usuario.Cargo#CLIENTE} a ter o saldo alterado
+     * @param cliente {@link M_Usuario.Cargo#CLIENTE} a ter o saldo alterado
      * @param qtd {@link Integer}
      * @return
      */
@@ -79,7 +79,7 @@ public class S_Transacao {
     }
 
     /**
-     * Valida a quantidade de saldo a ser alterado em {@link com.tcc.gelato.controller.C_Transacao#alterarSaldo(HttpSession, String, String)}
+     * Valida a quantidade de saldo a ser alterado em {@link C_Transacao#alterarSaldo(HttpSession, String, String)}
      * @param qtd Quantidade para alterar o saldo
      * @param saldo_cliente Saldo do cliente no momento, ultilize {@link S_Transacao#getSaldoDeCliente(M_Usuario)} para alterar
      * @return Validade da operação
@@ -100,7 +100,7 @@ public class S_Transacao {
     }
 
     /**
-     * Para {@link com.tcc.gelato.controller.C_Transacao#inspecionarTransacoes(HttpSession, String)}
+     * Para {@link C_Transacao#inspecionarTransacoes(HttpSession, String)}
      * @param m_transacoes
      * @return Prepara as mensagens de um histórico de transação;
      */

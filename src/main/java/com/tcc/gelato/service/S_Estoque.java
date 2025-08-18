@@ -17,8 +17,8 @@ public class S_Estoque {
     }
 
     /**
-     * Retorna o estoque atual de um {@link com.tcc.gelato.model.produto.M_Produto} solicitado
-     * @param m_produto {@link com.tcc.gelato.model.produto.M_Produto} a ter o estoque contado
+     * Retorna o estoque atual de um {@link M_Produto} solicitado
+     * @param m_produto {@link M_Produto} a ter o estoque contado
      * @return estoque atual
      */
     public Integer getEstoqueForProduto(M_Produto m_produto) {

@@ -1,12 +1,13 @@
 package com.tcc.gelato.model.produto;
 
+import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 /**
- * O pedido em sí composto de um pacote de {@link com.tcc.gelato.model.M_Compra}s.
+ * O pedido em sí composto de um pacote de {@link M_Compra}s.
  */
 @Entity
 @Table(name="ticket")

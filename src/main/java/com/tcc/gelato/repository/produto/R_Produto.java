@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Repositório da tabela {@link com.tcc.gelato.model.produto.M_Produto}
+ * Repositório da tabela {@link M_Produto}
  */
 @Repository
 public interface R_Produto extends JpaRepository<M_Produto,Long> {

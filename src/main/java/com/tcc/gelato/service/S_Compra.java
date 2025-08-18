@@ -2,6 +2,7 @@ package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
+import com.tcc.gelato.controller.C_Produto;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.repository.R_Compra;
@@ -24,7 +25,7 @@ public class S_Compra {
     }
 
     /**
-     * Valida se os parâmetros são adequados para usar no método {@link com.tcc.gelato.controller.C_Produto#adicionarAoCarrinho(String, String, HttpSession)}
+     * Valida se os parâmetros são adequados para usar no método {@link C_Produto#adicionarAoCarrinho(String, String, HttpSession)}
      * @param qtd Quantidade do produto
      * @param id_produto ID do produto
      */
@@ -102,7 +103,7 @@ public class S_Compra {
     }
 
     /**
-     * Valida se os parâmetros são adequados para usar no método {@link com.tcc.gelato.controller.C_Produto#removerDoCarrinho(String, HttpSession)}
+     * Valida se os parâmetros são adequados para usar no método {@link C_Produto#removerDoCarrinho(String, HttpSession)}
      * @param id_compra ID da compra
      */
     public boolean checkRemoverDoCarrinhoValido(String id_compra) {
@@ -158,7 +159,7 @@ public class S_Compra {
     }
 
     /**
-     * Corrige compras no carrinho com estoque inválido, usado em {@link com.tcc.gelato.controller.C_Produto#adicionarEstoque(String, String, HttpSession)}
+     * Corrige compras no carrinho com estoque inválido, usado em {@link C_Produto#adicionarEstoque(String, String, HttpSession)}
      * @param m_produto Produto a ter compras conferidas
      * @param estoque O estoque do produto, use {@link S_Estoque#getEstoqueForProduto(M_Produto)}
      */

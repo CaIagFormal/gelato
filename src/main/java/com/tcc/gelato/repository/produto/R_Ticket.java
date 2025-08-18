@@ -1,6 +1,7 @@
 package com.tcc.gelato.repository.produto;
 
 import com.tcc.gelato.model.M_Compra;
+import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.service.S_Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
 
     /**
-     * {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CANCELADO} = 4, altere se o valor mudar
+     * {@link M_Ticket.StatusCompra#CANCELADO} = 4, altere se o valor mudar
      */
     String check_ativo = "(current_date-cast(t.horario_fornecido as DATE)=0) and "+
             "t.status <> 4";
@@ -23,8 +24,8 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
     String latest = "order by t.horario_fornecido desc limit 1";
 
     /**
-     * Pega o {@link M_Ticket} atual/ativo de um {@link com.tcc.gelato.model.M_Usuario}
-     * @param id_usuario o ID do {@link com.tcc.gelato.model.M_Usuario}
+     * Pega o {@link M_Ticket} atual/ativo de um {@link M_Usuario}
+     * @param id_usuario o ID do {@link M_Usuario}
      * @return {@link M_Ticket} mais recente, que é o ativo
      */
     @Query(value="select * from gelato.ticket t where t.fk_usuario = :ID_USUARIO and "+check_ativo+" "+latest,nativeQuery = true)
@@ -47,7 +48,7 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
 
     /**
      * Pega as compras de um ticket em order cronológica do mais recente ao mais antigo
-     * @param id_ticket ID do {@link com.tcc.gelato.model.produto.M_Ticket} em questão
+     * @param id_ticket ID do {@link M_Ticket} em questão
      * @return {@link M_Compra}s no ticket
      */
     @Query(value = "select * from gelato.compra where fk_ticket=:ID_TICKET order by horario desc",nativeQuery = true)

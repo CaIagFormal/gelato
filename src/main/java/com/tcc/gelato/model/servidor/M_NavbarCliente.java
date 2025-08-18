@@ -1,9 +1,11 @@
 package com.tcc.gelato.model.servidor;
 
+import com.tcc.gelato.model.M_Usuario;
+
 import java.math.BigDecimal;
 
 /**
- * Armazena todos os componentes da navbar do cargo {@link com.tcc.gelato.model.M_Usuario.Cargo#CLIENTE}
+ * Armazena todos os componentes da navbar do cargo {@link M_Usuario.Cargo#CLIENTE}
  */
 public class M_NavbarCliente implements M_Navbar {
 
