@@ -4,12 +4,16 @@ import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
+import com.tcc.gelato.model.servidor.M_Resposta;
+import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.repository.R_Compra;
 import com.tcc.gelato.repository.produto.R_Ticket;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -39,7 +43,6 @@ public class S_Ticket {
         m_ticket.setTicket(gerarNumeroDeTicket());
         m_ticket.setHorario_fornecido(LocalDateTime.now());
         m_ticket.setStatus(M_Ticket.StatusCompra.CARRINHO);
-        m_ticket.setPagamento(false);
         try {
             return r_ticket.save(m_ticket);
         } catch (Exception ex) {
@@ -124,5 +127,44 @@ public class S_Ticket {
      */
     public List<M_Compra> getComprasDeTicket(M_Ticket m_ticket) {
         return r_ticket.getComprasDeTicket(m_ticket.getId());
+    }
+
+    /**
+     * Confere os parâmetros da função {@link com.tcc.gelato.controller.C_Ticket#definirHorarioRetirada(HttpSession, String)}
+     * @param str_horario
+     * @return Resposta de falha se houver
+     */
+    public M_RespostaTexto validarParamDefinirHorarioRetirada(String str_horario) {
+        LocalDateTime horario;
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+        try {
+            horario = LocalDateTime.ofEpochSecond(Long.parseLong(str_horario),0, ZoneOffset.of("+3"));
+        } catch (Exception e) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Horário inválido.");
+            return m_respostaTexto;
+        }
+        if (horario.isBefore(LocalDateTime.now())) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Retirada não pode ser no passado.");
+            return m_respostaTexto;
+        }
+        if (horario.isBefore(LocalDateTime.now().plusMinutes(30))) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Retirada deve ser no mínimo daqui à 30 minutos.");
+            return m_respostaTexto;
+        }
+        m_respostaTexto.setSucesso(true);
+        return m_respostaTexto;
+    }
+
+    /**
+     * Define o horário de retirada de um ticket
+     * @param m_ticket
+     * @param horario
+     */
+    public M_Ticket setHorarioRetirada(M_Ticket m_ticket, LocalDateTime horario) {
+        m_ticket.setHorario_retirada(horario);
+        return r_ticket.save(m_ticket);
     }
 }
