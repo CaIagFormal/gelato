@@ -68,11 +68,6 @@ public class C_Produto {
     public M_RespostaTexto adicionarAoCarrinho(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
-        if (!s_cargo.validarCliente(m_usuario)) {
-            m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Você não está cadastrado no momento.");
-            return m_respostaTexto;
-        }
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
 
@@ -143,12 +138,6 @@ public class C_Produto {
     @ResponseBody
     public M_RespostaTexto adicionarEstoque(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
-        if (!s_cargo.validarVendedor(m_usuario)) {
-            m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Você não está cadastrado como vendedor.");
-            return m_respostaTexto;
-        }
 
         if (!s_estoque.checkAdicionarEstoqueValido(qtd,id_produto)) {
             m_respostaTexto.setSucesso(false);
@@ -204,12 +193,6 @@ public class C_Produto {
     @ResponseBody
     public M_Resposta removerDoCarrinho(@RequestParam("id_compra") String id_compra, HttpSession session) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
-        if (!s_cargo.validarCliente(m_usuario)) {
-            m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Você não está cadastrado no momento.");
-            return m_respostaTexto;
-        }
 
         if (!s_compra.checkRemoverDoCarrinhoValido(id_compra)) {
             m_respostaTexto.setSucesso(false);

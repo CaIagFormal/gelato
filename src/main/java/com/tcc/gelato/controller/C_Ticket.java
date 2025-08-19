@@ -100,11 +100,6 @@ public class C_Ticket {
         LocalDateTime horario = LocalDateTime.ofEpochSecond(Long.parseLong(str_horario),0, ZoneOffset.of("+3"));
 
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
-        if (!s_cargo.validarCliente(m_usuario)) {
-            m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Não está cadastrado como cliente.");
-            return m_respostaTexto;
-        }
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
         if (m_ticket.getStatus()!= M_Ticket.StatusCompra.CARRINHO) {

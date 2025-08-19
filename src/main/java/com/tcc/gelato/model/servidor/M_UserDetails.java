@@ -21,15 +21,13 @@ public class M_UserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         switch (usuario.getCargo()) {
             case CLIENTE -> {
-                return List.of(new SimpleGrantedAuthority[]{new SimpleGrantedAuthority("CLIENTE"),
-                        new SimpleGrantedAuthority("VISITANTE")});
+                return Collections.singleton(new SimpleGrantedAuthority("CLIENTE"));
             }
             case VENDEDOR -> {
-                return List.of(new SimpleGrantedAuthority[]{new SimpleGrantedAuthority("VENDEDOR"),
-                        new SimpleGrantedAuthority("VISITANTE")});
+                return Collections.singleton(new SimpleGrantedAuthority("VENDEDOR"));
             }
         }
-        return Collections.singleton(new SimpleGrantedAuthority("VISITANTE"));
+        return null;
     }
 
     @Override

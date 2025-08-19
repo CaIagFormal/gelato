@@ -27,7 +27,7 @@ public class S_Cargo {
      * Confere se uma sessão possuí usuário
      */
     public M_Usuario extrairUsuarioDeSessao() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication==null||authentication instanceof AnonymousAuthenticationToken) return null;
         if (!(authentication instanceof UsernamePasswordAuthenticationToken)) return null;
 

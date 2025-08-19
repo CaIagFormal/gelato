@@ -62,12 +62,6 @@ public class C_Transacao {
 
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
-        if (!s_cargo.validarVendedor(m_usuario)) {
-            m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Você não está cadastrado como um vendedor.");
-            return m_respostaTexto;
-        }
-
         if (!s_transacao.checkParamAlterarSaldoValido(str_cliente,str_qtd)) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Parâmetros inválidos.");
@@ -113,12 +107,6 @@ public class C_Transacao {
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-
-        if (!s_cargo.validarVendedor(m_usuario)) {
-            m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Você não está cadastrado como um vendedor.");
-            return m_respostaTexto;
-        }
 
         if (!s_transacao.checkParamAlterarSaldoValido(str_cliente,"1")) {
             m_respostaTexto.setSucesso(false);
@@ -167,12 +155,6 @@ public class C_Transacao {
 
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
-        if (!s_cargo.validarVendedor(m_usuario)) {
-            m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Você não está cadastrado como um vendedor.");
-            return m_respostaTexto;
-        }
-
         M_Usuario cliente = s_cadastro.getUsuarioByNomeOrEmail(str_cliente);
         if (!s_cargo.validarCliente(cliente)) {
             m_respostaTexto.setSucesso(false);
@@ -197,13 +179,6 @@ public class C_Transacao {
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         M_Resposta m_resposta;
-
-        if (!s_cargo.validarVendedor(m_usuario)) {
-            m_resposta = new M_RespostaTexto();
-            m_resposta.setSucesso(false);
-            m_resposta.setMensagem("Você não está cadastrado como um vendedor.");
-            return m_resposta;
-        }
 
         M_Usuario cliente = s_cadastro.getUsuarioByNomeOrEmail(str_cliente);
         if (!s_cargo.validarCliente(cliente)) {
