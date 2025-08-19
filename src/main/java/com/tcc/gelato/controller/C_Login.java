@@ -5,8 +5,10 @@ import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Navbar;
 import com.tcc.gelato.model.servidor.M_NavbarCliente;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
-import com.tcc.gelato.mvc.service.*;
+import com.tcc.gelato.model.servidor.M_UserDetails;
 import com.tcc.gelato.service.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,22 +53,23 @@ public class C_Login {
      * @param nome Nome ou e-mail do usuário
      * @param senha Senha do usuário
      */
-    @PostMapping(path = "/login")
+    @PostMapping(path = "/fazer_login")
     @ResponseBody
     public M_RespostaTexto loginUsuario(@RequestParam String nome,
-                                   @RequestParam String senha,
-                                   HttpSession session) {
+                                        @RequestParam String senha,
+                                        HttpSession session,
+                                        HttpServletRequest request,
+                                        HttpServletResponse response) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-        M_Usuario m_usuario = s_login.loginUsuario(nome, senha);
-        if (m_usuario==null) {
+        M_UserDetails m_userDetails = s_login.loginUsuario(nome, senha,request,response);
+        if (m_userDetails==null) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Nome ou senha não estão corretos...");
             return m_respostaTexto;
         }
-        session.setAttribute("usuario",m_usuario);
 
-        if (s_cargo.validarCliente(m_usuario)) {
-            M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
+        if (s_cargo.validarCliente(m_userDetails.getUsuario())) {
+            M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_userDetails.getUsuario());
 
             // Criar navbar do cliente
             M_Navbar m_navbar = new M_NavbarCliente();
@@ -74,10 +77,10 @@ public class C_Login {
 
             // Definir quantidade de itens no carrinho
             s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
-            s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
+            s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_userDetails.getUsuario()));
         }
 
-        m_respostaTexto.setMensagem("Fez login como "+m_usuario.getNome()+" ["+m_usuario.getCargo().toString()+"]");
+        m_respostaTexto.setMensagem("Fez login como "+m_userDetails.getUsuario().getNome()+" ["+m_userDetails.getUsuario().getCargo().toString()+"]");
         m_respostaTexto.setSucesso(true);
         return m_respostaTexto;
     }

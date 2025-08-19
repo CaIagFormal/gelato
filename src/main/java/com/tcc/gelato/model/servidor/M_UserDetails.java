@@ -11,15 +11,15 @@ import java.util.List;
 
 public class M_UserDetails implements UserDetails {
 
-    private M_Usuario m_usuario;
+    private final M_Usuario usuario;
 
-    public M_UserDetails(M_Usuario m_usuario) {
-        this.m_usuario = m_usuario;
+    public M_UserDetails(M_Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        switch (m_usuario.getCargo()) {
+        switch (usuario.getCargo()) {
             case CLIENTE -> {
                 return List.of(new SimpleGrantedAuthority[]{new SimpleGrantedAuthority("CLIENTE"),
                         new SimpleGrantedAuthority("VISITANTE")});
@@ -34,12 +34,12 @@ public class M_UserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return m_usuario.getSenha();
+        return usuario.getSenha();
     }
 
     @Override
     public String getUsername() {
-        return m_usuario.getEmail();
+        return usuario.getEmail();
     }
 
     @Override
@@ -60,5 +60,9 @@ public class M_UserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public M_Usuario getUsuario() {
+        return usuario;
     }
 }

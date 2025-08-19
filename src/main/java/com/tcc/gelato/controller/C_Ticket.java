@@ -7,6 +7,7 @@ import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.S_Cargo;
 import com.tcc.gelato.service.S_Compra;
 import com.tcc.gelato.service.S_Ticket;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -62,7 +63,7 @@ public class C_Ticket {
      */
     @GetMapping(path="/carrinho")
     public String getCarrinho(HttpSession session, Model model) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
         if (!s_cargo.validarCliente(m_usuario)) {
             return "redirect:/";
         }
@@ -80,13 +81,13 @@ public class C_Ticket {
 
     /**
      * Define o horário de retirada de um ticket
-     * @param session
+     * @param request
      * @param str_horario
      * @return
      */
     @ResponseBody
     @PostMapping(path="/definir_horario_retirada_ticket")
-    public M_RespostaTexto definirHorarioRetirada(HttpSession session, @RequestParam("horario") String str_horario) {
+    public M_RespostaTexto definirHorarioRetirada(@RequestParam("horario") String str_horario) {
         M_RespostaTexto m_respostaTexto;
 
         m_respostaTexto = s_ticket.validarParamDefinirHorarioRetirada(str_horario);
@@ -98,7 +99,7 @@ public class C_Ticket {
 
         LocalDateTime horario = LocalDateTime.ofEpochSecond(Long.parseLong(str_horario),0, ZoneOffset.of("+3"));
 
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
         if (!s_cargo.validarCliente(m_usuario)) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Não está cadastrado como cliente.");

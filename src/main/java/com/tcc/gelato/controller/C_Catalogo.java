@@ -3,6 +3,7 @@ package com.tcc.gelato.controller;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.service.S_Cargo;
 import com.tcc.gelato.service.S_Produto;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,7 @@ public class C_Catalogo {
      */
     @GetMapping(path="/catalogo")
     public String getCatalogo(HttpSession session, Model model) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         model.addAttribute("usuario",m_usuario);
         model.addAttribute("produtos",s_produto.getProdutosDisponiveis());

@@ -8,6 +8,7 @@ import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.S_Cadastro;
 import com.tcc.gelato.service.S_Cargo;
 import com.tcc.gelato.service.S_Transacao;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +36,11 @@ public class C_Transacao {
     }
 
     /**
-     * @param session Sessão de usuário parar validar se é vendedor
      * @return Tela de gerenciar saldo de clientes com 5 funcionalidades
      */
     @GetMapping(path = "gerir_saldo")
-    public String getGerirSaldo(HttpSession session) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+    public String getGerirSaldo() {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         if (!s_cargo.validarVendedor(m_usuario)) {
             return "redirect:/";
@@ -51,15 +51,14 @@ public class C_Transacao {
 
     /**
      *
-     * @param session Sessão do vendedor
      * @param str_cliente Nome ou e-mail do cliente
      * @param str_qtd Quantidade de saldo para ser removida/adicionada
      * @return {@link M_RespostaTexto}
      */
     @PostMapping(path = "alterar_saldo")
     @ResponseBody
-    public M_Resposta alterarSaldo(HttpSession session, @RequestParam("cliente") String str_cliente, @RequestParam("qtd") String str_qtd) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+    public M_Resposta alterarSaldo(@RequestParam("cliente") String str_cliente, @RequestParam("qtd") String str_qtd) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
@@ -105,14 +104,13 @@ public class C_Transacao {
 
     /**
      * Esvazia o saldo do {@link M_Usuario.Cargo#CLIENTE} fornecido
-     * @param session Sessão do vendedor
      * @param str_cliente String contendo o nome de um cliente
      * @return
      */
     @PostMapping(path = "esvaziar_saldo")
     @ResponseBody
-    public M_Resposta esvaziarSaldo(HttpSession session, @RequestParam("cliente") String str_cliente) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+    public M_Resposta esvaziarSaldo(@RequestParam("cliente") String str_cliente) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
@@ -164,8 +162,8 @@ public class C_Transacao {
 
     @PostMapping(path="/inspecionar_saldo")
     @ResponseBody
-    public M_Resposta inspecionarSaldo(HttpSession session, @RequestParam("cliente") String str_cliente) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+    public M_Resposta inspecionarSaldo(@RequestParam("cliente") String str_cliente) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
@@ -195,8 +193,8 @@ public class C_Transacao {
 
     @PostMapping(path="/inspecionar_transacoes")
     @ResponseBody
-    public M_Resposta inspecionarTransacoes(HttpSession session, @RequestParam("cliente") String str_cliente) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+    public M_Resposta inspecionarTransacoes(@RequestParam("cliente") String str_cliente) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         M_Resposta m_resposta;
 
