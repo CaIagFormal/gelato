@@ -7,8 +7,8 @@ import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_Resposta;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
-import com.tcc.gelato.mvc.service.*;
 import com.tcc.gelato.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +39,7 @@ public class C_Produto {
      */
     @GetMapping(path="/produto/{produto}")
     public String getProduto(@PathVariable("produto") Long id_produto, HttpSession session, Model model) {
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
         model.addAttribute("usuario",m_usuario);
 
         M_Produto m_produto = s_produto.getProdutoById(id_produto);
@@ -67,7 +67,7 @@ public class C_Produto {
     @ResponseBody
     public M_RespostaTexto adicionarAoCarrinho(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
         if (!s_cargo.validarCliente(m_usuario)) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Você não está cadastrado no momento.");
@@ -137,14 +137,13 @@ public class C_Produto {
      * Cria {@link M_Estoque} com
      * @param qtd Quantidade do produto
      * @param id_produto ID do produto
-     * @param session Sessão para extrair o {@link M_Usuario}
      * @return Mensagem de sucesso ou falha para a página
      */
     @PostMapping(path="/adicionar_estoque")
     @ResponseBody
-    public M_RespostaTexto adicionarEstoque(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto, HttpSession session) {
+    public M_RespostaTexto adicionarEstoque(@RequestParam("qtd") String qtd, @RequestParam("id_produto") String id_produto) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
         if (!s_cargo.validarVendedor(m_usuario)) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Você não está cadastrado como vendedor.");
@@ -205,7 +204,7 @@ public class C_Produto {
     @ResponseBody
     public M_Resposta removerDoCarrinho(@RequestParam("id_compra") String id_compra, HttpSession session) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao(session);
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
         if (!s_cargo.validarCliente(m_usuario)) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Você não está cadastrado no momento.");

@@ -2,11 +2,19 @@ package com.tcc.gelato.service;
 
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.servidor.M_NavbarCliente;
+import com.tcc.gelato.model.servidor.M_UserDetails;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 
 /**
  * Regras de negócio relacionadas com {@link M_Usuario.Cargo}s
@@ -18,8 +26,15 @@ public class S_Cargo {
     /**
      * Confere se uma sessão possuí usuário
      */
-    public M_Usuario extrairUsuarioDeSessao(HttpSession session) {
-        return (M_Usuario) session.getAttribute("usuario");
+    public M_Usuario extrairUsuarioDeSessao() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //.getContext().getAuthentication().getPrincipal();
+        if (authentication==null||authentication instanceof AnonymousAuthenticationToken) return null;
+        if (!(authentication instanceof UsernamePasswordAuthenticationToken)) return null;
+
+        UsernamePasswordAuthenticationToken cadastradoToken = (UsernamePasswordAuthenticationToken) authentication;
+        M_UserDetails m_userDetails = (M_UserDetails) cadastradoToken.getPrincipal();
+
+        return m_userDetails.getUsuario();
     }
 
     /**

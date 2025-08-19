@@ -38,7 +38,7 @@ public class C_Cadastro {
      * @param conf_senha Confirmação da senha do cliente
      * @param email E-mail do cliente
      */
-    @PostMapping(path="/cadastro")
+    @PostMapping(path="/cadastrar")
     @ResponseBody
     public M_RespostaTexto cadastrarCliente(
             @RequestParam("nome") String nome,
