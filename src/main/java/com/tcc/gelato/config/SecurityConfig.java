@@ -1,4 +1,4 @@
-package com.tcc.gelato;
+package com.tcc.gelato.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +12,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
+    private final JwtFilter jwtFilter;
 
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -27,11 +29,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(request -> request.anyRequest().authenticated())
+            .authorizeHttpRequests(request -> request
+                    .requestMatchers("/","/catalogo","/produto")
+                    .permitAll()
+
+                    .requestMatchers("/login","/cadastro")
+                    .anonymous()
+
+                    .anyRequest()
+                    .authenticated())
             //.formLogin(Customizer.withDefaults())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
     }
 
