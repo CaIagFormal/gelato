@@ -32,6 +32,9 @@ public class M_Usuario {
     private String senha;
 
     @Column(nullable = false)
+    private String telefone;
+
+    @Column(nullable = false)
     private Cargo cargo;
 
     public Long getId() {
@@ -72,5 +75,13 @@ public class M_Usuario {
 
     public void setCargo(Cargo cargo) {
         this.cargo = cargo;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }

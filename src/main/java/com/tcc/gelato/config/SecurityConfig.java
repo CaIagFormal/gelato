@@ -47,39 +47,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] publico = new String[]{
-                "/", "/catalogo", "/produto", // Get
-                "/js/funcionalidades.js",   // JS
-                "/js/catalogo_cliente.js",
-                "/css/index.css",           //CSS
-                "/css/catalogo_cliente.css",
-                "/css/produto_cliente.css",
-                "/favicon.ico"};
-        String[] visitante = new String[]{
-                "/cadastrar", "/fazer_login", // Post
-                "/cadastro", "/login",  // Get
-                "/js/formularios.js", // JS
-                "/js/cadastro_senha.js",
-                "/css/index.css" //CSS
-        };
-        String[] vendedor = new String[]{
-                "/inspecionar_saldo", "/inspecionar_transacoes", "/alterar_saldo", "/esvaziar_saldo", // Post
-                "/adicionar_estoque",
-                "/gerir_saldo", // Get
-                "/js/gerir_saldo.js", // JS
-                "/js/produto_vndedor.js",
-                "/css/gerir_saldo.css" // CSS
-        };
-        String[] cliente = new String[]{
-                "/adicionar_carrinho", "/remover_do_carrinho","/definir_horario_retirada_ticket", // Post
-                "/carrinho", // Get
-                "/js/carrinho.js", // JS
-                "/js/produto_cliente.js",
-                "/css/carrinho_cliente.css", // CSS
-        };
+
         // Qualquer outro request é permitido a usuários autenticados
 
-        return http.csrf(AbstractHttpConfigurer::disable)
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .logout((logout) -> logout.logoutSuccessHandler((request, response, authentication) -> {
                     M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
@@ -94,20 +66,23 @@ public class SecurityConfig {
                     response.getWriter().close();
                 }))
             .authorizeHttpRequests(request -> request
-                    .requestMatchers(publico)
+                    .requestMatchers(SecurityParams.publico)
                     .permitAll()
 
-                    .requestMatchers(visitante)
+                    .requestMatchers(SecurityParams.visitante)
                     .anonymous()
 
-                    .requestMatchers(vendedor)
+                    .requestMatchers(SecurityParams.cadastrados)
+                    .authenticated()
+
+                    .requestMatchers(SecurityParams.vendedor)
                     .hasAuthority("VENDEDOR")
 
-                    .requestMatchers(cliente)
+                    .requestMatchers(SecurityParams.cliente)
                     .hasAuthority("CLIENTE")
 
                     .anyRequest()
-                    .authenticated())
+                    .denyAll())
             //.formLogin(Customizer.withDefaults())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session ->
