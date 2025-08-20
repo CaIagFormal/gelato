@@ -23,6 +23,7 @@ function cadastro() {
     let senha = $("#senha").val()
     let conf_senha = $("#conf_senha").val()
     let email = $("#email").val()
+    let telefone = $("#telefone").val()
 
     let erro = ""
     if (nome.trim()=="") {
@@ -42,12 +43,16 @@ function cadastro() {
         erro += "A senha não foi confirmada corretamente.<br>";
     }
 
+    if (senha.trim()!="" && senha!=conf_senha) {
+            erro += "A senha não foi confirmada corretamente.<br>";
+        }
+
     if (erro != "") {
         mostrar_erro("Cadastro inválido",erro);
         return
     }
 
-    ajax("/cadastrar",{nome:nome,senha:senha,conf_senha:conf_senha,email:email},apos_cadastro);
+    ajax("/cadastrar",{nome:nome,senha:senha,conf_senha:conf_senha,email:email,telefone:telefone},apos_cadastro);
 }
 
 function apos_cadastro(resposta) {

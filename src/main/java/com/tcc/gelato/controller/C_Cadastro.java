@@ -34,6 +34,7 @@ public class C_Cadastro {
      * @param senha Senha do cliente
      * @param conf_senha Confirmação da senha do cliente
      * @param email E-mail do cliente
+     * @param telefone Telefone do cliente
      */
     @PostMapping(path="/cadastrar")
     @ResponseBody
@@ -41,13 +42,14 @@ public class C_Cadastro {
             @RequestParam("nome") String nome,
             @RequestParam("senha") String senha,
             @RequestParam("conf_senha") String conf_senha,
-            @RequestParam("email") String email) {
-        M_RespostaTexto m_respostaTexto = s_cadastro.validarCadastroCliente(nome, senha, conf_senha, email);
+            @RequestParam("email") String email,
+            @RequestParam("telefone") String telefone) {
+        M_RespostaTexto m_respostaTexto = s_cadastro.validarCadastroCliente(nome, senha, conf_senha, email, telefone);
         if (!m_respostaTexto.isSucesso()) {
             return m_respostaTexto;
         }
 
-       if (s_cadastro.criarCadastroCliente(nome, senha, email)==null) {
+       if (s_cadastro.criarCadastroCliente(nome, senha, email, telefone)==null) {
            m_respostaTexto.setMensagem("Erro ao acessar banco de dados");
            m_respostaTexto.setSucesso(false);
            return m_respostaTexto;

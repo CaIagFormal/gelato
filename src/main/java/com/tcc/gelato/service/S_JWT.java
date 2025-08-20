@@ -45,7 +45,7 @@ public class S_JWT {
                 .add(claims)
                 .subject(username)
                 .issuedAt(agora)
-                .expiration(new Date(agora.getTime() + (1000 * 60 * 10)))
+                .expiration(new Date(agora.getTime() + (1000 * 60 * 60 * 24)))
                 .and()
                 .signWith(getKey())
                 .compact();

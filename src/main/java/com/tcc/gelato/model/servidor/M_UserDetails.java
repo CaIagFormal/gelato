@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
 public class M_UserDetails implements UserDetails {
 
     private final M_Usuario usuario;
+    private final LocalDateTime registro;
 
     public M_UserDetails(M_Usuario usuario) {
         this.usuario = usuario;
+        this.registro = LocalDateTime.now();
     }
 
     @Override
@@ -42,7 +45,7 @@ public class M_UserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return LocalDateTime.now().isBefore(registro.plusDays(1L));
     }
 
     @Override

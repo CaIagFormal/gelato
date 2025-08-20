@@ -32,11 +32,13 @@ public class S_Cadastro {
      * @param senha Senha do cliente
      * @param conf_senha Confirmação da senha do cliente
      * @param email E-mail do cliente
+     * @param telefone Telefone do cliente
      * @return se é valido
      */
-    public M_RespostaTexto validarCadastroCliente(String nome, String senha, String conf_senha, String email) {
+    public M_RespostaTexto validarCadastroCliente(String nome, String senha, String conf_senha, String email, String telefone) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         m_respostaTexto.setMensagem("");
+        m_respostaTexto.setSucesso(true);
 
         if (nome.trim().isBlank()) {
             m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Nome está vazio<br>");
@@ -45,6 +47,11 @@ public class S_Cadastro {
 
         if (email.trim().isBlank()) {
             m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"E-mail está vazio<br>");
+            m_respostaTexto.setSucesso(false);
+        }
+
+        if (telefone.trim().isBlank()) {
+            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Número de telefone está vazio<br>");
             m_respostaTexto.setSucesso(false);
         }
 
@@ -59,6 +66,7 @@ public class S_Cadastro {
             return m_respostaTexto;
         }
 
+        // Roda apenas se senha for válida
         if (senha.length()<8) {
             m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Senha tem menos de 8 dígitos<br>");
             m_respostaTexto.setSucesso(false);
@@ -84,14 +92,16 @@ public class S_Cadastro {
      * @param nome Nome do cliente
      * @param senha Senha do cliente
      * @param email E-mail do cliente
+     * @param telefone Telefone do cliente
      */
-    public M_Usuario criarCadastroCliente(String nome, String senha, String email) {
+    public M_Usuario criarCadastroCliente(String nome, String senha, String email, String telefone) {
         M_Usuario m_usuario = new M_Usuario();
 
         m_usuario.setNome(nome);
         m_usuario.setCargo(M_Usuario.Cargo.CLIENTE);
         m_usuario.setSenha(encoder.encode(senha));
         m_usuario.setEmail(email);
+        m_usuario.setTelefone(telefone);
 
         try {
             return r_usuario.save(m_usuario);
