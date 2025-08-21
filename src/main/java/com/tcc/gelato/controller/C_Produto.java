@@ -71,9 +71,9 @@ public class C_Produto {
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
 
-        if (!s_ticket.validarTicketParaAlterarConteudos(m_ticket)) {
+        if (!s_ticket.validarTicketParaAlterarMonetario(m_ticket)) {
             m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
+            m_respostaTexto.setMensagem("Seu pedido já foi pago e não pode ter seus conteúdos alterados.");
             return m_respostaTexto;
         }
 
@@ -191,7 +191,7 @@ public class C_Produto {
      */
     @PostMapping(path="/remover_carrinho")
     @ResponseBody
-    public M_Resposta removerDoCarrinho(@RequestParam("id_compra") String id_compra, HttpSession session) {
+    public M_RespostaTexto removerDoCarrinho(@RequestParam("id_compra") String id_compra, HttpSession session) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
         if (!s_compra.checkRemoverDoCarrinhoValido(id_compra)) {
@@ -209,9 +209,9 @@ public class C_Produto {
 
         M_Ticket m_ticket = m_compra.getTicket();
 
-        if (!s_ticket.validarTicketParaAlterarConteudos(m_ticket)) {
+        if (!s_ticket.validarTicketParaAlterarMonetario(m_ticket)) {
             m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Seu ticket não pode ter seus conteúdos alterados.");
+            m_respostaTexto.setMensagem("Seu pedido já foi pago e não pode ter seus conteúdos alterados.");
             return m_respostaTexto;
         }
 

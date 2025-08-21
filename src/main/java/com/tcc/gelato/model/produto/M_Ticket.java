@@ -1,6 +1,7 @@
 package com.tcc.gelato.model.produto;
 
 import com.tcc.gelato.model.M_Compra;
+import com.tcc.gelato.model.M_Transacao;
 import com.tcc.gelato.model.M_Usuario;
 import jakarta.persistence.*;
 
@@ -16,6 +17,7 @@ public class M_Ticket {
     public enum StatusCompra {
         CARRINHO,
         ENCAMINHADO,
+        RECEBIDO,
         PREPARADO,
         ENTREGUE,
         CANCELADO
@@ -39,10 +41,11 @@ public class M_Ticket {
     private LocalDateTime horario_fornecido;
 
     @Column()
-    private LocalDateTime horario_encaminhado;
-
-    @Column()
     private LocalDateTime horario_retirada;
+
+    @JoinColumn(name="fk_pagamento")
+    @ManyToOne
+    private M_Transacao pagamento;
 
     public Long getId() {
         return id;
@@ -84,12 +87,12 @@ public class M_Ticket {
         this.horario_fornecido = horario_fornecido;
     }
 
-    public LocalDateTime getHorario_encaminhado() {
-        return horario_encaminhado;
+    public M_Transacao getPagamento() {
+        return pagamento;
     }
 
-    public void setHorario_encaminhado(LocalDateTime horario_encaminhado) {
-        this.horario_encaminhado = horario_encaminhado;
+    public void setPagamento(M_Transacao pagamento) {
+        this.pagamento = pagamento;
     }
 
     public LocalDateTime getHorario_retirada() {
