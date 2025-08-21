@@ -1,4 +1,4 @@
-function conf_adicionar_ao_carrinho(btn) {
+function conf_adicionar_ao_carrinho() {
     let qtd = $("#qtd").val();
     let id_produto = $("#id_produto").text();
 

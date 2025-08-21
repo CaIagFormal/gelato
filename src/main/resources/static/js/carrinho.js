@@ -18,14 +18,17 @@ function conf_remover_item_do_carrinho(btn) {
 }
 
 function remover_item_do_carrinho() {
-    confirmar("Você deseja remover este item?", "Você poderá adicionar ao carrinho pela tela do produto do mesmo depois, a não ser que o pedido já seja encomendado.",conf_remover_item_do_carrinho)
+    confirmar("Você deseja remover este item?",
+    "Você poderá adicionar ao carrinho pela tela do produto do mesmo depois, a não ser que o pedido já seja encomendado.",
+    conf_remover_item_do_carrinho,
+    this);
 }
 
 $(".remover-item").click(remover_item_do_carrinho);
 
 function definir_horario_retirada() {
     let horario = $("#horario_retirada").val();
-    erro = ""
+    erro = "";
 
     let time = new Date(horario).getTime()
     if (time===NaN) {
@@ -53,7 +56,9 @@ function conf_encaminhar_pedido() {
 }
 
 function encaminhar_pedido() {
-    confirmar("Deseja encaminhar seu pedido?","Revise seu pedido antes de encaminhar!",conf_encaminhar_pedido);
+    confirmar("Deseja encaminhar seu pedido?",
+    "Revise seu pedido antes de encaminhar!",
+    conf_encaminhar_pedido);
 }
 
 $('#btn-encaminhar-pedido').click(encaminhar_pedido);
