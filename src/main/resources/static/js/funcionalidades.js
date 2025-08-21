@@ -91,3 +91,19 @@ function data_to_string(data) {
 function pad(val) {
     return String(val).padStart(2, '0');
 }
+
+function confirmar(title,text,f_then) {
+    swalWithBootstrapButtons.fire({
+       title: title,
+       text: text,
+       icon: "warning",
+       showCancelButton: true,
+       confirmButtonText: "Sim.",
+       cancelButtonText: "Não.",
+       reverseButtons: true
+     }).then((result) => {
+       if (result.isConfirmed) {
+            f_then(this)
+       }
+     });
+}
