@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
@@ -21,11 +20,11 @@ import java.util.function.Function;
  * Serviço para lidar com JSON Web Tokens
  */
 @Service
-public class S_JWT {
+public class S_Jwt {
 
     private final String chaveSecreta;
 
-    public S_JWT() throws NoSuchAlgorithmException {
+    public S_Jwt() throws NoSuchAlgorithmException {
         KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
         SecretKey chave = keyGen.generateKey();
         this.chaveSecreta = Base64.getEncoder().encodeToString(chave.getEncoded());
@@ -67,7 +66,7 @@ public class S_JWT {
 
     /**
      * @param token Token a ser validado
-     * @param username Use essa função {@link S_JWT#extrairUsername(String)}
+     * @param username Use essa função {@link S_Jwt#extrairUsername(String)}
      * @param userDetails Detalhes de usuário que serão comparados
      * @return
      */

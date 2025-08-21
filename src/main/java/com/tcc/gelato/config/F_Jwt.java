@@ -1,6 +1,6 @@
 package com.tcc.gelato.config;
 
-import com.tcc.gelato.service.S_JWT;
+import com.tcc.gelato.service.S_Jwt;
 import com.tcc.gelato.service.S_UserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,15 +14,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
-public class JwtFilter extends OncePerRequestFilter {
+public class F_Jwt extends OncePerRequestFilter {
 
-    private final S_JWT s_jwt;
+    private final S_Jwt s_jwt;
     private final ApplicationContext context;
 
-    public JwtFilter(S_JWT s_jwt, ApplicationContext context) {
+    public F_Jwt(S_Jwt s_jwt, ApplicationContext context) {
         this.s_jwt = s_jwt;
         this.context = context;
     }
