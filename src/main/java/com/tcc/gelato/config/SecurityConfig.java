@@ -1,15 +1,13 @@
 package com.tcc.gelato.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,30 +17,28 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Locale;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
-    private final JwtFilter jwtFilter;
+    private final F_Jwt f_jwt;
 
-    public SecurityConfig(UserDetailsService userDetailsService, JwtFilter jwtFilter) {
+    public SecurityConfig(UserDetailsService userDetailsService, F_Jwt f_jwt) {
         this.userDetailsService = userDetailsService;
-        this.jwtFilter = jwtFilter;
+        this.f_jwt = f_jwt;
     }
 
     @Bean
@@ -51,8 +47,8 @@ public class SecurityConfig {
         // Qualquer outro request é permitido a usuários autenticados
 
         return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable)
+            .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request -> request
                     .requestMatchers(SecurityParams.publico)
                     .permitAll()
@@ -71,12 +67,12 @@ public class SecurityConfig {
 
                     .anyRequest()
                     .denyAll())
-            //.formLogin(Customizer.withDefaults())
-            .httpBasic(Customizer.withDefaults())
             .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-        .build();
+                    session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+            .addFilterBefore(f_jwt, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint()))
+            .authenticationProvider(authenticationProvider())
+            .build();
     }
 
     @Bean
@@ -89,5 +85,27 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, accessDeniedException) -> {
+            if (request.getMethod().equals("POST")) {
+                M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+                m_respostaTexto.setSucesso(false);
+                m_respostaTexto.setMensagem("Você não tem autorização para ultilizar esse recurso.");
+
+                String resposta = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(m_respostaTexto);
+                response.setContentLength(resposta.getBytes(StandardCharsets.UTF_8).length);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                PrintWriter writer = response.getWriter();
+                writer.print(resposta);
+                writer.flush();
+                return;
+            }
+            response.sendRedirect("/catalogo");
+        };
     }
 }
