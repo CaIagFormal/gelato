@@ -66,6 +66,7 @@ public class S_Transacao {
 
         m_transacao.setVendedor(vendedor);
         m_transacao.setCliente(cliente);
+        m_transacao.setValida(true);
         return r_transacao.save(m_transacao);
     }
 
@@ -79,7 +80,7 @@ public class S_Transacao {
     }
 
     /**
-     * Valida a quantidade de saldo a ser alterado em {@link C_Transacao#alterarSaldo(HttpSession, String, String)}
+     * Valida a quantidade de saldo a ser alterado em {@link C_Transacao#alterarSaldo(String, String)}
      * @param qtd Quantidade para alterar o saldo
      * @param saldo_cliente Saldo do cliente no momento, ultilize {@link S_Transacao#getSaldoDeCliente(M_Usuario)} para alterar
      * @return Validade da operação
@@ -100,21 +101,26 @@ public class S_Transacao {
     }
 
     /**
-     * Para {@link C_Transacao#inspecionarTransacoes(HttpSession, String)}
+     * Para {@link C_Transacao#inspecionarTransacoes(String)}
      * @param m_transacoes
      * @return Prepara as mensagens de um histórico de transação;
      */
-    public List<List<String>> prepararMensagemTransacao(List<M_Transacao> m_transacoes) {
+    public List<List<Object>> prepararMensagemTransacao(List<M_Transacao> m_transacoes) {
 
-        List<List<String>> mensagem = new ArrayList<>();
+        List<List<Object>> mensagem = new ArrayList<>();
 
         for (M_Transacao m_transacao: m_transacoes) {
-            List<String> str_transcacao = new ArrayList<>();
+            List<Object> str_transcacao = new ArrayList<>();
             str_transcacao.add(m_transacao.getValor().toString());
-            str_transcacao.add(m_transacao.isAo_vendedor()?"Ao vendedor":"Ao cliente");
+            str_transcacao.add(m_transacao.isAo_vendedor());
             str_transcacao.add(m_transacao.getCliente().getNome());
-            str_transcacao.add(m_transacao.getVendedor().getNome());
+            if (m_transacao.getVendedor() == null) {
+                str_transcacao.add(null);
+            } else {
+                str_transcacao.add(m_transacao.getVendedor().getNome());
+            }
             str_transcacao.add(m_transacao.getHorario_fornecido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+            str_transcacao.add(m_transacao.isValida());
 
             mensagem.add(str_transcacao);
         }

@@ -195,7 +195,7 @@ public class C_Transacao {
             return m_resposta;
         }
 
-        if (m_transacoes.size()==0) {
+        if (m_transacoes.isEmpty()) {
             m_resposta = new M_RespostaTexto();
             m_resposta.setSucesso(false);
             m_resposta.setMensagem("Não há transações feitas com "+str_cliente);

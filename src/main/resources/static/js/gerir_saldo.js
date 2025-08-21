@@ -120,17 +120,23 @@ function pos_insp_trans(resposta) {
         let con_div = consulta_template.clone();
         con_div.removeAttr("id");
         con_div.removeClass("d-none");
-        let sinal = (transacao[1][3] == 'v')?"neg":"pos"; // 'Ao [v]endedor' / 'Ao [c]liente'
-        con_div.append("<p class='col "+sinal+"'> <b>Valor:</b> "+transacao[0]+"R$</p>")
-        con_div.append("<p class='col'> <b>Ao Vendedor:</b> "+transacao[1]+"</p>")
-        con_div.append("<p class='col'> <b>Cliente:</b> "+transacao[2]+"</p>")
-        con_div.append("<p class='col'> <b>Vendedor:</b> "+transacao[3]+"</p>")
-        con_div.append("<p class='col'> <b>Horário:</b> "+transacao[4]+"</p>")
+
+        let sinal = transacao[1]?"neg":"pos";
+        con_div.append("<p class='col-6 m-0 "+sinal+"'> <b>Valor:</b> "+transacao[0]+"R$</p>")
+
+        con_div.append("<p class='col-6 m-0'> <b>Cliente:</b> "+transacao[2]+"</p>")
+        con_div.append("<p class='col-6 m-0'> <b>Horário:</b> "+transacao[4]+"</p>")
+        let vendedor = transacao[3]==null?"Nenhum":transacao[3]
+        con_div.append("<p class='col-6 m-0'> <b>Vendedor:</b> "+vendedor+"</p>")
+        if (!transacao[5]) {
+            con_div.addClass("invalida")
+            con_div.append("<p class='m-0'><b>Invalidada</b></p>")
+        }
 
         big_con_div.prepend(con_div);
     })
 
-    $(big_con_div).prepend("<h5>CONSULTOU TRANSAÇÕES DE CLIENTE "+cliente+" ÀS "+data_to_string(new Date())+"</h5>");
+    $(big_con_div).prepend("<h5>Consultou transações de '"+cliente+"' às "+data_to_string(new Date())+"</h5>");
     consultas.prepend(big_con_div)
     return;
 }

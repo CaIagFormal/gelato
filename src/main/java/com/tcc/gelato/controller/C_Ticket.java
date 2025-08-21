@@ -10,6 +10,7 @@ import com.tcc.gelato.service.S_Ticket;
 import com.tcc.gelato.service.S_Transacao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.Session;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -164,7 +165,39 @@ public class C_Ticket {
         m_respostaTexto.setSucesso(true);
         m_respostaTexto.setMensagem("Encaminhou pedido com ticket '"+m_ticket.getTicket()+"'.<br>" +
                 "Poderá cancelar seu pedido até ele ser recebido.<br>" +
-                "(O saldo se manterá no sistema, consulte seu vendedor caso queira reembolso)");
+                "(O saldo se manterá no sistema Gelato)");
+        return m_respostaTexto;
+    }
+
+    /**
+     * Cancela um ticket
+     * @return Resultados
+     */
+    @PostMapping("/cancelar_pedido")
+    @ResponseBody
+    public M_RespostaTexto cancelarPedido(HttpSession session) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
+        M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
+
+        if (m_ticket.getStatus() != M_Ticket.StatusCompra.ENCAMINHADO) {
+            m_respostaTexto.setMensagem("Seu pedido não pode ser cancelado agora.");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
+        m_ticket = s_ticket.cancelarPedido(m_ticket);
+        if (m_ticket==null) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Não foi possível cancelar seu pedido devido a um erro no banco de dados.");
+            return m_respostaTexto;
+        }
+
+        s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
+
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem("Seu pedido com ticket '"+m_ticket.getTicket()+"' foi cancelado, o saldo gasto está de volta na sua conta Gelato.");
         return m_respostaTexto;
     }
 }
