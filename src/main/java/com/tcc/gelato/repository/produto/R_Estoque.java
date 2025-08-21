@@ -16,6 +16,8 @@ public interface R_Estoque extends JpaRepository<M_Estoque,Long> {
 
     /**
      * Retorna o estoque atual de um {@link M_Produto} solicitado
+     * {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CARRINHO} = 0,
+     * {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CANCELADO} = 5
      * @param id_produto ID do {@link M_Produto}
      * @return estoque atual
      */
@@ -23,7 +25,7 @@ public interface R_Estoque extends JpaRepository<M_Estoque,Long> {
             "select coalesce(sum(c.quantidade),0) as quantidade " +
             "from gelato.compra c " +
             "join gelato.ticket t on c.fk_ticket=t.id " +
-            "where c.fk_produto = :ID_PRODUTO and t.status <> 4 and t.status <> 0 "+
+            "where c.fk_produto = :ID_PRODUTO and t.status <> 5 and t.status <> 0 "+
             "), " +
             "estoque as (" +
             "select coalesce(sum(quantidade),0) as quantidade " +
