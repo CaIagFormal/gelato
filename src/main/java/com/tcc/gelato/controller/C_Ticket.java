@@ -99,7 +99,7 @@ public class C_Ticket {
             return m_respostaTexto;
         }
 
-        LocalDateTime horario = LocalDateTime.ofEpochSecond(Long.parseLong(str_horario),0, ZoneOffset.of("+3"));
+        LocalDateTime horario = LocalDateTime.ofEpochSecond(Long.parseLong(str_horario),0, ZoneOffset.of("-3"));
 
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
