@@ -196,6 +196,9 @@ public class C_Ticket {
 
         s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
 
+        // Atualizar quantidade de itens no carrinho
+        s_cargo.navClienteSetQtdCompras(session,s_compra.getQtdComprasDeTicket(m_ticket));
+
         m_respostaTexto.setSucesso(true);
         m_respostaTexto.setMensagem("Seu pedido com ticket '"+m_ticket.getTicket()+"' foi cancelado, o saldo gasto está de volta na sua conta Gelato.");
         return m_respostaTexto;
