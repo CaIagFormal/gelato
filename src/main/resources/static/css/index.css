@@ -29,3 +29,18 @@ a.navbar-brand:focus, a.nav-link:focus {
     border-radius: 0px;
     color: #5080ff !important;
 }
+
+.btn-retrair {
+    background: #00000000;
+    border-style: none;
+    font-size: 24px;
+    color: #000000;
+    margin: 0;
+    text-align: right;
+}
+.btn-retrair:not(.retraido)::before {
+    content: "🞃"
+}
+.btn-retrair.retraido::before {
+    content: "🞀"
+}

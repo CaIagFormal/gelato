@@ -24,11 +24,11 @@
     <link href="/css/observacao.css" rel="stylesheet">
 </div>
 
-<div class="observacao retrair-parent">
-    <p class="titulo row"><label for="obs-write" class="col-11">Obs.:</label><button class="btn-retrair"></button></p>
+<div th:fragment="pv_obs (v_tipo)" class="observacao retrair-parent">
+    <p class="titulo row"><label for="obs-write" class="col-11">Obs.:</label><button class="btn-retrair col"></button></p>
     <div class="retraivel">
-        <input type="text" placeholder="Escreva uma observação aqui." id="obs-write">
+        <textarea placeholder="Escreva uma observação aqui." id="obs-write"></textarea>
         <p class="limite"><span id="lim-obs"></span> / 1024</p>
-        <button class="btn btn-primary" id="btn-salvar-obs">Salvar</button>
+        <button th:class="${'btn btn-primary '+v_tipo}" id="btn-salvar-obs">Salvar</button>
     </div>
 </div>
