@@ -5,9 +5,11 @@ public class SecurityParams {
             "/", "/catalogo", "/produto/**", // Get
             "/js/funcionalidades.js",   // JS
             "/js/catalogo_cliente.js",
+            "/js/observacao.js",
             "/css/index.css",           //CSS
             "/css/catalogo_cliente.css",
             "/css/produto_cliente.css",
+            "/css/observacao.css",
             "/favicon.ico"};
     public static String[] visitante = new String[]{
             "/cadastrar", "/fazer_login", // Post

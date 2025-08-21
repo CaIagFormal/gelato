@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 
+<!-- Header -->
 <div th:fragment="header (title)">
     <meta charset="UTF-8">
     <title th:text="${'Gelato - '+title}"></title>
@@ -15,4 +16,19 @@
     <!-- INDEX -->
     <script src="/js/funcionalidades.js"></script>
     <link href="/css/index.css" rel="stylesheet">
+</div>
+
+<!-- Observação -->
+<div th:fragment="incluir_obs">
+    <script src="/js/observacao.js" defer></script>
+    <link href="/css/observacao.css" rel="stylesheet">
+</div>
+
+<div class="observacao retrair-parent">
+    <p class="titulo row"><label for="obs-write" class="col-11">Obs.:</label><button class="btn-retrair"></button></p>
+    <div class="retraivel">
+        <input type="text" placeholder="Escreva uma observação aqui." id="obs-write">
+        <p class="limite"><span id="lim-obs"></span> / 1024</p>
+        <button class="btn btn-primary" id="btn-salvar-obs">Salvar</button>
+    </div>
 </div>

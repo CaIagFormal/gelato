@@ -8,6 +8,7 @@
     <!-- JS -->
     <script src="/js/cadastrados.js" defer></script>
     <script src="/js/carrinho.js" defer></script>
+    <div th:replace="~{pv/script :: incluir_obs}"></div>
 </head>
 <body>
 <!-- Navbars --->
@@ -38,6 +39,9 @@
     </div>
 
     <h4 th:text="${'Total: R$'+total}"></h4>
+
+    <div th:replace="~{pv/script.html :: pv_obs (v_tipo='${ticket}')}"></div>
+
     <button th:if="${ticket.status.toString()=='CARRINHO'}" class="btn btn-primary" id="btn-encaminhar-pedido">Encaminhar Pedido</button>
     <button th:if="${ticket.status.toString()=='ENCAMINHADO'}" class="btn btn-danger" id="btn-cancelar-pedido">Cancelar Pedido</button>
 </div>

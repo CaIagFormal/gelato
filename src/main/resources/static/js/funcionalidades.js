@@ -107,3 +107,18 @@ function confirmar(title,text,f_then,context=this) {
        }
      });
 }
+
+//Funcionalidade de retrair
+function retrair() {
+    let parent = $(this).closest(".retrair_parent");
+    let retraivel = $(parent).children(".retraivel");
+    if ($(retraivel).hasClass("d-none")) {
+        retraivel.removeClass("d-none");
+        $(this).removeClass("retraido");
+    } else {
+        retraivel.addClass("d-none");
+        $(this).addClass("retraido");
+    }
+}
+
+$(".btn-retrair").click(retrair)
