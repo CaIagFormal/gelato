@@ -17,9 +17,6 @@ public interface R_Produto extends JpaRepository<M_Produto,Long> {
 
     /**
      * Retorna a soma das quantidade dentro das compras de um produto em um ticket
-     * @param id_produto
-     * @param id_ticket
-     * @return
      */
     @Query(value = "select coalesce(sum(quantidade),0) from gelato.compra where fk_produto = :PRODUTO and fk_ticket = :TICKET",nativeQuery = true)
     Integer getQtdDeProdutoEmTicket(@Param("PRODUTO") Long id_produto, @Param("TICKET") Long id_ticket);

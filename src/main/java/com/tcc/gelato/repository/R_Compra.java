@@ -34,6 +34,7 @@ public interface R_Compra extends JpaRepository<M_Compra, Long> {
 
     /**
      * Obtêm todas as compras onde a quantidade supera o estoque fornecido de um produto que estão no carrinho
+     * {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CARRINHO} = 0
      * @param id_produto ID do produto que terá as compras analisadas
      * @param estoque quantidade que a compra deve superar
      */

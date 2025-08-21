@@ -16,12 +16,11 @@
 <div class="container" th:if="${carrinho.size > 0}">
     <div class="mt-4" th:fragment="pv_ticket">
         <div class="row">
-            <div class="col-8">
+            <div class="col-4">
                 <h4 th:text="${'Ticket: '+ticket.ticket}"></h4>
                 <p class="m-0" th:text="${'Obtido às: '+#temporals.format(ticket.horario_fornecido, 'HH:mm, dd-MM-yyyy')}"></p>
-                <p>Atualmente: <b th:text="${ticket.status.toString()}"></b></p>
-                <p th:unless="${ticket.status.toString()=='CARRINHO'}" class="m-0" th:text="${'Encaminhado às: '+#temporals.format(ticket.horario_encaminhado, 'HH:mm, dd-MM-yyyy')}"></p>
-                <p>Esse valor é único ao seu pedido e serve para apresentar ao vendedor na retirada, poderá vê-lo a qualquer etapa.</p>
+                <p class="m-0">Atualmente: <b th:text="${ticket.status.toString()}"></b></p>
+                <p th:unless="${ticket.status.toString()=='CARRINHO'}" class="m-0" th:text="${'Encaminhado às: '+#temporals.format(ticket.pagamento.horario_fornecido, 'HH:mm, dd-MM-yyyy')}"></p>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -30,6 +29,7 @@
                     <button th:if="${ticket.status.toString()=='CARRINHO'}" class="btn btn-secondary" id="btn-horario-retirada">Salvar</button>
                 </div>
             </div>
+            <p>Esse valor é único ao seu pedido e serve para apresentar ao vendedor na retirada, poderá vê-lo a qualquer etapa.</p>
         </div>
     </div>
 
@@ -38,7 +38,9 @@
     </div>
 
     <h4 th:text="${'Total: R$'+total}"></h4>
+    <button th:if="${ticket.status.toString()=='CARRINHO'}" class="btn btn-primary" id="btn-encaminhar-pedido">Encaminhar Pedido</button>
 </div>
+
 <div class="container" th:unless="${carrinho.size > 0}">
     <div th:replace="~{ :: pv_ticket}"></div>
 

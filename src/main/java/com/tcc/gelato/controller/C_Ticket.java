@@ -7,6 +7,7 @@ import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.S_Cargo;
 import com.tcc.gelato.service.S_Compra;
 import com.tcc.gelato.service.S_Ticket;
+import com.tcc.gelato.service.S_Transacao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -32,11 +34,13 @@ public class C_Ticket {
     private final S_Ticket s_ticket;
     private final S_Cargo s_cargo;
     private final S_Compra s_compra;
+    private final S_Transacao s_transacao;
 
-    public C_Ticket(S_Ticket s_ticket, S_Cargo s_cargo, S_Compra s_compra) {
+    public C_Ticket(S_Ticket s_ticket, S_Cargo s_cargo, S_Compra s_compra, S_Transacao s_transacao) {
         this.s_ticket = s_ticket;
         this.s_cargo = s_cargo;
         this.s_compra = s_compra;
+        this.s_transacao = s_transacao;
     }
 
     /**
@@ -64,9 +68,6 @@ public class C_Ticket {
     @GetMapping(path="/carrinho")
     public String getCarrinho(HttpSession session, Model model) {
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
-        if (!s_cargo.validarCliente(m_usuario)) {
-            return "redirect:/";
-        }
 
         s_cargo.session_to_model_navbar(model,session);
 
@@ -81,7 +82,6 @@ public class C_Ticket {
 
     /**
      * Define o horário de retirada de um ticket
-     * @param request
      * @param str_horario
      * @return
      */
@@ -102,9 +102,9 @@ public class C_Ticket {
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
-        if (m_ticket.getStatus()!= M_Ticket.StatusCompra.CARRINHO) {
+        if (!s_ticket.validarTicketParaAlterarOutros(m_ticket)) {
             m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Pedido não está no carrinho");
+            m_respostaTexto.setMensagem("Não é possível alterar o horário de retirada após o pedido ser recebido.");
             return m_respostaTexto;
         }
         if (s_ticket.setHorarioRetirada(m_ticket,horario)==null) {
@@ -113,7 +113,54 @@ public class C_Ticket {
             return m_respostaTexto;
         }
         m_respostaTexto.setSucesso(true);
-        m_respostaTexto.setMensagem("Horário de retirada do pedido com ticket "+m_ticket.getTicket()+" definido para "+m_ticket.getHorario_retirada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+        m_respostaTexto.setMensagem("Horário de retirada do pedido com ticket '"+m_ticket.getTicket()+"' definido para "+m_ticket.getHorario_retirada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+        return m_respostaTexto;
+    }
+
+    /**
+     * Encaminha um ticket do cliente
+     * @return Resposta de sucesso ou falha
+     */
+    @ResponseBody
+    @PostMapping(path = "/encaminhar_pedido")
+    public M_RespostaTexto encaminharPedido() {
+        M_RespostaTexto m_respostaTexto;
+
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
+        M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
+
+        if (m_ticket.getStatus()!=M_Ticket.StatusCompra.CARRINHO) {
+            m_respostaTexto = new M_RespostaTexto();
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Seu pedido não está mais no carrinho.");
+            return m_respostaTexto;
+        }
+
+        BigDecimal total = s_compra.getPrecoTotalDeCompras(s_ticket.getComprasDeTicket(m_ticket));
+
+        if (s_transacao.getSaldoDeCliente(m_usuario).compareTo(total)<0) {
+            m_respostaTexto = new M_RespostaTexto();
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Você não possuí saldo suficiente, consulte o vendedor para pagar seu pedido de antemão.");
+            return m_respostaTexto;
+        }
+
+        m_respostaTexto = s_ticket.validarHorarioDeRetirada(m_ticket.getHorario_retirada());
+        if (!m_respostaTexto.isSucesso()) {
+            return m_respostaTexto;
+        }
+
+        m_ticket = s_ticket.encaminharTicket(m_ticket,s_transacao,total);
+        if (m_ticket==null) {
+            m_respostaTexto.setMensagem("Erro comunicando com o banco de dados.");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem("Encaminhou pedido com ticket '"+m_ticket.getTicket()+"'.<br>" +
+                "Poderá cancelar seu pedido até ele ser recebido.<br>" +
+                "(O saldo se manterá no sistema, consulte seu vendedor caso queira reembolso)");
         return m_respostaTexto;
     }
 }

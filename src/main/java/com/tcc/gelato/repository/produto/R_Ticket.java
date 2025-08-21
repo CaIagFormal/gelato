@@ -16,10 +16,10 @@ import java.util.Optional;
 public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
 
     /**
-     * {@link M_Ticket.StatusCompra#CANCELADO} = 4, altere se o valor mudar
+     * {@link M_Ticket.StatusCompra#CANCELADO} = 5, altere se o valor mudar
      */
     String check_ativo = "(current_date-cast(t.horario_fornecido as DATE)=0) and "+
-            "t.status <> 4";
+            "t.status <> 5";
 
     String latest = "order by t.horario_fornecido desc limit 1";
 

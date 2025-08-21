@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -96,12 +97,20 @@ public class S_Ticket {
     }
 
     /**
-     * Valida um ticket para ser alterado
+     * Valida um ticket para ser alterado em maneiras que afetam seu valor monetário
      * @param m_ticket {@link M_Ticket}
      * @return validade do ticket para alterações de seus conteúdos.
      */
-    public boolean validarTicketParaAlterarConteudos(M_Ticket m_ticket) {
+    public boolean validarTicketParaAlterarMonetario(M_Ticket m_ticket) {
         return m_ticket.getStatus()==M_Ticket.StatusCompra.CARRINHO;
+    }
+
+    /**
+     * Valida um ticket para ser alterado em maneiras que NÃO afetam seu valor monetário
+     * @param m_ticket {@link M_Ticket}
+     */
+    public boolean validarTicketParaAlterarOutros(M_Ticket m_ticket) {
+        return m_ticket.getStatus() == M_Ticket.StatusCompra.CARRINHO || m_ticket.getStatus() == M_Ticket.StatusCompra.ENCAMINHADO;
     }
 
     /**
@@ -129,28 +138,38 @@ public class S_Ticket {
     }
 
     /**
-     * Confere os parâmetros da função {@link C_Ticket#definirHorarioRetirada(HttpSession, String)}
-     * @param str_horario
+     * Confere os parâmetros da função {@link C_Ticket#definirHorarioRetirada(String)}
+     * @param str_horario String contendo um {@link LocalDateTime#ofEpochSecond(long, int, ZoneOffset)}
      * @return Resposta de falha se houver
      */
     public M_RespostaTexto validarParamDefinirHorarioRetirada(String str_horario) {
         LocalDateTime horario;
-        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         try {
             horario = LocalDateTime.ofEpochSecond(Long.parseLong(str_horario),0, ZoneOffset.of("+3"));
         } catch (Exception e) {
+            M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Horário inválido.");
             return m_respostaTexto;
         }
+        return validarHorarioDeRetirada(horario);
+    }
+
+    public M_RespostaTexto validarHorarioDeRetirada(LocalDateTime horario) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+        if (horario==null) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Horário de retirada não foi definido.");
+            return m_respostaTexto;
+        }
         if (horario.isBefore(LocalDateTime.now())) {
             m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Retirada não pode ser no passado.");
+            m_respostaTexto.setMensagem("Horário de retirada não pode ser no passado.");
             return m_respostaTexto;
         }
         if (horario.isBefore(LocalDateTime.now().plusMinutes(30))) {
             m_respostaTexto.setSucesso(false);
-            m_respostaTexto.setMensagem("Retirada deve ser no mínimo daqui à 30 minutos.");
+            m_respostaTexto.setMensagem("Horário de retirada deve ser no mínimo daqui à 30 minutos.");
             return m_respostaTexto;
         }
         m_respostaTexto.setSucesso(true);
@@ -159,11 +178,25 @@ public class S_Ticket {
 
     /**
      * Define o horário de retirada de um ticket
-     * @param m_ticket
-     * @param horario
      */
     public M_Ticket setHorarioRetirada(M_Ticket m_ticket, LocalDateTime horario) {
         m_ticket.setHorario_retirada(horario);
         return r_ticket.save(m_ticket);
     }
+
+    /**
+     * Altera de {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CARRINHO} para {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#ENCAMINHADO}
+     * @param m_ticket Ticket a ser encaminhado
+     */
+    public M_Ticket encaminharTicket(M_Ticket m_ticket, S_Transacao s_transacao,BigDecimal valor_total) {
+        m_ticket.setPagamento(s_transacao.alterarSaldo(valor_total.negate(),null,m_ticket.getUsuario()));
+        if (m_ticket.getPagamento()==null) {
+            return null;
+        }
+        m_ticket.setStatus(M_Ticket.StatusCompra.ENCAMINHADO);
+
+        return r_ticket.save(m_ticket);
+    }
+
+
 }

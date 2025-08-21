@@ -59,3 +59,9 @@ function definir_horario_retirada() {
 }
 
 $("#btn-horario-retirada").click(definir_horario_retirada);
+
+function encaminhar_pedido() {
+   ajax("/encaminhar_pedido",{},recarregar_no_sucesso)
+}
+
+$('#btn-encaminhar-pedido').click(encaminhar_pedido);
