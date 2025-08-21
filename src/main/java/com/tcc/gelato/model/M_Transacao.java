@@ -36,6 +36,8 @@ public class M_Transacao {
     @Column(nullable = false)
     private LocalDateTime horario_fornecido;
 
+    private boolean valida;
+
     public Long getId() {
         return id;
     }
@@ -82,5 +84,13 @@ public class M_Transacao {
 
     public void setHorario_fornecido(LocalDateTime horario_fornecido) {
         this.horario_fornecido = horario_fornecido;
+    }
+
+    public boolean isValida() {
+        return valida;
+    }
+
+    public void setValida(boolean valida) {
+        this.valida = valida;
     }
 }

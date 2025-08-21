@@ -54,3 +54,8 @@ div.consulta-container {
 div.consulta-container > h5 {
     color: #6820E0;
 }
+
+div.consulta.invalida > p,
+div.consulta.invalida > p > b{
+    color: #888888;
+}

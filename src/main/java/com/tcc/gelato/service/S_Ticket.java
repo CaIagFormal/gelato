@@ -199,4 +199,12 @@ public class S_Ticket {
     }
 
 
+    /**
+     * Cancela um pedido
+     */
+    public M_Ticket cancelarPedido(M_Ticket m_ticket) {
+        m_ticket.getPagamento().setValida(false);
+        m_ticket.setStatus(M_Ticket.StatusCompra.CANCELADO);
+        return r_ticket.save(m_ticket);
+    }
 }
