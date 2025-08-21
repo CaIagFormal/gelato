@@ -39,7 +39,7 @@
 
     <h4 th:text="${'Total: R$'+total}"></h4>
     <button th:if="${ticket.status.toString()=='CARRINHO'}" class="btn btn-primary" id="btn-encaminhar-pedido">Encaminhar Pedido</button>
-    <button th:if="${ticket.status.toString()=='ENCAMINHADO'}" class="btn btn-primary" id="btn-cancelar-pedido">Encaminhar Pedido</button>
+    <button th:if="${ticket.status.toString()=='ENCAMINHADO'}" class="btn btn-danger" id="btn-cancelar-pedido">Cancelar Pedido</button>
 </div>
 
 <div class="container" th:unless="${carrinho.size > 0}">
