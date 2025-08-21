@@ -47,6 +47,9 @@ public class M_Ticket {
     @ManyToOne
     private M_Transacao pagamento;
 
+    @Column(length = 1023)
+    private String observacao;
+
     public Long getId() {
         return id;
     }
@@ -101,5 +104,13 @@ public class M_Ticket {
 
     public void setHorario_retirada(LocalDateTime horario_retirada) {
         this.horario_retirada = horario_retirada;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }

@@ -121,4 +121,6 @@ function retrair() {
     }
 }
 
-$(".btn-retrair").click(retrair)
+$('document').ready(function() {
+    $('.btn-retrair').click(retrair)
+})
