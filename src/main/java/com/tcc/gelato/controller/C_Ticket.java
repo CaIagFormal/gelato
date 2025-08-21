@@ -77,6 +77,8 @@ public class C_Ticket {
         List<M_Compra> m_compras = s_ticket.getComprasDeTicket(m_ticket);
         model.addAttribute("carrinho",m_compras);
         model.addAttribute("total",s_compra.getPrecoTotalDeCompras(m_compras));
+        model.addAttribute("alterar_monetario",s_ticket.validarTicketParaAlterarMonetario(m_ticket));
+        model.addAttribute("alterar_outros",s_ticket.validarTicketParaAlterarOutros(m_ticket));
         return "cliente/carrinho";
     }
 

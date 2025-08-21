@@ -7,6 +7,7 @@ import com.tcc.gelato.model.servidor.M_NavbarCliente;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.model.servidor.M_UserDetails;
 import com.tcc.gelato.service.*;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -89,12 +90,12 @@ public class C_Login {
      */
     @PostMapping(path="/fazer_logout")
     @ResponseBody
-    public M_RespostaTexto Logout(HttpSession session){
+    public M_RespostaTexto Logout(HttpSession session,HttpServletRequest request){
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
 
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
+        s_cargo.fazerLogout(session);
 
-        session.invalidate();
         m_respostaTexto.setMensagem("Saiu da conta com sucesso, terá de se cadastrar novamente para acessar recursos de "+m_usuario.getCargo().toString()+".");
         m_respostaTexto.setSucesso(true);
         return m_respostaTexto;

@@ -9,7 +9,7 @@ function logout() {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        ajax("/logout",{},recarregar_no_sucesso);
+        ajax("/fazer_logout",{},recarregar_no_sucesso);
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
