@@ -125,7 +125,7 @@ public class C_Ticket {
      */
     @ResponseBody
     @PostMapping(path = "/encaminhar_pedido")
-    public M_RespostaTexto encaminharPedido() {
+    public M_RespostaTexto encaminharPedido(HttpSession session) {
         M_RespostaTexto m_respostaTexto;
 
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
@@ -158,6 +158,8 @@ public class C_Ticket {
             m_respostaTexto.setSucesso(false);
             return m_respostaTexto;
         }
+
+        s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
 
         m_respostaTexto.setSucesso(true);
         m_respostaTexto.setMensagem("Encaminhou pedido com ticket '"+m_ticket.getTicket()+"'.<br>" +
