@@ -53,7 +53,17 @@ function conf_encaminhar_pedido() {
 }
 
 function encaminhar_pedido() {
-    confirmar("Deseja encaminhar seu pedido?","Revise seu pedido antes de encaminhar!");
+    confirmar("Deseja encaminhar seu pedido?","Revise seu pedido antes de encaminhar!",conf_encaminhar_pedido);
 }
 
 $('#btn-encaminhar-pedido').click(encaminhar_pedido);
+
+function conf_cancelar_pedido() {
+    ajax("/cancelar_pedido",{},recarregar_no_sucesso);
+}
+
+function cancelar_pedido() {
+    confirmar("Deseja cancelar seu pedido?","Você não poderá voltar atrás!",conf_cancelar_pedido);
+}
+
+$('#btn-cancelar-pedido').click(cancelar_pedido);

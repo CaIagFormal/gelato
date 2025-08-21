@@ -14,19 +14,7 @@ function conf_adicionar_estoque() {
 }
 
 function adicionar_estoque() {
-    swalWithBootstrapButtons.fire({
-       title: "Você deseja adicionar estoque?",
-       text: "Todas as operações de estoque são registradas.",
-       icon: "warning",
-       showCancelButton: true,
-       confirmButtonText: "Sim.",
-       cancelButtonText: "Não.",
-       reverseButtons: true
-     }).then((result) => {
-       if (result.isConfirmed) {
-            conf_adicionar_estoque();
-       }
-     });
+    confirmar("Você deseja adicionar estoque?","Todas as operações de estoque são registradas.",conf_adicionar_estoque);
 }
 
 $("#btn_estoque").click(adicionar_estoque)
