@@ -18,19 +18,7 @@ function conf_remover_item_do_carrinho(btn) {
 }
 
 function remover_item_do_carrinho() {
-    swalWithBootstrapButtons.fire({
-       title: "Você deseja remover este item?",
-       text: "Você poderá adicionar ao carrinho pela tela do produto do mesmo depois, a não ser que o pedido já seja encomendado.",
-       icon: "warning",
-       showCancelButton: true,
-       confirmButtonText: "Sim.",
-       cancelButtonText: "Não.",
-       reverseButtons: true
-     }).then((result) => {
-       if (result.isConfirmed) {
-            conf_remover_item_do_carrinho(this)
-       }
-     });
+    confirmar("Você deseja remover este item?", "Você poderá adicionar ao carrinho pela tela do produto do mesmo depois, a não ser que o pedido já seja encomendado.",conf_remover_item_do_carrinho)
 }
 
 $(".remover-item").click(remover_item_do_carrinho);
@@ -60,8 +48,12 @@ function definir_horario_retirada() {
 
 $("#btn-horario-retirada").click(definir_horario_retirada);
 
+function conf_encaminhar_pedido() {
+   ajax("/encaminhar_pedido",{},recarregar_no_sucesso);
+}
+
 function encaminhar_pedido() {
-   ajax("/encaminhar_pedido",{},recarregar_no_sucesso)
+    confirmar("Deseja encaminhar seu pedido?","Revise seu pedido antes de encaminhar!");
 }
 
 $('#btn-encaminhar-pedido').click(encaminhar_pedido);

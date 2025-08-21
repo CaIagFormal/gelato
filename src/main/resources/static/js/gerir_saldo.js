@@ -18,15 +18,15 @@ function saldo_func(erro_txt,dir=1) {
 
 }
 
-function f_adicionar_saldo() {
+function f_adicionar_saldo_conf() {
     saldo_func("Algo ocorreu adicionando saldo...")
 }
 
-function f_remover_saldo() {
+function f_remover_saldo_conf() {
     saldo_func("Algo ocorreu removendo saldo...",dir=-1)
 }
 
-function f_esvaziar_saldo() {
+function f_esvaziar_saldo_conf() {
     let cliente = $("#cliente").val();
     let erro = ""
 
@@ -40,6 +40,23 @@ function f_esvaziar_saldo() {
     }
 
     ajax("/esvaziar_saldo",{cliente:cliente});
+}
+
+function f_adicionar_saldo() {
+    let qtd = $("#quantidade").val();
+    let cliente = $("#cliente").val();
+    confirmar("Você deseja adicionar "+quantidade+"R$ na conta de "+cliente+"?", "Todas as transações são registradas.",f_adicionar_saldo_conf)
+}
+
+function f_remover_saldo() {
+    let qtd = $("#quantidade").val();
+    let cliente = $("#cliente").val();
+    confirmar("Você deseja remover "+quantidade+"R$ da conta de "+cliente+"?", "Todas as transações são registradas.",f_remover_saldo_conf)
+}
+
+function f_esvaziar_saldo() {
+    let cliente = $("#cliente").val();
+    confirmar("Você deseja esvaziar o saldo de "+cliente+"?", "Todas as transações são registradas.",f_esvaziar_saldo_conf)
 }
 
 $("#btn_add_saldo").click(f_adicionar_saldo);
