@@ -92,7 +92,7 @@ function pad(val) {
     return String(val).padStart(2, '0');
 }
 
-function confirmar(title,text,f_then) {
+function confirmar(title,text,f_then,context=this) {
     swalWithBootstrapButtons.fire({
        title: title,
        text: text,
@@ -103,7 +103,7 @@ function confirmar(title,text,f_then) {
        reverseButtons: true
      }).then((result) => {
        if (result.isConfirmed) {
-            f_then(this)
+            f_then(context)
        }
      });
 }
