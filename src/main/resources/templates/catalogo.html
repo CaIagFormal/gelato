@@ -17,7 +17,7 @@
 <div class="container">
     <h4 class="mt-4" th:if="${usuario}==null"><a href="/cadastro">Crie uma conta</a> ou <a href="/login">entre em uma</a> para poder comprar, você pode explorar o catálogo por enquanto.</h4>
     <h4 class="mt-4" th:unless="${usuario}==null">Seja bem vindo(a), <span th:text="${usuario.nome}"></span>!</h4>
-    <h2>Veja o cardápio abaixo e escolha o que deseja pedir.</h2>
+    <p>Veja o cardápio abaixo e escolha o que deseja pedir.</p>
 
     <div class="row container mt-3">
         <div class="produto col-1" th:each="produto : ${produtos}">
