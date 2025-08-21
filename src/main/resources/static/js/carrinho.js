@@ -57,7 +57,8 @@ function conf_encaminhar_pedido() {
 
 function encaminhar_pedido() {
     confirmar("Deseja encaminhar seu pedido?",
-    "Revise seu pedido antes de encaminhar!",
+    "Revise seu pedido antes de encaminhar!"+
+    "<br>Outros parâmetros como observações e tempo de retirada devem ser salvos antes de proseguir.",
     conf_encaminhar_pedido);
 }
 

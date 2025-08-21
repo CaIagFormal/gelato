@@ -5,10 +5,11 @@
 
     <!-- CSS -->
     <link href="/css/carrinho_cliente.css" rel="stylesheet">
+    <link href="/css/observacao.css" rel="stylesheet">
     <!-- JS -->
     <script src="/js/cadastrados.js" defer></script>
     <script src="/js/carrinho.js" defer></script>
-    <div th:replace="~{pv/script :: incluir_obs}"></div>
+    <script src="/js/observacao.js" defer></script>
 </head>
 <body>
 <!-- Navbars --->
@@ -40,7 +41,8 @@
 
     <h4 th:text="${'Total: R$'+total}"></h4>
 
-    <div th:replace="~{pv/script.html :: pv_obs (v_tipo='${ticket}')}"></div>
+    <th:block th:unless="${ticket.observacao==null}"><div th:replace="~{pv/script.html :: pv_obs (v_tipo=${'ticket'},v_texto=${ticket.observacao})}"></div></th:block>
+    <th:block th:if="${ticket.observacao==null}"><div th:replace="~{pv/script.html :: pv_obs (v_tipo=${'ticket'},v_texto=${''})}"></div></th:block>
 
     <button th:if="${ticket.status.toString()=='CARRINHO'}" class="btn btn-primary" id="btn-encaminhar-pedido">Encaminhar Pedido</button>
     <button th:if="${ticket.status.toString()=='ENCAMINHADO'}" class="btn btn-danger" id="btn-cancelar-pedido">Cancelar Pedido</button>

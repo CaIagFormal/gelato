@@ -77,7 +77,7 @@ public class S_Ticket {
      * @param m_usuario {@link M_Usuario} que possuí (ou não) o ticket
      * @return {@link M_Ticket}
      */
-    public Optional<M_Ticket> obterTicketValidoDeUsuario(M_Usuario m_usuario) {
+    private Optional<M_Ticket> obterTicketValidoDeUsuario(M_Usuario m_usuario) {
         return r_ticket.getTicketAtivoDeUsuario(m_usuario.getId());
     }
 
@@ -205,6 +205,24 @@ public class S_Ticket {
     public M_Ticket cancelarPedido(M_Ticket m_ticket) {
         m_ticket.getPagamento().setValida(false);
         m_ticket.setStatus(M_Ticket.StatusCompra.CANCELADO);
+        return r_ticket.save(m_ticket);
+    }
+
+    /**
+     * Confere os parâmetros do méto,do {@link C_Ticket#definirObservacaoTicket(String)}}
+     * @param texto Texto para usar na observação
+     */
+    public boolean validarParamObservacaoTicket(String texto) {
+        if (texto.length()>1023) return false;
+        return true;
+    }
+
+    /**
+     * Altera a observação de um ticket
+     * @return Objeto do banco de daodos
+     */
+    public M_Ticket setObservacaoTicket(M_Ticket m_ticket, String texto) {
+        m_ticket.setObservacao(texto);
         return r_ticket.save(m_ticket);
     }
 }

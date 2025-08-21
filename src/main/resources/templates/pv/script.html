@@ -19,16 +19,14 @@
 </div>
 
 <!-- Observação -->
-<div th:fragment="incluir_obs">
-    <script src="/js/observacao.js" defer></script>
-    <link href="/css/observacao.css" rel="stylesheet">
-</div>
 
-<div th:fragment="pv_obs (v_tipo)" class="observacao retrair-parent">
+
+<div th:fragment="pv_obs (v_tipo, v_texto)" class="observacao retrair-parent">
     <p class="titulo row"><label for="obs-write" class="col-11">Obs.:</label><button class="btn-retrair col"></button></p>
     <div class="retraivel">
         <textarea placeholder="Escreva uma observação aqui." id="obs-write"></textarea>
-        <p class="limite"><span id="lim-obs"></span> / 1023</p>
+        <p class="limite"><span id="lim-obs" th:text="${v_texto.length()}"></span> / 1023</p>
+        <p id="write-text-holder" class="d-none" th:text="${v_texto}"></p>
         <button th:class="${'btn btn-primary '+v_tipo}" id="btn-salvar-obs">Salvar</button>
     </div>
 </div>

@@ -203,4 +203,36 @@ public class C_Ticket {
         m_respostaTexto.setMensagem("Seu pedido com ticket '"+m_ticket.getTicket()+"' foi cancelado, o saldo gasto está de volta na sua conta Gelato.");
         return m_respostaTexto;
     }
+
+    @ResponseBody
+    @PostMapping(path = "/observacao_ticket")
+    public M_RespostaTexto definirObservacaoTicket(@RequestParam("texto") String texto) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
+
+        M_Ticket m_ticket = s_ticket.conferirTicketDeUsuario(m_usuario);
+        if (!s_ticket.validarTicketParaAlterarOutros(m_ticket)) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Não é mais possível alterar a observação...");
+            return m_respostaTexto;
+        }
+
+        if (!s_ticket.validarParamObservacaoTicket(texto)) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Texto inválido...");
+            return m_respostaTexto;
+        }
+
+        m_ticket = s_ticket.setObservacaoTicket(m_ticket,texto);
+        if (m_ticket==null) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Algo ocorreu acessando o banco de dados");
+            return m_respostaTexto;
+        }
+
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem("Observação salva com sucesso");
+        return m_respostaTexto;
+    }
 }

@@ -23,12 +23,12 @@ public class SecurityParams {
             "/adicionar_estoque",
             "/gerir_saldo", // Get
             "/js/gerir_saldo.js", // JS
-            "/js/produto_vndedor.js",
+            "/js/produto_vendedor.js",
             "/css/gerir_saldo.css" // CSS
     };
     public static String[] cliente = new String[]{
             "/adicionar_carrinho", "/remover_carrinho","/definir_horario_retirada_ticket", // Post
-            "/encaminhar_pedido","/cancelar_pedido",
+            "/encaminhar_pedido","/cancelar_pedido","/observacao_ticket",
             "/carrinho", // Get
             "/js/carrinho.js", // JS
             "/js/produto_cliente.js",
