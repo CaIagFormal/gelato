@@ -52,19 +52,7 @@ public class SecurityConfig {
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .logout((logout) -> logout.logoutSuccessHandler((request, response, authentication) -> {
-                    M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-
-                    m_respostaTexto.setMensagem("Saiu da conta com sucesso, tem de se cadastrar novamente para acessar recursos exclusivos.");
-                    m_respostaTexto.setSucesso(true);
-
-                    String json = new ObjectMapper().writeValueAsString(m_respostaTexto);
-                    response.setIntHeader("Content-Length",json.getBytes().length);
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    response.getWriter().write(json);
-                    response.getWriter().close();
-                }))
+                .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request -> request
                     .requestMatchers(SecurityParams.publico)
                     .permitAll()

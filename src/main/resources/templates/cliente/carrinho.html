@@ -26,7 +26,7 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="horario_retirada">Horário de retirada</label>
                     <input type="datetime-local" class="form-control" th:value="${ticket.horario_retirada}" id="horario_retirada" name="horario_retirada">
-                    <button th:if="${ticket.status.toString()=='CARRINHO'}" class="btn btn-secondary" id="btn-horario-retirada">Salvar</button>
+                    <button th:if="${alterar_outros}" class="btn btn-secondary" id="btn-horario-retirada">Salvar</button>
                 </div>
             </div>
             <p>Esse valor é único ao seu pedido e serve para apresentar ao vendedor na retirada, poderá vê-lo a qualquer etapa.</p>
@@ -34,7 +34,7 @@
     </div>
 
     <div th:each="item_do_carrinho : ${carrinho}">
-        <div th:replace="~{pv/produto.html :: pv_item_do_carrinho (v_compra=${item_do_carrinho})}"></div>
+        <div th:replace="~{pv/produto.html :: pv_item_do_carrinho (v_compra=${item_do_carrinho}, v_removivel=${alterar_monetario})}"></div>
     </div>
 
     <h4 th:text="${'Total: R$'+total}"></h4>

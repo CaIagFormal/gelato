@@ -94,4 +94,13 @@ public class S_Cargo {
         m_navbarCliente.setSaldo(saldo);
         session.setAttribute("m_navbar",m_navbarCliente);
     }
+
+    /**
+     * Tenta fazer logout de uma sessão
+     * @return Sucesso da operação
+     */
+    public void fazerLogout(HttpSession session) {
+        session.invalidate();
+        SecurityContextHolder.clearContext();
+    }
 }

@@ -29,7 +29,7 @@ public class M_Transacao {
     @ManyToOne
     private M_Usuario cliente;
 
-    @JoinColumn(name = "fk_vendedor",nullable = false)
+    @JoinColumn(name = "fk_vendedor",nullable = true)
     @ManyToOne
     private M_Usuario vendedor;
 

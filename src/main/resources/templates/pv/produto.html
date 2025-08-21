@@ -18,13 +18,13 @@
 </div>
 
 <!-- Carrinho -->
-<div th:fragment="pv_item_do_carrinho (v_compra)" class="item row">
+<div th:fragment="pv_item_do_carrinho (v_compra, v_removivel)" class="item row">
     <div class="col-3 imagem text-center">
         <img class="icone" th:src="${v_compra.produto.url_icone}">
     </div>
     <div class="col">
         <h5 class="row"><span class="col-11" th:text="${v_compra.quantidade+' '+v_compra.produto.medida+'(s) de '+v_compra.produto.nome}"></span>
-            <div class="text-end col"><button class="btn btn-close remover-item"></button></div>
+            <div th:if="${removivel}" class="text-end col"><button class="btn btn-close remover-item"></button></div>
         </h5>
 
         <p th:text="${'R$'+v_compra.preco+'/'+v_compra.produto.medida+' (Total: R$'+(v_compra.preco*v_compra.quantidade)+')'}"></p>
