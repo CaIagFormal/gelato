@@ -20,7 +20,11 @@ public class M_Ticket {
         RECEBIDO,
         PREPARADO,
         ENTREGUE,
-        CANCELADO
+        CANCELADO;
+
+        public static StatusCompra index(Short statusId) {
+            return StatusCompra.values()[statusId];
+        }
     }
 
     @Id

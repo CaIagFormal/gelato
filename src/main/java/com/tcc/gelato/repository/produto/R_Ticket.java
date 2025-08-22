@@ -3,7 +3,9 @@ package com.tcc.gelato.repository.produto;
 import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
+import com.tcc.gelato.model.view.M_ViewPedido;
 import com.tcc.gelato.service.S_Ticket;
+import jakarta.persistence.SqlResultSetMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +24,7 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
      */
     String check_ativo = "(current_date-cast(t.horario_fornecido as DATE)=0 or (t.status <> 0 or t.status <> 4)) and "+
             "t.status <> 5";
+    String check_pedido = "((current_date-cast(t.horario_fornecido as DATE)=0 or (t.status <> 4)) and t.status <> 0)";
 
     String latest = "order by t.horario_fornecido desc limit 1";
 
@@ -55,4 +58,21 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
      */
     @Query(value = "select * from gelato.compra where fk_ticket=:ID_TICKET order by horario desc",nativeQuery = true)
     List<M_Compra> getComprasDeTicket(@Param("ID_TICKET") Long id_ticket);
+
+    /**
+     * Pega todos os pedidos ativos no momento
+     */
+    @Query(value = "select t.id as id_ticket," +
+            "t.ticket as ticket," +
+            "c.nome as nome_cliente," +
+            "p.horario_fornecido as horario_encaminhado," +
+            "t.horario_retirada," +
+            "p.valor as preco," +
+            "t.observacao," +
+            "t.status as status_id," +
+            "(t.horario_retirada-current_timestamp)::varchar as contagem_retirada "+
+            "from gelato.ticket t " +
+            "join gelato.usuario c on c.id = t.fk_usuario left join gelato.transacao p on p.id = t.fk_pagamento " +
+            "where "+check_pedido+" order by t.status,t.horario_retirada,t.status desc",nativeQuery = true)
+    List<M_ViewPedido> getPedidos();
 }

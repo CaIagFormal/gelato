@@ -1,0 +1,27 @@
+.pedido-container > div {
+    background: linear-gradient(#FFFF88,#FFFFCC);
+    border-radius: 1em;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 2px;
+}
+
+.pedido {
+    background: linear-gradient(#FFFF66,#FFFF44);
+    border-radius: 1em;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 2px;
+    margin: 1%;
+    width: 48%;
+}
+
+.pedido > h5 {
+    background: linear-gradient(90deg,#FF000088,transparent);
+    position: relative;
+    min-width: 105%;
+    max-height: 2em;
+    left: -2%;
+    border-radius: 1em;
+    color: #000000;
+}

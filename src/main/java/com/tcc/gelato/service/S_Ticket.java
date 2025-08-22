@@ -5,18 +5,16 @@ import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.controller.C_Ticket;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
+import com.tcc.gelato.model.view.M_ViewPedido;
 import com.tcc.gelato.repository.R_Compra;
 import com.tcc.gelato.repository.produto.R_Ticket;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Aplicação de regras de negócio relacionados ao {@link M_Ticket}
@@ -185,7 +183,7 @@ public class S_Ticket {
     }
 
     /**
-     * Altera de {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#CARRINHO} para {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra#ENCAMINHADO}
+     * Altera de {@link M_Ticket.StatusCompra#CARRINHO} para {@link M_Ticket.StatusCompra#ENCAMINHADO}
      * @param m_ticket Ticket a ser encaminhado
      */
     public M_Ticket encaminharTicket(M_Ticket m_ticket, S_Transacao s_transacao,BigDecimal valor_total) {
@@ -224,5 +222,39 @@ public class S_Ticket {
     public M_Ticket setObservacaoTicket(M_Ticket m_ticket, String texto) {
         m_ticket.setObservacao(texto);
         return r_ticket.save(m_ticket);
+    }
+
+    /**
+     * Obtêm todos os pedidos válidos e os organiza por status
+     * @return HashMap de 4 elementos, cada um representando um status (exceto por carrinho)
+     */
+    public HashMap<M_Ticket.StatusCompra,List<M_ViewPedido>> getPedidosPorStatus() {
+        HashMap<M_Ticket.StatusCompra,List<M_ViewPedido>> status_pedidos = new HashMap<>();
+
+        List<M_ViewPedido> pedidos = r_ticket.getPedidos();
+        if (pedidos.isEmpty()) {
+            return null;
+        }
+
+        M_Ticket.StatusCompra last_status = M_Ticket.StatusCompra.index(pedidos.get(0).getStatus_id());
+        int last_index = 0;
+        for (int i = 0; i<pedidos.size(); i++) {
+            M_Ticket.StatusCompra pedido_status = M_Ticket.StatusCompra.index(pedidos.get(i).getStatus_id());
+            if (last_status == pedido_status) {
+                continue;
+            }
+
+            status_pedidos.put(
+                    last_status,
+                    pedidos.subList(last_index,i));
+
+            last_index = i;
+            last_status = pedido_status;
+        }
+        status_pedidos.put(
+                M_Ticket.StatusCompra.index(pedidos.get(pedidos.size()-1).getStatus_id()),
+                pedidos.subList(last_index,pedidos.size()));
+
+        return status_pedidos;
     }
 }
