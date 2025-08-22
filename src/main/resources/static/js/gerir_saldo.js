@@ -116,6 +116,13 @@ function pos_insp_trans(resposta) {
     big_con_div.removeAttr("id");
     big_con_div.removeClass("d-none");
 
+    let h5_titulo = $(big_con_div).children("h5")
+    let titulo = $(h5_titulo).children("span")
+    let btn_retrair = $(h5_titulo).children("button.btn-retrair")
+    $(btn_retrair).click(retrair) // funcionalidades.js
+
+    let retraivel = big_con_div.children("div.retraivel")
+
     $(resposta.mensagem).each((i,transacao) => {
         let con_div = consulta_template.clone();
         con_div.removeAttr("id");
@@ -133,10 +140,10 @@ function pos_insp_trans(resposta) {
             con_div.append("<p class='m-0'><b>Invalidada</b></p>")
         }
 
-        big_con_div.prepend(con_div);
+        retraivel.prepend(con_div);
     })
 
-    $(big_con_div).prepend("<h5>Consultou transações de '"+cliente+"' às "+data_to_string(new Date())+"</h5>");
+    $(titulo).text("Consultou transações de '"+cliente+"' às "+data_to_string(new Date()));
     consultas.prepend(big_con_div)
     return;
 }

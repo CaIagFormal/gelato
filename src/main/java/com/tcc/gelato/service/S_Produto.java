@@ -50,4 +50,11 @@ public class S_Produto {
     public int getQtdDeProdutoEmTicket(M_Produto m_produto, M_Ticket m_ticket) {
         return r_produto.getQtdDeProdutoEmTicket(m_produto.getId(),m_ticket.getId());
     }
+
+    /** Retorna todos os produtos organizados em disponibilidade
+     *
+     */
+    public List<M_Produto> getProdutosVendedor() {
+        return r_produto.getProdutosVendedor();
+    }
 }
