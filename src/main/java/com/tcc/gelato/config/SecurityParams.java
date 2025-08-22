@@ -24,7 +24,8 @@ public class SecurityParams {
             "/gerir_saldo", // Get
             "/js/gerir_saldo.js", // JS
             "/js/produto_vendedor.js",
-            "/css/gerir_saldo.css" // CSS
+            "/css/gerir_saldo.css", // CSS
+            "/css/catalogo_vendedor.css"
     };
     public static String[] cliente = new String[]{
             "/adicionar_carrinho", "/remover_carrinho","/definir_horario_retirada_ticket", // Post

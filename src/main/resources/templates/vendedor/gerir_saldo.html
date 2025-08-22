@@ -11,7 +11,7 @@
 </head>
 <body>
 <!-- Navbars --->
-<div class="sticky-top"><div th:replace="~{pv/navbar.html :: vendedor}"></div></div>
+<div th:replace="~{pv/navbar.html :: vendedor}"></div>
 
 <div class="container">
     <h2 class="mt-4">Gerir Saldo</h2>
@@ -50,8 +50,9 @@
     </div>
     <h4>Consultas:</h4>
     <div id="consultas" class="row container">
-        <div class="consulta-container d-none col-12 row container" id="template-consulta-container">
-            <h5></h5>
+        <div class="consulta-container d-none retrair-parent" id="template-consulta-container">
+            <h5 class="row"><span class="col-11"></span><button class="btn-retrair col"></button></h5>
+            <div class="retraivel container row"></div>
         </div>
         <div class="consulta d-none col-6 row" id="template-consulta"></div>
     </div>

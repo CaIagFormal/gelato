@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 
 <!-- Header -->
-<div th:fragment="header (title)">
+<th:block th:fragment="header (title)">
     <meta charset="UTF-8">
     <title th:text="${'Gelato - '+title}"></title>
 
@@ -16,11 +16,9 @@
     <!-- INDEX -->
     <script src="/js/funcionalidades.js"></script>
     <link href="/css/index.css" rel="stylesheet">
-</div>
+</th:block>
 
 <!-- Observação -->
-
-
 <div th:fragment="pv_obs (v_tipo, v_texto)" class="observacao retrair-parent">
     <p class="titulo row"><label for="obs-write" class="col-11">Obs.:</label><button class="btn-retrair col"></button></p>
     <div class="retraivel">
@@ -28,5 +26,6 @@
         <p class="limite"><span id="lim-obs" th:text="${v_texto.length()}"></span> / 1023</p>
         <p id="write-text-holder" class="d-none" th:text="${v_texto}"></p>
         <button th:class="${'btn btn-primary '+v_tipo}" id="btn-salvar-obs">Salvar</button>
+        <div></div>
     </div>
 </div>

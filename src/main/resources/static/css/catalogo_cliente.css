@@ -4,7 +4,7 @@ div.produto {
     align-content: center;
 }
 
-button.btn_produto {
+div.produto > button.btn_produto {
     max-width: 12em;
     min-height: 10em;
     border-radius: 1em;
@@ -12,7 +12,7 @@ button.btn_produto {
     background: linear-gradient(#4488FF,transparent);
 }
 
-h5 {
+button.btn_produto > h5 {
     color: #FFFFFF;
     font-size: 1em;
     font-weight: 300;
