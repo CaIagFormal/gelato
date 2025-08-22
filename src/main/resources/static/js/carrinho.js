@@ -1,5 +1,5 @@
 function conf_remover_item_do_carrinho(btn) {
-    let id = $(btn).parent().parent().parent().parent().children("p.id_compra").text()
+    let id = $(btn).nearest("p.id_compra").text()
 
     erro = ""
     if (parseInt(id)===NaN) {

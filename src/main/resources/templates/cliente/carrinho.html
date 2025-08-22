@@ -12,8 +12,7 @@
     <script src="/js/observacao.js" defer></script>
 </head>
 <body>
-<!-- Navbars --->
-<div class="sticky-top"><div th:replace="~{pv/navbar.html :: cliente (v_navbar=${m_navbar})}"></div></div>
+<div th:replace="~{pv/navbar.html :: cliente (v_navbar=${m_navbar})}"></div>
 
 <div class="container" th:if="${carrinho.size > 0}">
     <div class="mt-4" th:fragment="pv_ticket">
@@ -35,9 +34,9 @@
         </div>
     </div>
 
-    <div th:each="item_do_carrinho : ${carrinho}">
+    <th:block th:each="item_do_carrinho : ${carrinho}">
         <div th:replace="~{pv/produto.html :: pv_item_do_carrinho (v_compra=${item_do_carrinho}, v_removivel=${alterar_monetario})}"></div>
-    </div>
+    </th:block>
 
     <h4 th:text="${'Total: R$'+total}"></h4>
 

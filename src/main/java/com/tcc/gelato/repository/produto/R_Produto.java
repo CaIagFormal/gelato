@@ -15,6 +15,9 @@ public interface R_Produto extends JpaRepository<M_Produto,Long> {
     @Query(value = "select * from gelato.produto where disponivel = true",nativeQuery = true)
     public List<M_Produto> getProdutosDisponiveis();
 
+    @Query(value = "select * from gelato.produto order by disponivel desc",nativeQuery = true)
+    public List<M_Produto> getProdutosVendedor();
+
     /**
      * Retorna a soma das quantidade dentro das compras de um produto em um ticket
      */

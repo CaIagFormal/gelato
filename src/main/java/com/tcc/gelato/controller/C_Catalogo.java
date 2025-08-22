@@ -28,8 +28,11 @@ public class C_Catalogo {
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
 
         model.addAttribute("usuario",m_usuario);
-        model.addAttribute("produtos",s_produto.getProdutosDisponiveis());
-
+        if (s_cargo.validarVendedor(m_usuario)) {
+            model.addAttribute("produtos", s_produto.getProdutosVendedor());
+        } else {
+            model.addAttribute("produtos", s_produto.getProdutosDisponiveis());
+        }
         if (s_cargo.validarCliente(m_usuario)) {
             s_cargo.session_to_model_navbar(model,session);
         }

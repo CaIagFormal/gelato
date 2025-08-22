@@ -28,7 +28,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Para funcionalidades regidas ao {@link M_Ticket}
+ * Para funcionalidades regidas ao {@link M_Ticket},
+ * se quer ver da página do vendedor de pedidos, acesse {@link C_Pedidos}
  */
 @Controller
 public class C_Ticket {
