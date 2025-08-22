@@ -1,0 +1,11 @@
+div.produto > button.btn_produto.indisponivel {
+    background: linear-gradient(#888888,transparent);
+}
+button.btn_produto.indisponivel > h5::before {
+    content: "Indisponível ";
+    font-weight: 600;
+    color: #FFFF00;
+}
+div.produto > button.btn_produto.indisponivel > img {
+    filter: grayscale(50%) contrast(50%);
+}

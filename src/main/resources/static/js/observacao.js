@@ -1,6 +1,7 @@
 //Função de atualizar limite e conter texto dentro dele (1024 caracteres)
 function atualiza_texto() {
-    let texto = $('#obs-write').val().trimLeft();
+    let original = $('#obs-write').val();
+    let texto = original.trimLeft();
     let limite = $('#lim-obs');
 
     if (texto.length>1023) {
@@ -10,7 +11,7 @@ function atualiza_texto() {
     }
     limite.text(texto.length);
 
-    if ($('#obs-write').val()==texto) {return;}
+    if (original==texto) {return;}
     $('#obs-write').val(texto);
 }
 

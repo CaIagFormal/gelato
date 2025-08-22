@@ -9,12 +9,16 @@
   <a class="nav-link btn btn-danger" id="logout">Log out</a>
 </li>
 
-<nav class="navbar navbar-expand-lg" th:fragment="sem_registro">
+<th:block th:fragment="nav_header">
+  <a class="navbar-brand" href="/">Gelato</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</th:block>
+
+<nav class="navbar navbar-expand-lg sticky-top" th:fragment="sem_registro">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Gelato</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div th:replace="~{ :: nav_header}"></div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li th:replace="~{ :: nav-item (href=${'/catalogo'}, text=${'Catálogo'})}"></li>
@@ -25,34 +29,28 @@
   </div>
 </nav>
 
-<nav class="navbar navbar-expand-lg" th:fragment="cliente (v_navbar)">
+<nav class="navbar navbar-expand-lg sticky-top" th:fragment="cliente (v_navbar)">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Gelato</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div th:replace="~{ :: nav_header}"></div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li th:replace="~{ :: nav-item (href=${'/catalogo'}, text=${'Catálogo'})}"></li>
       </ul>
-    <div class="d-flex">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li th:replace="~{ :: nav-item (href=${'/carrinho'}, text=${'Carrinho: '+v_navbar.quantidade_compras+' Compra(s)'})}"></li>
-        <li th:replace="~{ :: nav-item (href=${''}, text=${'Saldo: $'+v_navbar.saldo})}"></li>
-        <li th:replace="~{ :: nav-item (href=${'/redefinir-senha'}, text=${'Redefinir Senha'})}"></li>
-        <li th:replace="~{ :: nav-logout}"></li>
-      </ul>
-    </div>
+      <div class="d-flex">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li th:replace="~{ :: nav-item (href=${'/carrinho'}, text=${'Carrinho: '+v_navbar.quantidade_compras+' Compra(s)'})}"></li>
+          <li th:replace="~{ :: nav-item (href=${''}, text=${'Saldo: $'+v_navbar.saldo})}"></li>
+          <li th:replace="~{ :: nav-item (href=${'/redefinir-senha'}, text=${'Redefinir Senha'})}"></li>
+          <li th:replace="~{ :: nav-logout}"></li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
 
-<nav class="navbar navbar-expand-lg" th:fragment="vendedor">
+<nav class="navbar navbar-expand-lg sticky-top" th:fragment="vendedor">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Gelato</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div th:replace="~{ :: nav_header}"></div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li th:replace="~{ :: nav-item (href=${'/catalogo'}, text=${'Catálogo'})}"></li>
@@ -69,10 +67,10 @@
   </div>
 </nav>
 
-<div th:fragment="navbar_cargo (v_usuario,v_navbar)">
-<div th:if="${v_usuario}==null" class="sticky-top"><div th:replace="~{ :: sem_registro}"></div></div>
-<div th:unless="${v_usuario}==null" class="sticky-top">
-  <div th:if="${v_usuario.cargo.toString()=='CLIENTE'}"><div th:replace="~{ :: cliente (v_navbar=${v_navbar})}"></div></div>
-  <div th:if="${v_usuario.cargo.toString()=='VENDEDOR'}"><div th:replace="~{ :: vendedor}"></div></div>
-</div>
-</div>
+<th:block th:fragment="navbar_cargo (v_usuario,v_navbar)">
+  <th:block th:if="${v_usuario}==null"><div th:replace="~{ :: sem_registro}"></div></th:block>
+  <th:block th:unless="${v_usuario}==null">
+    <th:block th:if="${v_usuario.cargo.toString()=='CLIENTE'}"><div th:replace="~{ :: cliente (v_navbar=${v_navbar})}"></div></th:block>
+    <th:block th:if="${v_usuario.cargo.toString()=='VENDEDOR'}"><div th:replace="~{ :: vendedor}"></div></th:block>
+  </th:block>
+</th:block>
