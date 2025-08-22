@@ -22,10 +22,13 @@ public class SecurityParams {
             "/inspecionar_saldo", "/inspecionar_transacoes", "/alterar_saldo", "/esvaziar_saldo", // Post
             "/adicionar_estoque",
             "/gerir_saldo", // Get
+            "/pedidos",
             "/js/gerir_saldo.js", // JS
             "/js/produto_vendedor.js",
+            "/js/pedidos.js",
             "/css/gerir_saldo.css", // CSS
-            "/css/catalogo_vendedor.css"
+            "/css/catalogo_vendedor.css",
+            "/css/pedidos.css"
     };
     public static String[] cliente = new String[]{
             "/adicionar_carrinho", "/remover_carrinho","/definir_horario_retirada_ticket", // Post

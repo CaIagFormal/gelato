@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <div th:replace="~{pv/script::header (title=${'Pedidos'})}"></div>
+
+    <!-- CSS -->
+    <link href="/css/pedidos.css" rel="stylesheet">
+    <!-- JS -->
+    <script src="/js/cadastrados.js" defer></script>
+    <script src="/js/pedidos.js" defer></script>
+</head>
+<body>
+<div th:replace="~{pv/navbar.html :: vendedor}"></div>
+
+<div class="container">
+    <h2 class="mt-4">Pedidos</h2>
+    <p class="mb-3">Por aqui se atende os clientes</p>
+
+    <div class="retrair-parent pedido-container">
+        <h4>Encaminhados<button class="btn-retrair"></button></h4>
+        <div class="retraivel row">
+            <th:block th:each="pedido : ${pedidos_encaminhados}">
+                <div th:replace="~{pv/produto.html :: pv_pedido (v_pedido=${pedido})}"></div>
+            </th:block>
+        </div>
+    </div>
+
+    <div class="retrair-parent pedido-container">
+        <h4>Recebidos<button class="btn-retrair"></button></h4>
+        <div class="retraivel row">
+            <th:block th:each="pedido : ${pedidos_recebidos}">
+                <div th:replace="~{pv/produto.html :: pv_pedido (v_pedido=${pedido})}"></div>
+            </th:block>
+        </div>
+    </div>
+
+    <div class="retrair-parent pedido-container">
+        <h4>Preparados<button class="btn-retrair"></button></h4>
+        <div class="retraivel row">
+            <th:block th:each="pedido : ${pedidos_preparados}">
+                <div th:replace="~{pv/produto.html :: pv_pedido (v_pedido=${pedido})}"></div>
+            </th:block>
+        </div>
+    </div>
+
+    <div class="retrair-parent pedido-container">
+        <h4>Entregados<button class="btn-retrair"></button></h4>
+        <div class="retraivel row">
+            <th:block th:each="pedido : ${pedidos_entregados}">
+                <div th:replace="~{pv/produto.html :: pv_pedido (v_pedido=${pedido})}"></div>
+            </th:block>
+        </div>
+    </div>
+
+    <div class="retrair-parent pedido-containe">
+        <h4>Cancelados<button class="btn-retrair retraido"></button></h4>
+        <div class="retraivel row d-none">
+            <th:block th:each="pedido : ${pedidos_cancelados}">
+                <div th:replace="~{pv/produto.html :: pv_pedido (v_pedido=${pedido})}"></div>
+            </th:block>
+        </div>
+    </div>
+</div>
+</body>

@@ -110,8 +110,13 @@ function confirmar(title,text,f_then,context=this) {
 
 //Funcionalidade de retrair
 function retrair() {
-    let parent = $(this).closest('div.retrair-parent');
-    let retraivel = $(parent).children(".retraivel");
+    let retraivel;
+    if ($(this).hasClass('r-orphan')) {
+        retraivel = $(this).next(".retraivel")
+    } else {
+        let parent = $(this).closest('div.retrair-parent');
+        retraivel = $(parent).children(".retraivel");
+    }
     if ($(retraivel).hasClass("d-none")) {
         retraivel.removeClass("d-none");
         $(this).removeClass("retraido");

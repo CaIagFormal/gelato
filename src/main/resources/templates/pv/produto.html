@@ -32,3 +32,15 @@
     </div>
     <p class="d-none id_compra" th:text="${v_compra.id}"></p>
 </div>
+
+<!-- PEDIDO -->
+<div th:fragment="pv_pedido (v_pedido)" class="col-6 row retrair-parent pedido">
+    <h5><span th:text="${v_pedido.ticket+' de '+v_pedido.nome_cliente}"></span><button class="btn-retrair retraido"></button></h5>
+    <div class="retraivel row d-none">
+        <p class="col-6"><b>Encaminhado às: </b><span th:text="${#temporals.format(v_pedido.horario_encaminhado, 'HH:mm, dd-MM-yyyy')}"></span></p>
+        <p class="col-6"><b>Total: </b><span th:text="${v_pedido.preco}"></span>R$</p>
+        <p class="col-6"><b>Retirada às: </b><span th:text="${#temporals.format(v_pedido.horario_retirada, 'HH:mm, dd-MM-yyyy')}"></span></p>
+        <p class="col-6"><b>Tempo até retirada: </b><span th:text="${v_pedido.contagem_retirada}"></span></p>
+        <p><b>Obs.:</b><span th:text="${v_pedido.observacao}"></span></p>
+    </div>
+</div>
