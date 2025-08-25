@@ -20,7 +20,7 @@ public class SecurityParams {
     };
     public static String[] vendedor = new String[]{
             "/inspecionar_saldo", "/inspecionar_transacoes", "/alterar_saldo", "/esvaziar_saldo", // Post
-            "/adicionar_estoque",
+            "/adicionar_estoque","/obter_contato_cliente","/obter_pedido",
             "/gerir_saldo", // Get
             "/pedidos",
             "/js/gerir_saldo.js", // JS

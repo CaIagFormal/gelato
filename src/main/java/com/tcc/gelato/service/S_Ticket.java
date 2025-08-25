@@ -236,10 +236,10 @@ public class S_Ticket {
             return null;
         }
 
-        M_Ticket.StatusCompra last_status = M_Ticket.StatusCompra.index(pedidos.get(0).getStatus_id());
+        M_Ticket.StatusCompra last_status = pedidos.get(0).getStatus();
         int last_index = 0;
         for (int i = 0; i<pedidos.size(); i++) {
-            M_Ticket.StatusCompra pedido_status = M_Ticket.StatusCompra.index(pedidos.get(i).getStatus_id());
+            M_Ticket.StatusCompra pedido_status = pedidos.get(i).getStatus();
             if (last_status == pedido_status) {
                 continue;
             }
@@ -252,7 +252,7 @@ public class S_Ticket {
             last_status = pedido_status;
         }
         status_pedidos.put(
-                M_Ticket.StatusCompra.index(pedidos.get(pedidos.size()-1).getStatus_id()),
+                pedidos.get(pedidos.size()-1).getStatus(),
                 pedidos.subList(last_index,pedidos.size()));
 
         return status_pedidos;

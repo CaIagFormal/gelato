@@ -40,7 +40,26 @@
         <p class="col-6"><b>Encaminhado às: </b><span th:text="${#temporals.format(v_pedido.horario_encaminhado, 'HH:mm, dd-MM-yyyy')}"></span></p>
         <p class="col-6"><b>Total: </b><span th:text="${v_pedido.preco}"></span>R$</p>
         <p class="col-6"><b>Retirada às: </b><span th:text="${#temporals.format(v_pedido.horario_retirada, 'HH:mm, dd-MM-yyyy')}"></span></p>
-        <p class="col-6"><b>Tempo até retirada: </b><span th:text="${v_pedido.contagem_retirada}"></span></p>
-        <p><b>Obs.:</b><span th:text="${v_pedido.observacao}"></span></p>
+        <p class="col-6"><b>Tempo até retirada: </b><span th:class="${(v_pedido.contagem_negativa)?'neg':''}" th:text="${v_pedido.contagem_retirada.getDays()+' dia(s), '+v_pedido.contagem_retirada.getHours()+' hora(s), '+v_pedido.contagem_retirada.getMinutes()+' minuto(s) e '+v_pedido.contagem_retirada.getWholeSeconds()+' segundo(s)'}"></span></p>
+        <div class="retrair-parent row"><b class="col-11">Obs.:</b><button class="btn-retrair retraido col-1"></button>
+            <p class="retraivel d-none" th:text="${v_pedido.observacao}"></p></div>
+        <div class="row container">
+            <div class="col">
+                <button class="btn_obter_pedido btn btn-primary">Obter informações de pedido</button>
+            </div>
+            <div class="col">
+                <button class="btn_contato_cliente btn btn-info">Contato do cliente</button>
+            </div>
+            <div class="col">
+                <button th:if="${v_pedido.status.toString()=='ENCAMINHADO'}" class="btn_recebido btn btn-success">Declarar como recebido</button>
+                <button th:if="${v_pedido.status.toString()=='RECEBIDO'}" class="btn_preparado btn btn-success">Declarar como preparado</button>
+                <button th:if="${v_pedido.status.toString()=='PREPARADO'}" class="btn_entregue btn btn-success">Declarar como entregue</button>
+            </div>
+            <div class="col">
+                <button class="btn_canc_pedido btn btn-danger">Cancelar</button>
+            </div>
+        </div>
     </div>
+    <p class="d-none id_ticket" th:text="${v_pedido.id_ticket}"></p>
+    <p class="d-none nome_cliente" th:text="${v_pedido.nome_cliente}"></p>
 </div>
