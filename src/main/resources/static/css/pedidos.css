@@ -25,3 +25,7 @@
     border-radius: 1em;
     color: #000000;
 }
+
+span.neg {
+    color: #FF0000;
+}

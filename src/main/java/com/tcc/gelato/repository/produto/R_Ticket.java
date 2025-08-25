@@ -70,7 +70,8 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
             "p.valor as preco," +
             "t.observacao," +
             "t.status as status_id," +
-            "(t.horario_retirada-current_timestamp) as contagem_retirada "+
+            "(t.horario_retirada-current_timestamp) as contagem_retirada,"+
+            "current_timestamp>t.horario_retirada as contagem_negativa "+
             "from gelato.ticket t " +
             "join gelato.usuario c on c.id = t.fk_usuario left join gelato.transacao p on p.id = t.fk_pagamento " +
             "where "+check_pedido+" order by t.status,t.horario_retirada,t.status desc",nativeQuery = true)
