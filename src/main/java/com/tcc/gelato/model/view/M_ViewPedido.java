@@ -1,6 +1,8 @@
 package com.tcc.gelato.model.view;
 
+import jakarta.persistence.Column;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public interface M_ViewPedido {
@@ -12,5 +14,7 @@ public interface M_ViewPedido {
     BigDecimal getPreco();
     String getObservacao();
     Short getStatus_id();
-    String getContagem_retirada();
+
+    @Column(columnDefinition = "interval")
+    Duration getContagem_retirada();
 }

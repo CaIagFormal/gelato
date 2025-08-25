@@ -16,6 +16,10 @@ public class M_TicketRecuperarSenha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn( name = "fk_usuario",nullable = false)
+    @ManyToOne
+    private M_Usuario usuario;
+
     @Column(nullable = false,unique = true)
     private String ticket;
 

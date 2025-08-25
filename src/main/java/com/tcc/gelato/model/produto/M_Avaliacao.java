@@ -18,9 +18,11 @@ public class M_Avaliacao {
     private Long id;
 
     @JoinColumn( name = "fk_usuario",nullable = false)
+    @ManyToOne
     private M_Usuario usuario;
 
     @JoinColumn( name = "fk_produto",nullable = false)
+    @ManyToOne
     private M_Produto produto;
 
     @Column(length = 1023, nullable = false)
@@ -39,6 +41,7 @@ public class M_Avaliacao {
     private boolean publica; // Se a avaliação é pública
 
     @JoinColumn( name = "fk_vendedor_desabilitar")
+    @ManyToOne
     private M_Usuario vendedor_desabilitar; // Representa o vendedor que desabilitou a avaliação caso esteja nulo a avaliação não foi desabilitada
 
     public Long getId() {
