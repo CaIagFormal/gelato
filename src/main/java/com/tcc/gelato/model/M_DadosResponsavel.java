@@ -14,6 +14,7 @@ public class M_DadosResponsavel {
     private Long id;
 
     @JoinColumn( name = "fk_usuario",nullable = false)
+    @ManyToOne
     private M_Usuario usuario;
 
     @Column(nullable = false)

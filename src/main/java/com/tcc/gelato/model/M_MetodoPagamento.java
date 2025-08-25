@@ -14,6 +14,7 @@ public class M_MetodoPagamento {
     private Long id;
 
     @JoinColumn( name = "fk_vendedor",nullable = false)
+    @ManyToOne
     private M_Usuario vendedor;
 
     @Column(nullable = false)
