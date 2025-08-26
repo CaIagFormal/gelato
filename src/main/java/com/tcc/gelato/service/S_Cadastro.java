@@ -7,6 +7,7 @@ import com.tcc.gelato.repository.R_Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -118,5 +119,14 @@ public class S_Cadastro {
      */
     public M_Usuario getUsuarioByNomeOrEmail(String nome) {
         return r_usuario.getUsuarioByNomeOrEmail(nome);
+    }
+
+    public M_Usuario getUsuarioById(Long id) {
+        Optional<M_Usuario> m_usuario = r_usuario.findById(id);
+        if (!m_usuario.isPresent()) {
+            return null;
+        }
+        return m_usuario.get();
+        }
     }
 }
