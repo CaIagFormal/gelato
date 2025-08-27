@@ -56,14 +56,11 @@ public class S_Ticket {
     public String gerarNumeroDeTicket() {
         Random random = new Random();
         StringBuilder ticket;
-        Character c;
+        String candidatos = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         do {
             ticket = new StringBuilder();
             for (int i = 0; i < 8; i++) {
-                do {
-                    c = (char) (random.nextInt()%77 + '0'); // 42 -> 'z'-'0'
-                } while (!Character.isDigit(c) && !Character.isAlphabetic(c));
-                ticket.append(c);
+                ticket.append(candidatos.charAt(random.nextInt(0,candidatos.length())));
             }
         } while (r_ticket.getTicketAtivoByString(ticket.toString()).isPresent());
 

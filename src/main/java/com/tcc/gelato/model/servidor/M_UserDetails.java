@@ -24,6 +24,7 @@ public class M_UserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         switch (usuario.getCargo()) {
             case CLIENTE -> {
+                if (!usuario.getVerificado()) return null;
                 return Collections.singleton(new SimpleGrantedAuthority("CLIENTE"));
             }
             case VENDEDOR -> {

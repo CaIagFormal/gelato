@@ -1,12 +1,15 @@
 package com.tcc.gelato.service;
 
+import com.tcc.gelato.model.M_DadosResponsavel;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.controller.C_Cadastro;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
+import com.tcc.gelato.repository.R_DadosResponsavel;
 import com.tcc.gelato.repository.R_Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,11 +21,13 @@ import java.util.regex.Pattern;
 public class S_Cadastro {
 
     private final R_Usuario r_usuario;
+    private final R_DadosResponsavel r_dadosResponsavel;
     private final Pattern senha_valida;
     private final BCryptPasswordEncoder encoder;
 
-    public S_Cadastro(R_Usuario r_usuario) {
+    public S_Cadastro(R_Usuario r_usuario, R_DadosResponsavel r_dadosResponsavel) {
         this.r_usuario = r_usuario;
+        this.r_dadosResponsavel = r_dadosResponsavel;
         this.encoder = new BCryptPasswordEncoder(12);
         senha_valida = Pattern.compile("(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*[0-9]+)(?=.*[!-\\/:-@\\[-`{-~]+)");
     }
@@ -103,6 +108,7 @@ public class S_Cadastro {
         m_usuario.setSenha(encoder.encode(senha));
         m_usuario.setEmail(email);
         m_usuario.setTelefone(telefone);
+        m_usuario.setVerificado(false);
 
         try {
             return r_usuario.save(m_usuario);
@@ -127,6 +133,38 @@ public class S_Cadastro {
             return null;
         }
         return m_usuario.get();
-        }
+    }
+
+    /**
+     * Obtêm dados de responsável de um usuário a partir do mesmo
+     */
+    public List<M_DadosResponsavel> getDadosResponsavelByUsuario(M_Usuario m_usuario) {
+        return r_dadosResponsavel.getDadosResponsavelByUsuario(m_usuario.getId());
+    }
+
+    /**
+     * Valida a obtenção de um usuário por meio de seu nome ou e-mail
+     */
+    public boolean validarGetUsuarioByNomeOrEmail(String nome) {
+        if (nome==null) return false;
+        if (nome.trim().isBlank()) return false;
+
+        return true;
+    }
+
+    /**
+     * Apaga um usuário
+     */
+    public void deleteUsuario(M_Usuario m_usuario) {
+        r_usuario.delete(m_usuario);
+    }
+
+    /**
+     * Deixa um usuário verificado
+     * @return
+     */
+    public M_Usuario verificarUsuario(M_Usuario usuario) {
+        usuario.setVerificado(true);
+        return r_usuario.save(usuario);
     }
 }

@@ -1,5 +1,6 @@
 package com.tcc.gelato.controller;
 
+import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.model.view.M_ViewPedido;
@@ -62,18 +63,26 @@ public class C_Pedidos {
 
     @PostMapping(path = "/obter_contato_cliente")
     @ResponseBody
-    M_RespostaTexto obterContatoCliente(@RequestParam("id") String id) {
+    M_RespostaTexto obterContatoCliente(@RequestParam("nome") String nome) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-        if (!.validarGetUsuarioById(id)) {
-            m_respostaTexto.setMensagem("O usuário solicitado não foi encontrado");
+        if (!s_cadastro.validarGetUsuarioByNomeOrEmail(nome)) {
+            m_respostaTexto.setMensagem("O usuário solicitado é inválido.");
             m_respostaTexto.setSucesso(false);
             return m_respostaTexto;
         }
+        M_Usuario m_usuario = s_cadastro.getUsuarioByNomeOrEmail(nome);
+        if (m_usuario==null) {
+            m_respostaTexto.setMensagem("O usuário solicitado não foi encontrado.");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
         // Processar página
         Context context = new Context();
-        context.setVariable("v_usuario",);
+        context.setVariable("v_usuario",m_usuario);
+        context.setVariable("v_dados_responsaveis",s_cadastro.getDadosResponsavelByUsuario(m_usuario));
         // Add variaveis ao contexto
-        m_respostaTexto.setMensagem(templateEngine.process("pv/usuario :: pv_contato",context));
+        m_respostaTexto.setMensagem(templateEngine.process("pv/contato_usuario",context));
         m_respostaTexto.setSucesso(true);
         // Retornar
         return m_respostaTexto;
