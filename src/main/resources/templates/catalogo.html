@@ -23,7 +23,7 @@
         <p th:if="${usuario.getCargo().toString()}=='CLIENTE'">Veja nosso cardápio abaixo e escolha o que deseja pedir.</p>
         <p th:if="${usuario.getCargo().toString()}=='VENDEDOR'">Confira como está seu cardápio abaixo.</p>
 
-        <p th:if="${usuario.isVerificado()}==false">Verifique sua conta pelo e-mail enviado para '<span th:text="${usuario.email}"></span>' para comprar.</p>
+        <p th:if="${usuario.verificado}==false">Verifique sua conta pelo e-mail enviado para '<span th:text="${usuario.email}"></span>' para comprar.</p>
     </th:block>
 
     <div class="row container mt-3">
