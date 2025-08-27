@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+<div th:fragment="cabecario_email">
+    <h1>Gelato</h1>
+</div>
+<div class="container w-75 mt-4">
+    <h2>Olá <span th:text="${v_acesso.usuario.nome}"></span>, bem vindo ao Gelato!</h2>
+    <p>Clique neste botão para verificar sua conta e começar a comprar.<b>Caso não tenha criado essa conta, por favor denuncie respondendo este e-mail.</b></p>
+    <div class="w-100 text-center">
+        <a class="btn btn-success" th:href="${v_acesso}">Verificar conta</a>
+    </div>
+
+    <div th:fragment="fim_email" class="mt-4">
+        <hr>
+        <p class="h-100 text-center">Gelato 2024-2025 - TCC de TDS</p>
+    </div>
+</div>
+</html>

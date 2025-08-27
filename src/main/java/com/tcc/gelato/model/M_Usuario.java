@@ -37,6 +37,9 @@ public class M_Usuario {
     @Column(nullable = false)
     private Cargo cargo;
 
+    @Column(nullable = false)
+    private Boolean verificado;
+
     public Long getId() {
         return id;
     }
@@ -83,5 +86,13 @@ public class M_Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public Boolean getVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(Boolean verificado) {
+        this.verificado = verificado;
     }
 }

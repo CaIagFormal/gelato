@@ -4,13 +4,19 @@ package com.tcc.gelato.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 /**
- * Representa um ticket enviado ao e-mail do usuário para recuperar a senha
+ * Representa um acesso à uma funcionalidade enviado ao e-mail do usuário
  */
 @Entity
-@Table(name = "ticket_recuperar_senha")
-public class M_TicketRecuperarSenha {
+@Table(name = "acesso_via_url")
+public class M_AcessoViaUrl {
+
+    public enum Funcionalidade {
+        VERIFICAR_CONTA,
+        RECUPERAR_SENHA
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +31,14 @@ public class M_TicketRecuperarSenha {
 
     @Column(nullable = false)
     private LocalDateTime validade;
+
+    @Column(nullable = false)
+    private Funcionalidade funcionalidade;
+
+    @Override
+    public String toString() {
+        return "http://localhost:8080/"+getFuncionalidade().toString().toLowerCase(Locale.ROOT)+"/"+getTicket();
+    }
 
     public Long getId() {
         return id;
@@ -48,5 +62,21 @@ public class M_TicketRecuperarSenha {
 
     public void setValidade(LocalDateTime validade) {
         this.validade = validade;
+    }
+
+    public M_Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(M_Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Funcionalidade getFuncionalidade() {
+        return funcionalidade;
+    }
+
+    public void setFuncionalidade(Funcionalidade funcionalidade) {
+        this.funcionalidade = funcionalidade;
     }
 }

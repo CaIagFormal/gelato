@@ -1,13 +1,13 @@
-<div xmlns:th="http://www.thymeleaf.org" th:fragment="pv_contato (v_usuario, v_dados_responsaveis)">
+<html xmlns:th="http://www.thymeleaf.org">
     <p><b>Nome: </b><span th:text="${v_usuario.nome}"></span></p>
     <p><b>Telefone: </b><span th:text="${v_usuario.telefone}"></span></p>
     <p><b>E-mail: </b><span th:text="${v_usuario.email}"></span></p>
 
-    <th:block th:if='${v_dados_responsaveis==null}'><b class="mt-4">Este usuário não possuí dados do responsável</b></th:block>
-    <div th:if='${v_dados_responsaveis!=null}' th:each="responsavel :${v_dados_responsaveis}">
+    <th:block th:if='${v_dados_responsaveis.size()==0}'><b class="mt-4">Este usuário não possuí dados do responsável</b></th:block>
+    <div th:if='${v_dados_responsaveis.size>0}' th:each="responsavel :${v_dados_responsaveis}">
         <hr>
         <p><b>Nome: </b><span th:text="${responsavel.nome}"></span></p>
         <p><b>Filiação: </b><span th:text="${responsavel.filiacao}"></span></p>
         <p><b>Contato: </b><span th:text="${responsavel.contato}"></span></p>
     </div>
-</div>
+</html>

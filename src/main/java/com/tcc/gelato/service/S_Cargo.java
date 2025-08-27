@@ -51,6 +51,7 @@ public class S_Cargo {
         if (m_usuario==null) {
             return false;
         }
+        if (!m_usuario.getVerificado()) return false;
         return m_usuario.getCargo() == M_Usuario.Cargo.CLIENTE;
     }
 

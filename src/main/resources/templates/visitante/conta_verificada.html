@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <div th:replace="~{pv/script::header (title=${'Conta verificada com sucesso'})}"></div>
+</head>
+<body>
+<!-- Navbars --->
+<div th:replace="~{pv/navbar.html :: sem_registro}"></div>
+
+<div class="container">
+    <h2 class="mt-4">Conta verificada com sucesso!</h2>
+    <p class="mb-3">Você verificou sua conta como <b th:text="${v_usuario.nome}"></b>, <a href="/login">acesse o login para acessar os recursos do site.</a></p>
+
+</div>
+
+</body>
+</html>

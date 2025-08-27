@@ -1,5 +1,5 @@
 function btn_contato_cliente() {
-    let nome = (this).closest('.pedido').children('.nome_cliente');
+    let nome = $(this).closest('.pedido').children('.nome_cliente').text();
 
     ajax("/obter_contato_cliente",{nome:nome});
 }

@@ -3,6 +3,7 @@ package com.tcc.gelato.config;
 public class SecurityParams {
     public static String[] publico = new String[]{
             "/", "/catalogo", "/produto/**", // Get
+            "/verificar_conta/**",
             "/js/funcionalidades.js",   // JS
             "/js/catalogo_cliente.js",
             "/js/observacao.js",
