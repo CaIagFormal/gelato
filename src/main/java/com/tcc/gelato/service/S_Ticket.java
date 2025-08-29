@@ -254,4 +254,24 @@ public class S_Ticket {
 
         return status_pedidos;
     }
+
+    /**
+     * Obtêm um ticket baseado em um ID
+     */
+    public M_Ticket getTicketById(Long id) {
+        return r_ticket.findById(id).orElse(null);
+    }
+
+    /**
+     * Valida se uma string pode representar um id de um ticket
+     */
+    public boolean validarIdTicket(String id) {
+        long id_val;
+        try {
+            id_val = Long.parseLong(id);
+        } catch (Exception e) {
+            return false;
+        }
+        return id_val>0;
+    }
 }

@@ -1,7 +1,9 @@
 package com.tcc.gelato.controller;
 
+import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
+import com.tcc.gelato.model.servidor.M_RespostaObjeto;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.model.view.M_ViewPedido;
 import com.tcc.gelato.service.S_Cadastro;
@@ -16,6 +18,7 @@ import org.thymeleaf.context.Context;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Controller regente a tela do vendedor de pedidos
@@ -85,6 +88,37 @@ public class C_Pedidos {
         m_respostaTexto.setMensagem(templateEngine.process("pv/contato_usuario",context));
         m_respostaTexto.setSucesso(true);
         // Retornar
+        return m_respostaTexto;
+    }
+
+    /**
+     * Obtêm um pedido baseado em um ID de um ticket
+     */
+    @PostMapping(path = "/obter_pedido")
+    @ResponseBody
+    M_RespostaTexto obterPedido(@RequestParam("id") String id) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+
+        if (!s_ticket.validarIdTicket(id)) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Pedido inválido");
+            return m_respostaTexto;
+        }
+
+        M_Ticket m_ticket = s_ticket.getTicketById(Long.valueOf(id));
+
+        List<M_Compra> m_compras = s_ticket.getComprasDeTicket(m_ticket);
+        if (m_compras.isEmpty()) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Não há nada neste pedido...");
+            return m_respostaTexto;
+        }
+
+        Context context = new Context();
+        context.setVariable("v_compras",m_compras);
+
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem(templateEngine.process("pv/produto_pedido", context));
         return m_respostaTexto;
     }
 }
