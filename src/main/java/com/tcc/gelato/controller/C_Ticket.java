@@ -46,17 +46,6 @@ public class C_Ticket {
     }
 
     /**
-     * Eventos que rodam diáriamente no começo do dia ou quando o programa é iniciado
-     */
-    @EventListener(ApplicationReadyEvent.class)
-    @Scheduled(cron = "0 0 0 * * MON-SAT")
-    public void diario() {
-        this.apagarTicketsVazios();
-    }
-
-
-
-    /**
      * Confira {@link S_Ticket#apagarTicketsDescartaveis()}
      */
     public void apagarTicketsVazios() {
