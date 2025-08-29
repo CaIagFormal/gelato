@@ -22,7 +22,7 @@ public class M_Compra {
     @ManyToOne
     private M_Produto produto;
 
-    @Column(precision = 10,scale = 2)
+    @Column(precision = 10,scale = 2, nullable = false)
     private BigDecimal preco;
 
     @Column(nullable = false)
