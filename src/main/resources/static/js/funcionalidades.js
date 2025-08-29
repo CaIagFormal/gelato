@@ -36,7 +36,7 @@ function conf_qtd(qtd,erro,neg=true) {
     return erro
 }
 
-function ajax(v_url,v_data,f_then=null,exito=true) {
+function ajax(v_url,v_data,f_then=null,exito=true,context=null) {
     $.ajax({
             type: "POST",
             url: v_url,
@@ -45,7 +45,8 @@ function ajax(v_url,v_data,f_then=null,exito=true) {
                 if (retorno.sucesso) {
                     if (!exito) {
                         if (f_then===null) {return;}
-                        f_then(retorno);
+                        if (context===null) {f_then(retorno);return;}
+                        f_then(retorno,context);
                         return;
                     }
                     Swal.fire({
@@ -55,9 +56,12 @@ function ajax(v_url,v_data,f_then=null,exito=true) {
                     }).then(() => {
                         if (f_then===null) {
                             return;
-                        } else {
-                            f_then(retorno);
                         }
+                        if (context===null) {
+                            f_then(retorno);
+                            return;
+                        }
+                        f_then(retorno,context)
                     });
 
                 } else {

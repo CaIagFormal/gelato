@@ -1,0 +1,5 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<div th:each="compra :${v_compras}">
+    <p><b th:text="${compra.quantidade+'x '+compra.produto.medida}"></b> de <b th:text="${compra.produto.nome}"></b></p>
+</div>
+</html>

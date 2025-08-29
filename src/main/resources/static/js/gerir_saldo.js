@@ -45,13 +45,13 @@ function f_esvaziar_saldo_conf() {
 function f_adicionar_saldo() {
     let qtd = $("#quantidade").val();
     let cliente = $("#cliente").val();
-    confirmar("Você deseja adicionar "+quantidade+"R$ na conta de "+cliente+"?", "Todas as transações são registradas.",f_adicionar_saldo_conf)
+    confirmar("Você deseja adicionar "+qtd+"R$ na conta de "+cliente+"?", "Todas as transações são registradas.",f_adicionar_saldo_conf)
 }
 
 function f_remover_saldo() {
     let qtd = $("#quantidade").val();
     let cliente = $("#cliente").val();
-    confirmar("Você deseja remover "+quantidade+"R$ da conta de "+cliente+"?", "Todas as transações são registradas.",f_remover_saldo_conf)
+    confirmar("Você deseja remover "+qtd+"R$ da conta de "+cliente+"?", "Todas as transações são registradas.",f_remover_saldo_conf)
 }
 
 function f_esvaziar_saldo() {
