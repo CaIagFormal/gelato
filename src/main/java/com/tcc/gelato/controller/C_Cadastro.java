@@ -75,7 +75,7 @@ public class C_Cadastro {
         }
 
        // Tenta criar acesso via e-mail para recurso de verificar conta
-        M_AcessoViaUrl m_acessoViaUrl = s_acessoViaUrl.criarAcesso(M_AcessoViaUrl.Funcionalidade.VERIFICAR_CONTA,m_usuario);
+       M_AcessoViaUrl m_acessoViaUrl = s_acessoViaUrl.criarAcesso(M_AcessoViaUrl.Funcionalidade.VERIFICAR_CONTA,m_usuario);
        if (m_acessoViaUrl==null) {
            s_cadastro.deleteUsuario(m_usuario);
            m_respostaTexto.setMensagem("Erro criando acesso à verificação de e-mail...");
@@ -106,6 +106,7 @@ public class C_Cadastro {
         if (m_acessoViaUrl==null) {
             return "redirect:/";
         }
+        s_acessoViaUrl.deleteAcesso(m_acessoViaUrl);
         M_Usuario m_usuario = s_cadastro.verificarUsuario(m_acessoViaUrl.getUsuario());
         if (m_usuario==null) {
             return "redirect:/";

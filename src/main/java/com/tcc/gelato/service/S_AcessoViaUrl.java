@@ -70,4 +70,18 @@ public class S_AcessoViaUrl {
     public M_AcessoViaUrl getAcessoByTicketOfType(String ticket, Funcionalidade funcionalidade) {
         return r_acessoViaUrl.getAcessoByTicketOfTypeValido(ticket,funcionalidade.ordinal());
     }
+
+    /**
+     * Apaga todos os acessos que estão inválidos
+     */
+    public void apagarAcessosInvalidos() {
+        r_acessoViaUrl.apagarAcessosInvalidos();
+    }
+
+    /**
+     * Pega um acesso baseado em um usuário e tipo que ainda esteja válido
+     */
+    public M_AcessoViaUrl getAcessoByUsuarioAndType(M_Usuario m_usuario, Funcionalidade funcionalidade) {
+        return r_acessoViaUrl.getAcessoByUsuarioAndTypeValido(m_usuario.getId(),funcionalidade.ordinal());
+    }
 }
