@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @Controller
 public class C_Produto {
 
@@ -224,4 +226,51 @@ public class C_Produto {
         m_respostaTexto.setMensagem(m_compra.getQuantidade() + " " + m_compra.getProduto().getMedida() + "(s) de " + m_compra.getProduto().getNome() + " foram removidos do seu carrinho.");
         return m_respostaTexto;
     }
+
+    /**
+     * Tela para criar produtos
+     */
+    @GetMapping("/criar_produto")
+    public String getCriarProduto() {
+        return "vendedor/criar_produto";
+    }
+
+    /**
+     * Função que realizará a criação do produto em sí
+     * @param nome Nome do produto
+     * @param descricao Descrição do produto
+     * @param preco Valor do preço do produto
+     * @param unidade Unidade do preço do produto
+     * @param url_icone URL para uma imagem que representará o produto
+     * @param estoque_minimo O estoque mínimo para este produto
+     * @param disponivel Se o produto estará disponível
+     */
+    @PostMapping("/criar_produto")
+    public M_RespostaTexto criarProduto(@RequestParam("nome") String nome,
+                                        @RequestParam("descricao") String descricao,
+                                        @RequestParam("preco") String preco,
+                                        @RequestParam("unidade") String unidade,
+                                        @RequestParam("url_icone") String url_icone,
+                                        @RequestParam("estoque_minimo") String estoque_minimo,
+                                        @RequestParam("disponivel") Boolean disponivel
+                                        ) {
+        M_RespostaTexto m_respostaTexto;
+
+        m_respostaTexto = s_produto.validaParamCriarProduto(nome,descricao,preco,unidade,url_icone,estoque_minimo,disponivel);
+        if (!m_respostaTexto.isSucesso()) {
+            return m_respostaTexto;
+        }
+
+        M_Produto m_produto = s_produto.criarProduto(nome,descricao,new BigDecimal(preco),unidade,url_icone,Integer.parseInt(estoque_minimo),disponivel);
+        if (m_produto==null) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Falha ao salvar o produto no banco de dados");
+            return m_respostaTexto;
+        }
+
+        m_respostaTexto.setMensagem("Foi criado o produto titulado "+m_produto.getNome()+" com valor de "+m_produto.getPreco()+"R$/"+m_produto.getMedida()+"<br>" +
+                "<a class=\"btn btn-primary text-center\" href=\"/produto/"+m_produto.getId()+"\">Visualizar</a>");
+        m_respostaTexto.setSucesso(true);
+        return m_respostaTexto;
+   }
 }
