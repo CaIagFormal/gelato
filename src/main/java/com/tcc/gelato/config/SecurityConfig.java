@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,19 +43,29 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request -> request
-                    .requestMatchers(SecurityParams.publico)
+                    //.requestMatchers(HttpMethod.POST,SecurityParams.publico_post)
+                    //.permitAll()
+                    .requestMatchers(HttpMethod.GET,SecurityParams.publico_get)
                     .permitAll()
 
-                    .requestMatchers(SecurityParams.visitante)
+                    .requestMatchers(HttpMethod.POST,SecurityParams.visitante_post)
+                    .anonymous()
+                    .requestMatchers(HttpMethod.GET,SecurityParams.visitante_get)
                     .anonymous()
 
-                    .requestMatchers(SecurityParams.cadastrados)
+                    .requestMatchers(HttpMethod.POST,SecurityParams.cadastrados_post)
+                    .authenticated()
+                    .requestMatchers(HttpMethod.GET,SecurityParams.cadastrados_get)
                     .authenticated()
 
-                    .requestMatchers(SecurityParams.vendedor)
+                    .requestMatchers(HttpMethod.POST,SecurityParams.vendedor_post)
+                    .hasAuthority("VENDEDOR")
+                    .requestMatchers(HttpMethod.GET,SecurityParams.vendedor_get)
                     .hasAuthority("VENDEDOR")
 
-                    .requestMatchers(SecurityParams.cliente)
+                    .requestMatchers(HttpMethod.POST,SecurityParams.cliente_post)
+                    .hasAuthority("CLIENTE")
+                    .requestMatchers(HttpMethod.GET,SecurityParams.cliente_get)
                     .hasAuthority("CLIENTE")
 
                     .anyRequest()

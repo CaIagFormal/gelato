@@ -19,6 +19,10 @@ public class M_RespostaTexto implements M_Resposta {
         this.mensagem = mensagem.toString();
     }
 
+    public void appendMensagem(String mensagem) {
+        this.mensagem += mensagem;
+    }
+
     public Boolean isSucesso() {
         return sucesso;
     }

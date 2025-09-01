@@ -1,10 +1,13 @@
 package com.tcc.gelato.service;
 
+import com.tcc.gelato.controller.C_Produto;
 import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
+import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.repository.produto.R_Produto;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +59,91 @@ public class S_Produto {
      */
     public List<M_Produto> getProdutosVendedor() {
         return r_produto.getProdutosVendedor();
+    }
+
+    /**
+     * Valida os parâmetros da função {@link C_Produto#criarProduto(String, String,String, String, String, String, Boolean)}
+     */
+    public M_RespostaTexto validaParamCriarProduto(String nome, String descricao, String preco, String unidade, String url_icone, String estoque_minimo, Boolean disponivel) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+        if ((nome==null) || (descricao==null) || (preco==null) || (unidade==null) || (url_icone==null) || (estoque_minimo==null) || (disponivel==null)) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Um campo está nulo");
+            return m_respostaTexto;
+        }
+
+        m_respostaTexto.setMensagem("");
+        m_respostaTexto.setSucesso(true);
+
+        boolean preco_invalido = false;
+        boolean estoque_invalido = false;
+        if (nome.isBlank()) {
+            m_respostaTexto.appendMensagem("O nome está vazio<br>");
+            m_respostaTexto.setSucesso(false);
+        }
+        if (preco.isBlank()) {
+            m_respostaTexto.appendMensagem("O valor do preço está vazio<br>");
+            m_respostaTexto.setSucesso(false);
+            preco_invalido = true;
+        }
+        if (unidade.isBlank()) {
+            m_respostaTexto.appendMensagem("A unidade do preço está vazia<br>");
+            m_respostaTexto.setSucesso(false);
+        }
+        if (estoque_minimo.isBlank()) {
+            m_respostaTexto.appendMensagem("O estoque mínimo está vazio<br>");
+            m_respostaTexto.setSucesso(false);
+            estoque_invalido = true;
+        }
+
+        if (!preco_invalido) {
+            BigDecimal preco_val;
+            try {
+                preco_val = new BigDecimal(preco);
+                if (preco_val.compareTo(BigDecimal.ZERO)<1) {
+                    m_respostaTexto.appendMensagem("Preço está baixo demais");
+                    m_respostaTexto.setSucesso(false);
+                }
+                if (preco_val.compareTo(new BigDecimal("100000000"))>-1) { // limite do postgres
+                    m_respostaTexto.appendMensagem("Preço está alto demais");
+                    m_respostaTexto.setSucesso(false);
+                }
+            } catch (Exception e) {
+                m_respostaTexto.appendMensagem("Valor do preço inválido<br>");
+                m_respostaTexto.setSucesso(false);
+            }
+        }
+
+        if (!estoque_invalido) {
+            int estoque_minimo_val;
+            try {
+                estoque_minimo_val = Integer.parseInt(estoque_minimo);
+                if (estoque_minimo_val<0) {
+                    m_respostaTexto.appendMensagem("Valor do estoque mínimo não pode ser negativo<br>");
+                    m_respostaTexto.setSucesso(false);
+                }
+            } catch (Exception e) {
+                m_respostaTexto.appendMensagem("Valor do estoque mínimo inválido<br>");
+                m_respostaTexto.setSucesso(false);
+            }
+        }
+
+        return m_respostaTexto;
+    }
+
+    /**
+     * Cria um produto e os salva a partir dos parâmetros fornecidos
+     */
+    public M_Produto criarProduto(String nome,String descricao, BigDecimal preco, String unidade, String url_icone, int estoque_minimo, Boolean disponivel) {
+        M_Produto m_produto = new M_Produto();
+        m_produto.setNome(nome);
+        m_produto.setDescricao(descricao);
+        m_produto.setDisponivel(disponivel);
+        m_produto.setPreco(preco);
+        m_produto.setMedida(unidade);
+        m_produto.setEstoque_minimo(estoque_minimo);
+        m_produto.setUrl_icone(url_icone);
+
+        return r_produto.save(m_produto);
     }
 }

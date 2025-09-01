@@ -19,13 +19,15 @@
 </th:block>
 
 <!-- Observação -->
-<div th:fragment="pv_obs (v_tipo, v_texto)" class="observacao retrair-parent">
-    <p class="titulo row"><label for="obs-write" class="col-11">Obs.:</label><button class="btn-retrair col"></button></p>
+<div th:fragment="pv_obs (v_tipo,v_titulo,v_texto)" class="observacao retrair-parent">
+    <p class="titulo row"><label for="obs-write" class="col-11" th:text="${v_titulo}"></label><button class="btn-retrair col"></button></p>
     <div class="retraivel">
         <textarea placeholder="Escreva uma observação aqui." id="obs-write"></textarea>
         <p class="limite"><span id="lim-obs" th:text="${v_texto.length()}"></span> / 1023</p>
         <p id="write-text-holder" class="d-none" th:text="${v_texto}"></p>
-        <button th:class="${'btn btn-primary '+v_tipo}" id="btn-salvar-obs">Salvar</button>
         <div></div>
+        <th:block th:if="${v_tipo}!='descricao_pedido'">
+            <button th:class="${'btn btn-primary '+v_tipo}" id="btn-salvar-obs">Salvar</button>
+        </th:block>
     </div>
 </div>
