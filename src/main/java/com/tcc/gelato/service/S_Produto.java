@@ -62,9 +62,9 @@ public class S_Produto {
     }
 
     /**
-     * Valida os parâmetros da função {@link C_Produto#criarProduto(String, String,String, String, String, String, Boolean)}
+     * Valida os parâmetros da função {@link C_Produto#criarProduto(String, String,String, String, String, String, String)}
      */
-    public M_RespostaTexto validaParamCriarProduto(String nome, String descricao, String preco, String unidade, String url_icone, String estoque_minimo, Boolean disponivel) {
+    public M_RespostaTexto validaParamCriarProduto(String nome, String descricao, String preco, String unidade, String url_icone, String estoque_minimo, String disponivel) {
         M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
         if ((nome==null) || (descricao==null) || (preco==null) || (unidade==null) || (url_icone==null) || (estoque_minimo==null) || (disponivel==null)) {
             m_respostaTexto.setSucesso(false);
@@ -77,6 +77,7 @@ public class S_Produto {
 
         boolean preco_invalido = false;
         boolean estoque_invalido = false;
+        boolean disp_invalido = false;
         if (nome.isBlank()) {
             m_respostaTexto.appendMensagem("O nome está vazio<br>");
             m_respostaTexto.setSucesso(false);
@@ -94,6 +95,11 @@ public class S_Produto {
             m_respostaTexto.appendMensagem("O estoque mínimo está vazio<br>");
             m_respostaTexto.setSucesso(false);
             estoque_invalido = true;
+        }
+        if (disponivel.isBlank()) {
+            m_respostaTexto.appendMensagem("Disponibilidade está vazia<br>");
+            m_respostaTexto.setSucesso(false);
+            disp_invalido = true;
         }
 
         if (!preco_invalido) {
@@ -123,7 +129,16 @@ public class S_Produto {
                     m_respostaTexto.setSucesso(false);
                 }
             } catch (Exception e) {
-                m_respostaTexto.appendMensagem("Valor do estoque mínimo inválido<br>");
+                m_respostaTexto.appendMensagem("valor do estoque mínimo inválido<br>");
+                m_respostaTexto.setSucesso(false);
+            }
+        }
+
+        if (!disp_invalido) {
+            try {
+                Boolean.parseBoolean(disponivel);
+            } catch (Exception e) {
+                m_respostaTexto.appendMensagem("Disponibilidade inválida<br>");
                 m_respostaTexto.setSucesso(false);
             }
         }

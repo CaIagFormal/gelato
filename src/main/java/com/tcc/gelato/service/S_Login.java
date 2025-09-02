@@ -21,12 +21,12 @@ import org.springframework.stereotype.Service;
 public class S_Login {
 
     private final AuthenticationManager authenticationManager;
-    private final S_Jwt s_jwt;
+    //private final S_Jwt s_jwt;
     private final SecurityContextRepository securityContextRepository;
 
-    public S_Login(AuthenticationManager authenticationManager, S_Jwt s_jwt) {
+    public S_Login(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.s_jwt = s_jwt;
+        //this.s_jwt = s_jwt;
         this.securityContextRepository = new HttpSessionSecurityContextRepository();
     }
 
@@ -51,7 +51,7 @@ public class S_Login {
 
         M_UserDetails m_userDetails = (M_UserDetails) authentication.getPrincipal();
 
-        s_jwt.gerarToken(m_userDetails.getUsername());
+        //s_jwt.gerarToken(m_userDetails.getUsername());
         return m_userDetails;
     }
 }

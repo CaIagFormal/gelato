@@ -20,6 +20,7 @@ import java.util.function.Function;
  * Serviço para lidar com JSON Web Tokens
  */
 @Service
+@Deprecated
 public class S_Jwt {
 
     private final String chaveSecreta;

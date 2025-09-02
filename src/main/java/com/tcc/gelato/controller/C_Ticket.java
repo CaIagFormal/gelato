@@ -75,7 +75,6 @@ public class C_Ticket {
 
     /**
      * Define o horário de retirada de um ticket
-     * @param str_horario
      * @return
      */
     @ResponseBody

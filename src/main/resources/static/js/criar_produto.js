@@ -26,7 +26,7 @@ function conf_criar_produto() {
         return
     }
 
-    ajax("/criar_produto",{nome:nome,preco:preco,unidade:unidade,estoque_minimo:estoque_minimo,disponivel:disponivel});
+    ajax("/salvar_produto",{nome:nome,descricao:descricao,preco:preco,unidade:unidade,url_icone:url_icone,estoque_minimo:estoque_minimo,disponivel:disponivel});
 }
 
 function criar_produto() {

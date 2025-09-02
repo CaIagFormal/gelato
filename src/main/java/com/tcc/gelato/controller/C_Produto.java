@@ -245,23 +245,22 @@ public class C_Produto {
      * @param estoque_minimo O estoque mínimo para este produto
      * @param disponivel Se o produto estará disponível
      */
-    @PostMapping("/criar_produto")
+    @ResponseBody
+    @PostMapping(path = "/salvar_produto")
     public M_RespostaTexto criarProduto(@RequestParam("nome") String nome,
                                         @RequestParam("descricao") String descricao,
                                         @RequestParam("preco") String preco,
                                         @RequestParam("unidade") String unidade,
                                         @RequestParam("url_icone") String url_icone,
                                         @RequestParam("estoque_minimo") String estoque_minimo,
-                                        @RequestParam("disponivel") Boolean disponivel
+                                        @RequestParam("disponivel") String disponivel
                                         ) {
-        M_RespostaTexto m_respostaTexto;
-
-        m_respostaTexto = s_produto.validaParamCriarProduto(nome,descricao,preco,unidade,url_icone,estoque_minimo,disponivel);
+        M_RespostaTexto m_respostaTexto = s_produto.validaParamCriarProduto(nome,descricao,preco,unidade,url_icone,estoque_minimo,disponivel);
         if (!m_respostaTexto.isSucesso()) {
             return m_respostaTexto;
         }
 
-        M_Produto m_produto = s_produto.criarProduto(nome,descricao,new BigDecimal(preco),unidade,url_icone,Integer.parseInt(estoque_minimo),disponivel);
+        M_Produto m_produto = s_produto.criarProduto(nome,descricao,new BigDecimal(preco),unidade,url_icone,Integer.parseInt(estoque_minimo),Boolean.parseBoolean(disponivel));
         if (m_produto==null) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Falha ao salvar o produto no banco de dados");
