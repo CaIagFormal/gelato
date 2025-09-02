@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+@Deprecated
 public class F_Jwt extends OncePerRequestFilter {
 
     private final S_Jwt s_jwt;

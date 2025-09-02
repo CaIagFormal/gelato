@@ -18,7 +18,7 @@ public class C_Error implements ErrorController {
     @ResponseBody
     public M_RespostaObjeto erro(HttpServletRequest request) {
         M_RespostaObjeto m_respostaObjeto = new M_RespostaObjeto();
-        m_respostaObjeto.setMensagem(request.getUserPrincipal());
+        m_respostaObjeto.setMensagem(request);
         m_respostaObjeto.setSucesso(false);
         return m_respostaObjeto;
     }

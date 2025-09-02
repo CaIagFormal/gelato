@@ -26,7 +26,7 @@ public class SecurityParams {
     };
     public static String[] vendedor_post = new String[]{
             "/inspecionar_saldo", "/inspecionar_transacoes", "/alterar_saldo", "/esvaziar_saldo",
-            "/adicionar_estoque","/obter_contato_cliente","/obter_pedido","/criar_produto"
+            "/adicionar_estoque","/obter_contato_cliente","/obter_pedido","/salvar_produto"
     };
     public static String[] vendedor_get = new String[]{
             "/gerir_saldo",

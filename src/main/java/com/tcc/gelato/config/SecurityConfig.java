@@ -2,9 +2,13 @@ package com.tcc.gelato.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,12 +17,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
@@ -27,11 +33,11 @@ import java.nio.charset.StandardCharsets;
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
-    private final F_Jwt f_jwt;
+    //private final F_Jwt f_jwt;
 
-    public SecurityConfig(UserDetailsService userDetailsService, F_Jwt f_jwt) {
+    public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.f_jwt = f_jwt;
+        //this.f_jwt = f_jwt;
     }
 
     @Bean
@@ -72,7 +78,7 @@ public class SecurityConfig {
                     .denyAll())
             .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .addFilterBefore(f_jwt, UsernamePasswordAuthenticationFilter.class)
+            //.addFilterBefore(f_jwt, UsernamePasswordAuthenticationFilter.class) // não é mais utilizado
             .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint())
                     .accessDeniedPage("/catalogo"))
             .authenticationProvider(authenticationProvider())
@@ -93,20 +99,9 @@ public class SecurityConfig {
 
     @Bean
     AuthenticationEntryPoint authenticationEntryPoint() {
-        return (request, response, accessDeniedException) -> {
-            if (request.getMethod().equals("POST")) {
-                M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
-                m_respostaTexto.setSucesso(false);
-                m_respostaTexto.setMensagem("Você não tem autorização para ultilizar esse recurso.");
-
-                String resposta = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(m_respostaTexto);
-                response.setContentLength(resposta.getBytes(StandardCharsets.UTF_8).length);
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-
-                PrintWriter writer = response.getWriter();
-                writer.print(resposta);
-                writer.flush();
+        return (request, response, authException) -> {
+            if (!request.getMethod().equals("GET")) {
+                response.sendError(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase());
                 return;
             }
             response.sendRedirect("/catalogo");
