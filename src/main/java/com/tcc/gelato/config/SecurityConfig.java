@@ -79,8 +79,8 @@ public class SecurityConfig {
             .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             //.addFilterBefore(f_jwt, UsernamePasswordAuthenticationFilter.class) // não é mais utilizado
-            .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint())
-                    .accessDeniedPage("/catalogo"))
+            //.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint())
+            //        .accessDeniedPage("/catalogo"))
             .authenticationProvider(authenticationProvider())
             .build();
     }
