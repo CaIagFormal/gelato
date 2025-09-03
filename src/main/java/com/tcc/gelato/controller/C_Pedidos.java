@@ -121,4 +121,57 @@ public class C_Pedidos {
         m_respostaTexto.setMensagem(templateEngine.process("pv/produto_pedido", context));
         return m_respostaTexto;
     }
+
+    /**
+     * Cancela um ticket pelo vendedor
+     * @return Div do pedido cancelado
+     */
+    @PostMapping("/pedidos/cancelar")
+    @ResponseBody
+    public M_RespostaTexto cancelarPedidoVendedor(HttpSession session,@RequestParam("id") String id) {
+        M_RespostaTexto m_respostaTexto = new M_RespostaTexto();
+
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
+        M_Ticket m_ticket;
+        try {
+            m_ticket = s_ticket.getTicketById(Long.parseLong(id));
+        } catch (Exception e) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Erro ao encontrar pedido");
+            return m_respostaTexto;
+        }
+
+        if (m_ticket.getStatus() == M_Ticket.StatusCompra.CANCELADO) {
+            m_respostaTexto.setMensagem("O pedido já foi cancelado.");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
+        if (m_ticket.getStatus() == M_Ticket.StatusCompra.ENTREGUE) {
+            m_respostaTexto.setMensagem("O pedido já foi entregue.");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
+        m_ticket = s_ticket.cancelarPedido(m_ticket,false);
+        if (m_ticket==null) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Não foi possível cancelar seu pedido devido a um erro no banco de dados.");
+            return m_respostaTexto;
+        }
+
+        M_ViewPedido m_viewPedido = s_ticket.getPedidoFromTicket(m_ticket);
+        if (m_viewPedido==null) {
+            m_respostaTexto.setMensagem("Pedido foi cancelado mas houve um erro atualizando a tela.<br>Recarregue a página para atualizar seu pedido.");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
+        Context context = new Context();
+        context.setVariable("v_pedido",m_viewPedido);
+
+        m_respostaTexto.setSucesso(true);
+        m_respostaTexto.setMensagem(templateEngine.process("pv/pedido",context));
+        return m_respostaTexto;
+    }
 }

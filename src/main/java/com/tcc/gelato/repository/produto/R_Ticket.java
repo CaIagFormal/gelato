@@ -76,4 +76,23 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
             "join gelato.usuario c on c.id = t.fk_usuario left join gelato.transacao p on p.id = t.fk_pagamento " +
             "where "+check_pedido+" order by t.status,t.horario_retirada,t.status desc",nativeQuery = true)
     List<M_ViewPedido> getPedidos();
+
+    /**
+     * Obtêm um pedido a partir de um ticket
+     * @param ticket ID do ticket
+     */
+    @Query(value = "select t.id as id_ticket," +
+            "t.ticket as ticket," +
+            "c.nome as nome_cliente," +
+            "p.horario_fornecido as horario_encaminhado," +
+            "t.horario_retirada," +
+            "p.valor as preco," +
+            "t.observacao," +
+            "t.status as status_id," +
+            "(t.horario_retirada-current_timestamp) as contagem_retirada,"+
+            "current_timestamp>t.horario_retirada as contagem_negativa "+
+            "from gelato.ticket t " +
+            "join gelato.usuario c on c.id = t.fk_usuario left join gelato.transacao p on p.id = t.fk_pagamento " +
+            "where t.id=:TICKET", nativeQuery = true)
+    M_ViewPedido getPedidoFromTicket(@Param("TICKET") Long ticket);
 }

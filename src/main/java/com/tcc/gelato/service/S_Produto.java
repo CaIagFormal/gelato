@@ -161,4 +161,49 @@ public class S_Produto {
 
         return r_produto.save(m_produto);
     }
+
+    /**
+     * Valida os parâmetros da função {@link C_Produto#alterarProduto(String, String, String,String, String, String, String, String)}
+     */
+    public M_RespostaTexto validaParamAlterarProduto(String id, String nome, String descricao, String preco, String unidade, String urlIcone, String estoqueMinimo, String disponivel) {
+        M_RespostaTexto m_respostaTexto = validaParamCriarProduto(nome,descricao,preco,unidade,urlIcone,estoqueMinimo,disponivel);
+        if (!m_respostaTexto.isSucesso()) {
+            return m_respostaTexto;
+        }
+        if (id==null||id.isBlank()) {
+            m_respostaTexto.setMensagem("Detalhes do produto corrompidos, recarregue a página");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
+        long id_value;
+        try {
+            id_value = Long.parseLong(id);
+            if (id_value<1) {
+                m_respostaTexto.setMensagem("Detalhes do produto corrompidos, recarregue a página");
+                m_respostaTexto.setSucesso(false);
+                return m_respostaTexto;
+            }
+        } catch (Exception e) {
+            m_respostaTexto.setMensagem("Detalhes do produto corrompidos, recarregue a página");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+        return m_respostaTexto;
+    }
+
+    /**
+     * Altera um produto a partir dos parâmetros fornecidos
+     */
+    public M_Produto alterarProduto(M_Produto m_produto, String nome,String descricao, BigDecimal preco, String unidade, String url_icone, int estoque_minimo, Boolean disponivel) {
+        m_produto.setNome(nome);
+        m_produto.setDescricao(descricao);
+        m_produto.setDisponivel(disponivel);
+        m_produto.setPreco(preco);
+        m_produto.setMedida(unidade);
+        m_produto.setEstoque_minimo(estoque_minimo);
+        m_produto.setUrl_icone(url_icone);
+
+        return r_produto.save(m_produto);
+    }
 }

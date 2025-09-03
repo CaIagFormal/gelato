@@ -159,7 +159,7 @@ public class C_Ticket {
     }
 
     /**
-     * Cancela um ticket
+     * Cancela um ticket pelo cliente
      * @return Resultados
      */
     @PostMapping("/cancelar_pedido")
@@ -176,7 +176,7 @@ public class C_Ticket {
             return m_respostaTexto;
         }
 
-        m_ticket = s_ticket.cancelarPedido(m_ticket);
+        m_ticket = s_ticket.cancelarPedido(m_ticket,true);
         if (m_ticket==null) {
             m_respostaTexto.setSucesso(false);
             m_respostaTexto.setMensagem("Não foi possível cancelar seu pedido devido a um erro no banco de dados.");
