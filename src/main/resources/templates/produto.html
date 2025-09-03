@@ -48,6 +48,7 @@
                     <div class="col">
                         <p><input type="number" value="1" id="qtd_e"> <span th:text="${produto.medida+'(s) ('+{estoque}+' em estoque) insira quantidades negativas para remover estoque'}"></span></p>
                     </div>
+                    <a class="btn btn-primary" th:href="${'/alterar_produto/'+produto.id}">Alterar produto</a>
                 </div>
 
                 <div class="row" th:if="${estoque}>0 and ${usuario.cargo.toString()}=='CLIENTE' and ${produto.disponivel}">

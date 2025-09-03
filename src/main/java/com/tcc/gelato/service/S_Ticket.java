@@ -197,8 +197,8 @@ public class S_Ticket {
     /**
      * Cancela um pedido
      */
-    public M_Ticket cancelarPedido(M_Ticket m_ticket) {
-        m_ticket.getPagamento().setValida(false);
+    public M_Ticket cancelarPedido(M_Ticket m_ticket, boolean pagamento_invalido) {
+        if (pagamento_invalido) m_ticket.getPagamento().setValida(false);
         m_ticket.setStatus(M_Ticket.StatusCompra.CANCELADO);
         return r_ticket.save(m_ticket);
     }
@@ -273,5 +273,12 @@ public class S_Ticket {
             return false;
         }
         return id_val>0;
+    }
+
+    /**
+     * Obtêm um pedido a partir de um ticket
+     */
+    public M_ViewPedido getPedidoFromTicket(M_Ticket mTicket) {
+        return r_ticket.getPedidoFromTicket(mTicket.getId());
     }
 }

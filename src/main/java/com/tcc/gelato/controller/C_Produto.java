@@ -246,7 +246,7 @@ public class C_Produto {
      * @param disponivel Se o produto estará disponível
      */
     @ResponseBody
-    @PostMapping(path = "/salvar_produto")
+    @PostMapping(path = "/criar_produto")
     public M_RespostaTexto criarProduto(@RequestParam("nome") String nome,
                                         @RequestParam("descricao") String descricao,
                                         @RequestParam("preco") String preco,
@@ -272,4 +272,64 @@ public class C_Produto {
         m_respostaTexto.setSucesso(true);
         return m_respostaTexto;
    }
+
+    /**
+     * Tela para alterar um produto
+     */
+   @GetMapping(path = "/alterar_produto/{id}")
+    public String getAlterarProduto(Model model,@PathVariable("id") String id) {
+        M_Produto m_produto;
+        try {
+            m_produto = s_produto.getProdutoById(Long.parseLong(id));
+        } catch (Exception e) {
+            return "redirect:/";
+        }
+        model.addAttribute("v_produto",m_produto);
+        return "vendedor/alterar_produto";
+   }
+
+    /**
+     * Funcionalidade em sí de alterar produto
+     * @param id ID do produto para achá-lo
+     * @param nome Nome do produto
+     * @param descricao Descrição do produto
+     * @param preco Valor do preço do produto
+     * @param unidade Unidade do preço do produto
+     * @param url_icone URL para uma imagem que representará o produto
+     * @param estoque_minimo O estoque mínimo para este produto
+     * @param disponivel Se o produto estará disponível
+     */
+    @ResponseBody
+    @PostMapping(path = "/alterar_produto")
+    public M_RespostaTexto alterarProduto(@RequestParam("id") String id,
+                                        @RequestParam("nome") String nome,
+                                        @RequestParam("descricao") String descricao,
+                                        @RequestParam("preco") String preco,
+                                        @RequestParam("unidade") String unidade,
+                                        @RequestParam("url_icone") String url_icone,
+                                        @RequestParam("estoque_minimo") String estoque_minimo,
+                                        @RequestParam("disponivel") String disponivel
+                                        ) {
+        M_RespostaTexto m_respostaTexto = s_produto.validaParamAlterarProduto(id,nome,descricao,preco,unidade,url_icone,estoque_minimo,disponivel);
+        if (!m_respostaTexto.isSucesso()) {
+            return m_respostaTexto;
+        }
+        M_Produto m_produto = s_produto.getProdutoById(Long.parseLong(id));
+        if (m_produto==null) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("O produto não foi encontrado...");
+            return m_respostaTexto;
+        }
+        m_produto = s_produto.alterarProduto(m_produto,nome,descricao,new BigDecimal(preco),unidade,url_icone,Integer.parseInt(estoque_minimo),Boolean.parseBoolean(disponivel));
+        if (m_produto==null) {
+            m_respostaTexto.setSucesso(false);
+            m_respostaTexto.setMensagem("Falha ao salvar o produto no banco de dados");
+            return m_respostaTexto;
+        }
+
+        m_respostaTexto.setMensagem("Foi alterrado o produto titulado "+m_produto.getNome()+" com valor de "+m_produto.getPreco()+"R$/"+m_produto.getMedida()+"<br>" +
+                "<a class=\"btn btn-primary text-center\" href=\"/produto/"+m_produto.getId()+"\">Visualizar</a>");
+        m_respostaTexto.setSucesso(true);
+        return m_respostaTexto;
+    }
 }

@@ -129,7 +129,9 @@ function retrair() {
         $(this).addClass("retraido");
     }
 }
-
-$('document').ready(function() {
-    $('.btn-retrair').click(retrair)
-})
+function preparar_retraiveis() {
+    let btns = $('.btn-retrair:not(retrair-ativo)');
+    $(btns).click(retrair)
+    $(btns).addClass('retrair-ativo')
+}
+$('document').ready(preparar_retraiveis);
