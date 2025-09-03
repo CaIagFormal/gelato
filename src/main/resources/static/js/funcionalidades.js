@@ -112,6 +112,9 @@ function confirmar(title,text,f_then,context=this) {
      });
 }
 
+// Função para placeholders
+function nao_implementado() {mostrar_erro("Ops","Não implementado")}
+
 //Funcionalidade de retrair
 function retrair() {
     let retraivel;
@@ -130,8 +133,8 @@ function retrair() {
     }
 }
 function preparar_retraiveis() {
-    let btns = $('.btn-retrair:not(retrair-ativo)');
-    $(btns).click(retrair)
-    $(btns).addClass('retrair-ativo')
+    let btns = $('.btn-retrair:not(.retrair-ativo)');
+    $(btns).click(retrair);
+    $(btns).addClass('retrair-ativo');
 }
 $('document').ready(preparar_retraiveis);

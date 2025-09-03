@@ -281,4 +281,13 @@ public class S_Ticket {
     public M_ViewPedido getPedidoFromTicket(M_Ticket mTicket) {
         return r_ticket.getPedidoFromTicket(mTicket.getId());
     }
+
+    /**
+     * Avança o pedido para o próximo status como delimitado em {@link com.tcc.gelato.model.produto.M_Ticket.StatusCompra}
+     * (Esta função assume que o ticket já foi validado)
+     */
+    public M_Ticket avancarTicket(M_Ticket m_ticket) {
+        m_ticket.setStatus(M_Ticket.StatusCompra.index((short) (m_ticket.getStatus().ordinal()+1)));
+        return r_ticket.save(m_ticket);
+    }
 }

@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="retrair-parent pedido-container">
+    <div class="retrair-parent pedido-container" id="pedidos-recebidos">
         <h4>Recebidos<button class="btn-retrair"></button></h4>
         <div class="retraivel row">
             <th:block th:each="pedido : ${pedidos_recebidos}">
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="retrair-parent pedido-container">
+    <div class="retrair-parent pedido-container" id="pedidos-preparados">
         <h4>Preparados<button class="btn-retrair"></button></h4>
         <div class="retraivel row">
             <th:block th:each="pedido : ${pedidos_preparados}">
@@ -43,10 +43,10 @@
         </div>
     </div>
 
-    <div class="retrair-parent pedido-container">
+    <div class="retrair-parent pedido-container" id="pedidos-entregues">
         <h4>Entregados<button class="btn-retrair"></button></h4>
         <div class="retraivel row">
-            <th:block th:each="pedido : ${pedidos_entregados}">
+            <th:block th:each="pedido : ${pedidos_entregues}">
                 <div th:replace="~{pv/produto.html :: pv_pedido (v_pedido=${pedido})}"></div>
             </th:block>
         </div>
