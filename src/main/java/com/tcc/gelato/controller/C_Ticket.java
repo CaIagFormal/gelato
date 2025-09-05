@@ -4,16 +4,9 @@ import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
-import com.tcc.gelato.service.S_Cargo;
-import com.tcc.gelato.service.S_Compra;
-import com.tcc.gelato.service.S_Ticket;
-import com.tcc.gelato.service.S_Transacao;
-import jakarta.servlet.http.HttpServletRequest;
+import com.tcc.gelato.service.*;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.Session;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Scheduled;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,12 +29,14 @@ public class C_Ticket {
     private final S_Ticket s_ticket;
     private final S_Cargo s_cargo;
     private final S_Compra s_compra;
+    private final S_Estoque s_estoque;
     private final S_Transacao s_transacao;
 
-    public C_Ticket(S_Ticket s_ticket, S_Cargo s_cargo, S_Compra s_compra, S_Transacao s_transacao) {
+    public C_Ticket(S_Ticket s_ticket, S_Cargo s_cargo, S_Compra s_compra, S_Estoque s_estoque, S_Transacao s_transacao) {
         this.s_ticket = s_ticket;
         this.s_cargo = s_cargo;
         this.s_compra = s_compra;
+        this.s_estoque = s_estoque;
         this.s_transacao = s_transacao;
     }
 
@@ -115,6 +110,7 @@ public class C_Ticket {
      */
     @ResponseBody
     @PostMapping(path = "/encaminhar_pedido")
+    @Transactional
     public M_RespostaTexto encaminharPedido(HttpSession session) {
         M_RespostaTexto m_respostaTexto;
 
@@ -148,6 +144,8 @@ public class C_Ticket {
             m_respostaTexto.setSucesso(false);
             return m_respostaTexto;
         }
+
+        s_ticket.desativarProdutosEmTicketComEstoqueInsuficiente(m_ticket,s_compra,s_estoque);
 
         s_cargo.navClienteSetSaldo(session,s_transacao.getSaldoDeCliente(m_usuario));
 

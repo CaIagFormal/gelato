@@ -174,4 +174,19 @@ public class S_Compra {
         }
         r_compra.saveAll(m_compras);
     }
+
+    /**
+     * Confere se o estoque está acima do estoque mínimo, se não o produto é desativado
+     * @return se o produto foi destivado
+     */
+    public Boolean desativarComEstoqueInsuficiente(M_Produto m_produto, Integer estoque) {
+        if (!m_produto.isDisponivel()) return false;
+        if (estoque==null) return false;
+
+        if (estoque>=m_produto.getEstoque_minimo()) return false;
+
+        m_produto.setDisponivel(false);
+
+        return true;
+    }
 }

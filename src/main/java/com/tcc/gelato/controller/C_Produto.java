@@ -176,15 +176,13 @@ public class C_Produto {
         }
 
         Integer estoque = s_estoque.getEstoqueForProduto(m_produto);
-        if (estoque==0) {
-            m_produto.setDisponivel(false);
-        }
+        Boolean invalidado_por_estoque = s_compra.desativarComEstoqueInsuficiente(m_produto,estoque);
 
         s_compra.corrigirComprasDeProdutoComQtdMaior(m_produto,estoque);
 
         m_respostaTexto.setSucesso(true);
         m_respostaTexto.setMensagem(Math.abs(qtd_int) +" "+m_produto.getMedida()+"(s) de "+m_produto.getNome()+" foram "+((qtd_int>0)?"adicionados ao ":"removidos do ")+"estoque.");
-        if (estoque==0) {
+        if (invalidado_por_estoque) {
             m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+" (Produto não está mais disponível por estoque)");
         }
         return m_respostaTexto;
