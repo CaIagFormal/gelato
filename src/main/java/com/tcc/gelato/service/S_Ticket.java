@@ -3,6 +3,7 @@ package com.tcc.gelato.service;
 import com.tcc.gelato.model.M_Compra;
 import com.tcc.gelato.model.M_Usuario;
 import com.tcc.gelato.controller.C_Ticket;
+import com.tcc.gelato.model.produto.M_Produto;
 import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.model.view.M_ViewPedido;
@@ -289,5 +290,16 @@ public class S_Ticket {
     public M_Ticket avancarTicket(M_Ticket m_ticket) {
         m_ticket.setStatus(M_Ticket.StatusCompra.index((short) (m_ticket.getStatus().ordinal()+1)));
         return r_ticket.save(m_ticket);
+    }
+
+    /**
+     * Realiza a função {@link S_Compra#desativarComEstoqueInsuficiente(M_Produto, Integer)}
+     * em massa para todos os produtos em um ticket
+     */
+    public void desativarProdutosEmTicketComEstoqueInsuficiente(M_Ticket m_ticket, S_Compra s_compra, S_Estoque s_estoque) {
+        for (M_Compra compra: this.getComprasDeTicket(m_ticket)) {
+            M_Produto produto = compra.getProduto();
+            s_compra.desativarComEstoqueInsuficiente(produto,s_estoque.getEstoqueForProduto(produto));
+        }
     }
 }
