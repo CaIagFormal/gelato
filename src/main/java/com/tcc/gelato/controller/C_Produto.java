@@ -35,16 +35,21 @@ public class C_Produto {
 
     /**
      *
-     * @param id_produto ID do produto na URL
+     * @param produto ID do produto na URL
      * @param session Sessão usada para conferir {@link M_Usuario} válido
      * @return Página do produto solicitado
      */
     @GetMapping(path="/produto/{produto}")
-    public String getProduto(@PathVariable("produto") Long id_produto, HttpSession session, Model model) {
+    public String getProduto(@PathVariable("produto") String produto, HttpSession session, Model model) {
         M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
         model.addAttribute("usuario",m_usuario);
 
-        M_Produto m_produto = s_produto.getProdutoById(id_produto);
+        M_Produto m_produto;
+        try {
+            m_produto = s_produto.getProdutoById(Long.parseLong(produto));
+        } catch (Exception e) {
+            return "redirect:/";
+        }
 
         model.addAttribute("produto",m_produto);
         model.addAttribute("estoque",s_estoque.getEstoqueForProduto(m_produto));
