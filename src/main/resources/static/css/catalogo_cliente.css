@@ -4,7 +4,7 @@ div.produto {
     align-content: center;
 }
 
-div.produto > button.btn_produto {
+div.produto > a > button.btn_produto {
     max-width: 12em;
     min-height: 10em;
     border-radius: 1em;
