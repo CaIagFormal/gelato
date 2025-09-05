@@ -44,6 +44,7 @@ function gerar_transfusao_de_pedido_para(param_antigo,param_local_alvo) {
     var local_alvo = param_local_alvo
     return function(resposta) {
 
+        if (!resposta.sucesso) { return; }
         $(local_alvo).prepend(resposta.mensagem);
         let btns = $(local_alvo).find('.btn-retrair:not(.retrair-ativo)');
         $(btns).click(retrair);

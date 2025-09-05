@@ -44,7 +44,7 @@
     </div>
 
     <div class="retrair-parent pedido-container" id="pedidos-entregues">
-        <h4>Entregados<button class="btn-retrair"></button></h4>
+        <h4>Entregues<button class="btn-retrair"></button></h4>
         <div class="retraivel row">
             <th:block th:each="pedido : ${pedidos_entregues}">
                 <div th:replace="~{pv/produto.html :: pv_pedido (v_pedido=${pedido})}"></div>

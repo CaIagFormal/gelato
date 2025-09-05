@@ -100,7 +100,7 @@ public class C_Ticket {
             return m_respostaTexto;
         }
         m_respostaTexto.setSucesso(true);
-        m_respostaTexto.setMensagem("Horário de retirada do pedido com ticket '"+m_ticket.getTicket()+"' definido para "+m_ticket.getHorario_retirada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+        m_respostaTexto.setMensagem("Horário de retirada do pedido com ticket '"+m_ticket.getTicket()+"' definido para "+m_ticket.getHorario_retirada_planejado().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
         return m_respostaTexto;
     }
 
@@ -133,7 +133,7 @@ public class C_Ticket {
             return m_respostaTexto;
         }
 
-        m_respostaTexto = s_ticket.validarHorarioDeRetirada(m_ticket.getHorario_retirada());
+        m_respostaTexto = s_ticket.validarHorarioDeRetirada(m_ticket.getHorario_retirada_planejado());
         if (!m_respostaTexto.isSucesso()) {
             return m_respostaTexto;
         }

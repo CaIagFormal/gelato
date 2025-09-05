@@ -66,15 +66,16 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
             "t.ticket as ticket," +
             "c.nome as nome_cliente," +
             "p.horario_fornecido as horario_encaminhado," +
-            "t.horario_retirada," +
+            "t.horario_retirada_planejado," +
             "p.valor as preco," +
             "t.observacao," +
             "t.status as status_id," +
-            "(t.horario_retirada-current_timestamp) as contagem_retirada,"+
-            "current_timestamp>t.horario_retirada as contagem_negativa "+
+            "(t.horario_retirada_planejado-current_timestamp) as contagem_retirada,"+
+            "current_timestamp>t.horario_retirada_planejado as contagem_negativa,"+
+            "t.horario_retirada_final as horario_retirada_final "+
             "from gelato.ticket t " +
             "join gelato.usuario c on c.id = t.fk_usuario left join gelato.transacao p on p.id = t.fk_pagamento " +
-            "where "+check_pedido+" order by t.status,t.horario_retirada,t.status desc",nativeQuery = true)
+            "where "+check_pedido+" order by t.status,t.horario_retirada_final,t.horario_retirada_planejado desc",nativeQuery = true)
     List<M_ViewPedido> getPedidos();
 
     /**
@@ -85,12 +86,13 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
             "t.ticket as ticket," +
             "c.nome as nome_cliente," +
             "p.horario_fornecido as horario_encaminhado," +
-            "t.horario_retirada," +
+            "t.horario_retirada_planejado," +
             "p.valor as preco," +
             "t.observacao," +
             "t.status as status_id," +
-            "(t.horario_retirada-current_timestamp) as contagem_retirada,"+
-            "current_timestamp>t.horario_retirada as contagem_negativa "+
+            "(t.horario_retirada_planejado-current_timestamp) as contagem_retirada,"+
+            "current_timestamp>t.horario_retirada_planejado as contagem_negativa,"+
+            "t.horario_retirada_final as horario_retirada_final "+
             "from gelato.ticket t " +
             "join gelato.usuario c on c.id = t.fk_usuario left join gelato.transacao p on p.id = t.fk_pagamento " +
             "where t.id=:TICKET", nativeQuery = true)

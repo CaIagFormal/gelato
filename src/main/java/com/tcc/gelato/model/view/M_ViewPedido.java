@@ -15,7 +15,8 @@ public interface M_ViewPedido {
     String getTicket();
     String getNome_cliente();
     LocalDateTime getHorario_encaminhado();
-    LocalDateTime getHorario_retirada();
+    LocalDateTime getHorario_retirada_planejado();
+    LocalDateTime getHorario_retirada_final();
     BigDecimal getPreco();
     String getObservacao();
     Short getStatus_id();

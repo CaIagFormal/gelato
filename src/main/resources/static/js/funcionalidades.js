@@ -42,7 +42,7 @@ function ajax(v_url,v_data,f_then=null,exito=true,context=null) {
             url: v_url,
             data: v_data,
             success: function(retorno) {
-                if (retorno.sucesso) {
+                if (retorno.sucesso===true) {
                     if (!exito) {
                         if (f_then===null) {return;}
                         if (context===null) {f_then(retorno);return;}
