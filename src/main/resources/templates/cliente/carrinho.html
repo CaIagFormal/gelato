@@ -26,7 +26,7 @@
             <div class="col">
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="horario_retirada">Horário de retirada</label>
-                    <input type="datetime-local" class="form-control" th:value="${ticket.horario_retirada}" id="horario_retirada" name="horario_retirada">
+                    <input type="datetime-local" class="form-control" th:value="${ticket.horario_retirada_planejado}" id="horario_retirada" name="horario_retirada">
                     <button th:if="${alterar_outros}" class="btn btn-secondary" id="btn-horario-retirada">Salvar</button>
                 </div>
             </div>

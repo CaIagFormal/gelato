@@ -159,7 +159,7 @@ public class S_Compra {
     }
 
     /**
-     * Corrige compras no carrinho com estoque inválido, usado em {@link C_Produto#adicionarEstoque(String, String, HttpSession)}
+     * Corrige compras no carrinho com estoque inválido, usado em {@link C_Produto#(String, String)}
      * @param m_produto Produto a ter compras conferidas
      * @param estoque O estoque do produto, use {@link S_Estoque#getEstoqueForProduto(M_Produto)}
      */

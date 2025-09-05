@@ -176,7 +176,7 @@ public class S_Ticket {
      * Define o horário de retirada de um ticket
      */
     public M_Ticket setHorarioRetirada(M_Ticket m_ticket, LocalDateTime horario) {
-        m_ticket.setHorario_retirada(horario);
+        m_ticket.setHorario_retirada_planejado(horario);
         return r_ticket.save(m_ticket);
     }
 
@@ -289,6 +289,11 @@ public class S_Ticket {
      */
     public M_Ticket avancarTicket(M_Ticket m_ticket) {
         m_ticket.setStatus(M_Ticket.StatusCompra.index((short) (m_ticket.getStatus().ordinal()+1)));
+
+        if (m_ticket.getStatus() == M_Ticket.StatusCompra.ENTREGUE) {
+            m_ticket.setHorario_retirada_final(LocalDateTime.now());
+        }
+
         return r_ticket.save(m_ticket);
     }
 

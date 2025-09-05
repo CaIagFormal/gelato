@@ -45,7 +45,10 @@ public class M_Ticket {
     private LocalDateTime horario_fornecido;
 
     @Column()
-    private LocalDateTime horario_retirada;
+    private LocalDateTime horario_retirada_planejado;
+
+    @Column()
+    private LocalDateTime horario_retirada_final;
 
     @JoinColumn(name="fk_pagamento")
     @ManyToOne
@@ -94,6 +97,18 @@ public class M_Ticket {
         this.horario_fornecido = horario_fornecido;
     }
 
+    public void setHorario_retirada_planejado(LocalDateTime horario_retirada_planejado) {
+        this.horario_retirada_planejado = horario_retirada_planejado;
+    }
+
+    public LocalDateTime getHorario_retirada_final() {
+        return horario_retirada_final;
+    }
+
+    public void setHorario_retirada_final(LocalDateTime horario_retirada_final) {
+        this.horario_retirada_final = horario_retirada_final;
+    }
+
     public M_Transacao getPagamento() {
         return pagamento;
     }
@@ -102,13 +117,10 @@ public class M_Ticket {
         this.pagamento = pagamento;
     }
 
-    public LocalDateTime getHorario_retirada() {
-        return horario_retirada;
+    public LocalDateTime getHorario_retirada_planejado() {
+        return horario_retirada_planejado;
     }
 
-    public void setHorario_retirada(LocalDateTime horario_retirada) {
-        this.horario_retirada = horario_retirada;
-    }
 
     public String getObservacao() {
         return observacao;

@@ -13,6 +13,32 @@ import java.time.LocalDateTime;
 @Table(name = "avalicao")
 public class M_Avaliacao {
 
+    public enum Avaliacao {
+        ODIEI,
+        NAO_GOSTEI("Não gostei"),
+        QUESTIONAVEL("Qualidade questionável"),
+        OK,
+        BOM,
+        GOSTOSO,
+        DELICIOSO,
+        ADOREI,
+        AMEI,
+        PERFEITO;
+
+        private final String nome;
+
+        Avaliacao(String nome) {
+            this.nome = nome;
+        }
+        Avaliacao() {
+            this.nome = name().substring(0, 1).toUpperCase() + name().substring(1);
+        }
+        @Override
+        public String toString() {
+            return nome;
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +55,7 @@ public class M_Avaliacao {
     private String descricao;
 
     @Column(nullable = false)
-    private Short avaliacao;
+    private Avaliacao avaliacao;
 
     @Column(nullable = false)
     private LocalDateTime horario;
@@ -76,11 +102,11 @@ public class M_Avaliacao {
         this.descricao = descricao;
     }
 
-    public Short getAvaliacao() {
+    public Avaliacao getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(Short avaliacao) {
+    public void setAvaliacao(Avaliacao avaliacao) {
         this.avaliacao = avaliacao;
     }
 

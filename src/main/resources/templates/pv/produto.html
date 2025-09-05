@@ -40,8 +40,14 @@
     <div class="retraivel row d-none">
         <p class="col-6"><b>Encaminhado às: </b><span th:text="${#temporals.format(v_pedido.horario_encaminhado, 'HH:mm, dd-MM-yyyy')}"></span></p>
         <p class="col-6"><b>Total: </b><span th:text="${v_pedido.preco}"></span>R$</p>
-        <p class="col-6"><b>Retirada às: </b><span th:text="${#temporals.format(v_pedido.horario_retirada, 'HH:mm, dd-MM-yyyy')}"></span></p>
-        <p class="col-6"><b>Tempo até retirada: </b><span th:class="${(v_pedido.contagem_negativa)?'neg':''}" th:text="${v_pedido.contagem_retirada.getDays()+' dia(s), '+v_pedido.contagem_retirada.getHours()+' hora(s) e '+v_pedido.contagem_retirada.getMinutes()+' minuto(s)'}"></span></p>
+        <th:block th:if="${v_pedido.status.toString()=='ENTREGUE'}">
+            <p class="col-6"><b>Retirada planejada: </b><span th:text="${#temporals.format(v_pedido.horario_retirada_planejado, 'HH:mm, dd-MM-yyyy')}"></span></p>
+            <p class="col-6"><b>Retirada final:</b><span th:text="${#temporals.format(v_pedido.horario_retirada_final, 'HH:mm, dd-MM-yyyy')}"></span></p>
+        </th:block>
+        <th:block th:if="${v_pedido.status.toString()!='ENTREGUE'}">
+            <p class="col-6"><b>Retirada às: </b><span th:text="${#temporals.format(v_pedido.horario_retirada_planejado, 'HH:mm, dd-MM-yyyy')}"></span></p>
+            <p class="col-6"><b>Tempo até retirada: </b><span th:class="${(v_pedido.contagem_negativa)?'neg':''}" th:text="${v_pedido.contagem_retirada.getDays()+' dia(s), '+v_pedido.contagem_retirada.getHours()+' hora(s) e '+v_pedido.contagem_retirada.getMinutes()+' minuto(s)'}"></span></p>
+        </th:block>
         <div class="retrair-parent row"><b class="col-11">Obs.:</b><button class="btn-retrair retraido col-1"></button>
             <p class="retraivel d-none" th:text="${v_pedido.observacao}"></p></div>
         <div class="retrair-parent row"><b class="col-11">Pedido</b><button class="btn-retrair btn-obter-pedido retraido col-1"></button>
@@ -50,7 +56,7 @@
             <div class="col">
                 <button class="btn_contato_cliente btn btn-info">Contato do cliente</button>
             </div>
-            <th:block th:if="${v_pedido.status.toString()!='CANCELADO'}">
+            <th:block th:if="${v_pedido.status.toString()!='CANCELADO'&&v_pedido.status.toString()!='ENTREGUE'}">
                 <div class="col">
                     <button th:if="${v_pedido.status.toString()=='ENCAMINHADO'}" class="btn_recebido btn btn-success">Declarar como recebido</button>
                     <button th:if="${v_pedido.status.toString()=='RECEBIDO'}" class="btn_preparado btn btn-success">Declarar como preparado</button>
