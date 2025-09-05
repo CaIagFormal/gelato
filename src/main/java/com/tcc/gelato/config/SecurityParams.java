@@ -7,7 +7,6 @@ public class SecurityParams {
             "/", "/catalogo", "/produto/**",
             "/verificar_conta/**",
             "/js/funcionalidades.js",   // JS
-            "/js/catalogo_cliente.js",
             "/js/observacao.js",
             "/css/index.css",           //CSS
             "/css/catalogo_cliente.css",
