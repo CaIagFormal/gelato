@@ -1,14 +1,8 @@
 package com.tcc.gelato.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tcc.gelato.model.servidor.M_RespostaTexto;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,16 +11,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -77,12 +67,37 @@ public class SecurityConfig {
                     .anyRequest()
                     .denyAll())
             .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                    session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
             //.addFilterBefore(f_jwt, UsernamePasswordAuthenticationFilter.class) // não é mais utilizado
-            //.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint())
-            //        .accessDeniedPage("/catalogo"))
+            .exceptionHandling(customizer -> customizer
+                    .accessDeniedHandler(accessDeniedHandler())
+                    .authenticationEntryPoint(authenticationEntryPoint())
+            )
             .authenticationProvider(authenticationProvider())
             .build();
+    }
+
+    /**
+     * Redirecionamento para usuários já autenticados em caso de erro em status HTML
+     */
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        AccessDeniedHandlerImpl accessDeniedHandler = new AccessDeniedHandlerImpl();
+        accessDeniedHandler.setErrorPage("/");
+        return accessDeniedHandler;
+    }
+
+    /**
+     * Redirecionamento para usuários não autenticados em caso de erro em status HTML
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, authException) -> {
+            if (response.isCommitted()) {
+                return;
+            }
+            request.getRequestDispatcher("/").forward(request, response);
+        };
     }
 
     @Bean
@@ -95,16 +110,5 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
-    }
-
-    @Bean
-    AuthenticationEntryPoint authenticationEntryPoint() {
-        return (request, response, authException) -> {
-            if (!request.getMethod().equals("GET")) {
-                response.sendError(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase());
-                return;
-            }
-            response.sendRedirect("/catalogo");
-        };
     }
 }
