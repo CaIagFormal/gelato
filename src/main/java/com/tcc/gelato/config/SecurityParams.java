@@ -4,8 +4,9 @@ public class SecurityParams {
     public static String[] publico_post = new String[]{
     };
     public static String[] publico_get = new String[]{
-            "/", "/catalogo", "/produto/**",
-            "/verificar_conta/**",
+            "/", "/catalogo", "/produto/*",
+            "/verificar_conta/*",
+            "/recuperar_senha/*",
             "/js/funcionalidades.js",   // JS
             "/js/observacao.js",
             "/css/index.css",           //CSS
@@ -32,7 +33,7 @@ public class SecurityParams {
             "/gerir_saldo",
             "/pedidos",
             "/criar_produto",
-            "/alterar_produto/**",
+            "/alterar_produto/*",
             "/js/gerir_saldo.js", // JS
             "/js/produto_vendedor.js",
             "/js/criar_produto.js",
