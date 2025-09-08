@@ -63,8 +63,8 @@ config=StructureConfiguration;
   "details": {
     "aggregation": "GroupByClass", // ByClass, GroupByClass, None
     "showClassGenericTypes": true,
-    "showMethods": true,
-    "showMethodParameterNames": true,
+    "showMethods": false,
+    "showMethodParameterNames": false,
     "showMethodParameterTypes": true,
     "showMethodReturnType": true,
     "showPackageLevels": 4,
@@ -98,8 +98,6 @@ subgraph cluster_114644 {
    GelatoApplication906396277[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(C)GelatoApplication</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -118,9 +116,9 @@ subgraph cluster_1287436016 {
 <TR><TD ALIGN="LEFT" >(I)R_AcessoViaUrl</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >+ apagarAcessosInvalidos()</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getAcessoByTicket(ticket: String): Optional&lt;M_AcessoViaUrl&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getAcessoByTicketOfTypeValido(ticket: String, funcionalidade: int): M_AcessoViaUrl</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getAcessoByUsuarioAndTypeValido(usuario: Long, funcionalidade: int): M_AcessoViaUrl</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAcessoByTicket(String): Optional&lt;M_AcessoViaUrl&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAcessoByTicketOfTypeValido(String, int): M_AcessoViaUrl</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAcessoByUsuarioAndTypeValido(Long, int): M_AcessoViaUrl</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -132,9 +130,9 @@ R_Compra641479581[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(I)R_Compra</TD></TR>
 <HR/>
-<TR><TD ALIGN="LEFT" >+ getCompraComProdutoEmTicket(id_produto: Long, id_ticket: Long, preco: BigDecimal): M_Compra</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getComprasDeProdutoComQtdMaiorNoCarrinho(id_produto: Long, estoque: Integer): List&lt;M_Compra&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getQtdComprasDeTicket(id_ticket: Long): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getCompraComProdutoEmTicket(Long, Long, BigDecimal): M_Compra</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getComprasDeProdutoComQtdMaiorNoCarrinho(Long, Integer): List&lt;M_Compra&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getQtdComprasDeTicket(Long): Integer</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -146,7 +144,7 @@ R_DadosResponsavel641479581[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(I)R_DadosResponsavel</TD></TR>
 <HR/>
-<TR><TD ALIGN="LEFT" >+ getDadosResponsavelByUsuario(id_usuario: Long): List&lt;M_DadosResponsavel&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getDadosResponsavelByUsuario(Long): List&lt;M_DadosResponsavel&gt;</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -158,8 +156,8 @@ R_Transacao641479581[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(I)R_Transacao</TD></TR>
 <HR/>
-<TR><TD ALIGN="LEFT" >+ getSaldoDeCliente(id_cliente: Long): BigDecimal</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getTransacoesDeCliente(id_cliente: Long): List&lt;M_Transacao&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getSaldoDeCliente(Long): BigDecimal</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getTransacoesDeCliente(Long): List&lt;M_Transacao&gt;</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -171,8 +169,8 @@ R_Usuario641479581[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(I)R_Usuario</TD></TR>
 <HR/>
-<TR><TD ALIGN="LEFT" >+ getUsuarioByNomeOrEmail(nome: String): M_Usuario</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getUsuarioByNomeOrEmailAndSenha(nome: String, senha: String): M_Usuario</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getUsuarioByNomeOrEmail(String): M_Usuario</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getUsuarioByNomeOrEmailAndSenha(String, String): M_Usuario</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -190,7 +188,7 @@ subgraph cluster_540350491 {
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(I)R_Estoque</TD></TR>
 <HR/>
-<TR><TD ALIGN="LEFT" >+ getEstoqueForProduto(id_produto: Long): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getEstoqueForProduto(Long): Integer</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -204,7 +202,7 @@ R_Produto575498130[
 <HR/>
 <TR><TD ALIGN="LEFT" >+ getProdutosDisponiveis(): List&lt;M_Produto&gt;</TD></TR>
 <TR><TD ALIGN="LEFT" >+ getProdutosVendedor(): List&lt;M_Produto&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getQtdDeProdutoEmTicket(id_produto: Long, id_ticket: Long): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getQtdDeProdutoEmTicket(Long, Long): Integer</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -216,11 +214,11 @@ R_Ticket575498130[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(I)R_Ticket</TD></TR>
 <HR/>
-<TR><TD ALIGN="LEFT" >+ getComprasDeTicket(id_ticket: Long): List&lt;M_Compra&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getPedidoFromTicket(ticket: Long): M_ViewPedido</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getComprasDeTicket(Long): List&lt;M_Compra&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getPedidoFromTicket(Long): M_ViewPedido</TD></TR>
 <TR><TD ALIGN="LEFT" >+ getPedidos(): List&lt;M_ViewPedido&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getTicketAtivoByString(ticket: String): Optional&lt;M_Ticket&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getTicketAtivoDeUsuario(id_usuario: Long): Optional&lt;M_Ticket&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getTicketAtivoByString(String): Optional&lt;M_Ticket&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getTicketAtivoDeUsuario(Long): Optional&lt;M_Ticket&gt;</TD></TR>
 <TR><TD ALIGN="LEFT" >+ selecionarTicketsDescartaveis(): List&lt;M_Ticket&gt;</TD></TR>
 </TABLE>>
 	style=filled
@@ -242,13 +240,6 @@ subgraph cluster_1674944175 {
 <TR><TD ALIGN="LEFT" >(C)S_AcessoViaUrl</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >-   r_acessoViaUrl: R_AcessoViaUrl [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ apagarAcessosInvalidos()</TD></TR>
-<TR><TD ALIGN="LEFT" >+ criarAcesso(funcionalidade: Funcionalidade, m_usuario: M_Usuario): M_AcessoViaUrl</TD></TR>
-<TR><TD ALIGN="LEFT" >+ deleteAcesso(m_acessoViaUrl: M_AcessoViaUrl)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ gerarNumeroDeTicket(): String</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getAcessoByTicketOfType(ticket: String, funcionalidade: Funcionalidade): M_AcessoViaUrl</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getAcessoByUsuarioAndType(m_usuario: M_Usuario, funcionalidade: Funcionalidade): M_AcessoViaUrl</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -264,15 +255,6 @@ S_Cadastro1952781372[
 <TR><TD ALIGN="LEFT" >-   r_dadosResponsavel: R_DadosResponsavel [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   r_usuario: R_Usuario [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   senha_valida: Pattern [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ criarCadastroCliente(nome: String, senha: String, email: String, telefone: String): M_Usuario</TD></TR>
-<TR><TD ALIGN="LEFT" >+ deleteUsuario(m_usuario: M_Usuario)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getDadosResponsavelByUsuario(m_usuario: M_Usuario): List&lt;M_DadosResponsavel&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getUsuarioById(id: Long): M_Usuario</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getUsuarioByNomeOrEmail(nome: String): M_Usuario</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarCadastroCliente(nome: String, senha: String, conf_senha: String, email: String, telefone: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarGetUsuarioByNomeOrEmail(nome: String): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ verificarUsuario(usuario: M_Usuario): M_Usuario</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -283,15 +265,6 @@ S_Cadastro1952781372[
 S_Cargo1952781372[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(C)S_Cargo</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ extrairUsuarioDeSessao(): M_Usuario</TD></TR>
-<TR><TD ALIGN="LEFT" >+ fazerLogout(session: HttpSession)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ navClienteSetQtdCompras(session: HttpSession, qtd: Integer)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ navClienteSetSaldo(session: HttpSession, saldo: BigDecimal)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ session_to_model_navbar(model: Model, session: HttpSession)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarCliente(m_usuario: M_Usuario): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarVendedor(m_Usuario: M_Usuario): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarVisitante(m_usuario: M_Usuario): boolean</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -304,19 +277,6 @@ S_Compra1952781372[
 <TR><TD ALIGN="LEFT" >(C)S_Compra</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >-   r_compra: R_Compra [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ adicionarQuantidade(m_compra: M_Compra, qtd_int: int)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ checkAdicionarAoCarrinhoValido(qtd: String, id_produto: String): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ checkRemoverDoCarrinhoValido(id_compra: String): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ corrigirComprasDeProdutoComQtdMaior(m_produto: M_Produto, estoque: Integer)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ desativarComEstoqueInsuficiente(m_produto: M_Produto, estoque: Integer): Boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ gerarCompraDoCarrinho(m_usuario: M_Usuario, m_ticket: M_Ticket, m_produto: M_Produto, qtd: Integer): M_Compra</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getCompraById(id: long): M_Compra</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getCompraComProdutoEmTicket(m_produto: M_Produto, m_ticket: M_Ticket, preco: BigDecimal): M_Compra</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getPrecoTotalDeCompras(m_compras: List&lt;M_Compra&gt;): BigDecimal</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getQtdComprasDeTicket(m_ticket: M_Ticket): Integer</TD></TR>
-<TR><TD ALIGN="LEFT" >+ removerCompra(m_compra: M_Compra)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ totalDeCompraUnica(m_compra: M_Compra): BigDecimal</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -329,11 +289,6 @@ S_Estoque1952781372[
 <TR><TD ALIGN="LEFT" >(C)S_Estoque</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >-   r_estoque: R_Estoque [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ checkAdicionarEstoqueValido(qtd: String, id_produto: String): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ conferirValidadeDeEstoque(m_produto: M_Produto, qtd: int): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ gerarEstoque(m_produto: M_Produto, qtd: int): M_Estoque</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getEstoqueForProduto(m_produto: M_Produto): Integer</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -348,9 +303,6 @@ S_JavaMailSender1952781372[
 <TR><TD ALIGN="LEFT" >-   email: String [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   javaMailSender: JavaMailSender [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   templateEngine: TemplateEngine [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ enviarEmailSimples(destinatario: String, assunto: String, corpo: String)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ enviarHTML(destinatario: String, assunto: String, template: String, context: Context)</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -364,8 +316,6 @@ S_Login1952781372[
 <HR/>
 <TR><TD ALIGN="LEFT" >-   authenticationManager: AuthenticationManager [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   securityContextRepository: SecurityContextRepository [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ loginUsuario(nome: String, senha: String, request: HttpServletRequest, response: HttpServletResponse): M_UserDetails</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -378,13 +328,6 @@ S_Produto1952781372[
 <TR><TD ALIGN="LEFT" >(C)S_Produto</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >-   r_produto: R_Produto [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ alterarProduto(m_produto: M_Produto, nome: String, descricao: String, preco: BigDecimal, unidade: String, url_icone: String, estoque_minimo: int, disponivel: Boolean): M_Produto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ criarProduto(nome: String, descricao: String, preco: BigDecimal, unidade: String, url_icone: String, estoque_minimo: int, disponivel: Boolean): M_Produto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getProdutoById(id: long): M_Produto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getQtdDeProdutoEmTicket(m_produto: M_Produto, m_ticket: M_Ticket): int</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validaParamAlterarProduto(id: String, nome: String, descricao: String, preco: String, unidade: String, urlIcone: String, estoqueMinimo: String, disponivel: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validaParamCriarProduto(nome: String, descricao: String, preco: String, unidade: String, url_icone: String, estoque_minimo: String, disponivel: String): M_RespostaTexto</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -398,28 +341,6 @@ S_Ticket1952781372[
 <HR/>
 <TR><TD ALIGN="LEFT" >-   r_compra: R_Compra [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   r_ticket: R_Ticket [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ apagarTicket(ticket: M_Ticket)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ apagarTicketsDescartaveis()</TD></TR>
-<TR><TD ALIGN="LEFT" >+ avancarTicket(m_ticket: M_Ticket): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >+ cancelarPedido(m_ticket: M_Ticket, pagamento_invalido: boolean): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >+ conferirTicketDeUsuario(m_usuario: M_Usuario): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >+ desativarProdutosEmTicketComEstoqueInsuficiente(m_ticket: M_Ticket, s_compra: S_Compra, s_estoque: S_Estoque)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ encaminharTicket(m_ticket: M_Ticket, s_transacao: S_Transacao, valor_total: BigDecimal): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >+ gerarNumeroDeTicket(): String</TD></TR>
-<TR><TD ALIGN="LEFT" >+ gerarTicketParaUsuario(m_usuario: M_Usuario): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getComprasDeTicket(m_ticket: M_Ticket): List&lt;M_Compra&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getPedidoFromTicket(mTicket: M_Ticket): M_ViewPedido</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getTicketById(id: Long): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >- obterTicketValidoDeUsuario(m_usuario: M_Usuario): Optional&lt;M_Ticket&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ setHorarioRetirada(m_ticket: M_Ticket, horario: LocalDateTime): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >+ setObservacaoTicket(m_ticket: M_Ticket, texto: String): M_Ticket</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarHorarioDeRetirada(horario: LocalDateTime): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarIdTicket(id: String): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarParamDefinirHorarioRetirada(str_horario: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarParamObservacaoTicket(texto: String): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarTicketParaAlterarMonetario(m_ticket: M_Ticket): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarTicketParaAlterarOutros(m_ticket: M_Ticket): boolean</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -432,13 +353,6 @@ S_Transacao1952781372[
 <TR><TD ALIGN="LEFT" >(C)S_Transacao</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >-   r_transacao: R_Transacao [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ alterarSaldo(qtd: BigDecimal, vendedor: M_Usuario, cliente: M_Usuario): M_Transacao</TD></TR>
-<TR><TD ALIGN="LEFT" >+ checkParamAlterarSaldoValido(cliente: String, qtd: String): boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getSaldoDeCliente(cliente: M_Usuario): BigDecimal</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getTransacoesDeCliente(cliente: M_Usuario): List&lt;M_Transacao&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ prepararMensagemTransacao(m_transacoes: List&lt;M_Transacao&gt;): List&lt;List&lt;Object&gt;&gt;</TD></TR>
-<TR><TD ALIGN="LEFT" >+ validarQtdAlterarSaldo(qtd: BigDecimal, saldo_cliente: BigDecimal): boolean</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -460,10 +374,6 @@ subgraph cluster_1694159202 {
 <TR><TD ALIGN="LEFT" >-   s_acessoViaUrl: S_AcessoViaUrl [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_cadastro: S_Cadastro [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_javaMailSender: S_JavaMailSender [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ cadastrarCliente(nome: String, senha: String, conf_senha: String, email: String, telefone: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getCadastroCliente(session: HttpSession): String</TD></TR>
-<TR><TD ALIGN="LEFT" >+ verificarConta(ticket: String, model: Model): String</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -477,8 +387,6 @@ C_Catalogo1954851659[
 <HR/>
 <TR><TD ALIGN="LEFT" >-   s_cargo: S_Cargo [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_produto: S_Produto [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ getCatalogo(session: HttpSession, model: Model): String</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -489,8 +397,6 @@ C_Catalogo1954851659[
 C_Error1954851659[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(C)C_Error</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ erro(request: HttpServletRequest): M_RespostaObjeto</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -504,9 +410,6 @@ C_Inicio1954851659[
 <HR/>
 <TR><TD ALIGN="LEFT" >-   context: ApplicationContext [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_acessoViaUrl: S_AcessoViaUrl [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ diario()</TD></TR>
-<TR><TD ALIGN="LEFT" >+ redirecionar(session: HttpSession): String</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -525,11 +428,6 @@ C_Login1954851659[
 <TR><TD ALIGN="LEFT" >-   s_login: S_Login [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_ticket: S_Ticket [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_transacao: S_Transacao [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ Logout(session: HttpSession, request: HttpServletRequest): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ enviarVerificacaoDeConta(m_usuario: M_Usuario): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getLogin(session: HttpSession): String</TD></TR>
-<TR><TD ALIGN="LEFT" >+ loginUsuario(nome: String, senha: String, session: HttpSession, request: HttpServletRequest, response: HttpServletResponse): M_RespostaTexto</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -545,12 +443,6 @@ C_Pedidos1954851659[
 <TR><TD ALIGN="LEFT" >-   s_cargo: S_Cargo [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_ticket: S_Ticket [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   templateEngine: TemplateEngine [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ avancarPedidoVendedor(id: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ cancelarPedidoVendedor(id: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getPedidos(session: HttpSession, model: Model): String</TD></TR>
-<TR><TD ALIGN="LEFT" ># obterContatoCliente(nome: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" ># obterPedido(id: String): M_RespostaTexto</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -567,14 +459,6 @@ C_Produto1954851659[
 <TR><TD ALIGN="LEFT" >-   s_estoque: S_Estoque [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_produto: S_Produto [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_ticket: S_Ticket [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ adicionarAoCarrinho(qtd: String, id_produto: String, session: HttpSession): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ adicionarEstoque(qtd: String, id_produto: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ alterarProduto(id: String, nome: String, descricao: String, preco: String, unidade: String, url_icone: String, estoque_minimo: String, disponivel: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ criarProduto(nome: String, descricao: String, preco: String, unidade: String, url_icone: String, estoque_minimo: String, disponivel: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getAlterarProduto(model: Model, id: String): String</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getProduto(produto: String, session: HttpSession, model: Model): String</TD></TR>
-<TR><TD ALIGN="LEFT" >+ removerDoCarrinho(id_compra: String, session: HttpSession): M_RespostaTexto</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -591,13 +475,6 @@ C_Ticket1954851659[
 <TR><TD ALIGN="LEFT" >-   s_estoque: S_Estoque [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_ticket: S_Ticket [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_transacao: S_Transacao [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ apagarTicketsVazios()</TD></TR>
-<TR><TD ALIGN="LEFT" >+ cancelarPedido(session: HttpSession): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ definirHorarioRetirada(str_horario: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ definirObservacaoTicket(texto: String): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ encaminharPedido(session: HttpSession): M_RespostaTexto</TD></TR>
-<TR><TD ALIGN="LEFT" >+ getCarrinho(session: HttpSession, model: Model): String</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -612,11 +489,6 @@ C_Transacao1954851659[
 <TR><TD ALIGN="LEFT" >-   s_cadastro: S_Cadastro [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_cargo: S_Cargo [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   s_transacao: S_Transacao [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ alterarSaldo(str_cliente: String, str_qtd: String): M_Resposta</TD></TR>
-<TR><TD ALIGN="LEFT" >+ esvaziarSaldo(str_cliente: String): M_Resposta</TD></TR>
-<TR><TD ALIGN="LEFT" >+ inspecionarSaldo(str_cliente: String): M_Resposta</TD></TR>
-<TR><TD ALIGN="LEFT" >+ inspecionarTransacoes(str_cliente: String): M_Resposta</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -631,13 +503,259 @@ subgraph cluster_1804629597 {
 	fillcolor="#c4c4c4"
 	style=filled
    
-   subgraph cluster_1416435118 { 
+   M_AcessoViaUrl2054619536[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_AcessoViaUrl</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   funcionalidade: Funcionalidade [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   ticket: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   usuario: M_Usuario [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   validade: LocalDateTime [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_Compra2054619536[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_Compra</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   horario: LocalDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   preco: BigDecimal [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   produto: M_Produto [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   quantidade: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   ticket: M_Ticket [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_DadosResponsavel2054619536[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_DadosResponsavel</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   contato: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   filiacao: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nome: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   usuario: M_Usuario [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_MetodoPagamento2054619536[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_MetodoPagamento</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metodo: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tipo: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   vendedor: M_Usuario [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_Transacao2054619536[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_Transacao</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   ao_vendedor: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   cliente: M_Usuario [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   horario_fornecido: LocalDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   valida: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   valor: BigDecimal [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   vendedor: M_Usuario [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_Usuario2054619536[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_Usuario</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cargo: Cargo [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   email: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nome: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   senha: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   telefone: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   verificado: Boolean [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+subgraph cluster_1178372080 { 
+   	label=view
+	labeljust=l
+	fillcolor="#bababa"
+	style=filled
+   
+   M_ViewPedido532415645[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(I)M_ViewPedido</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getContagem_negativa(): Boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getContagem_retirada(): PGInterval</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getHorario_encaminhado(): LocalDateTime</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getHorario_retirada_final(): LocalDateTime</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getHorario_retirada_planejado(): LocalDateTime</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getId_ticket(): Long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getNome_cliente(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getObservacao(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getPreco(): BigDecimal</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getStatus(): StatusCompra</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getStatus_id(): Short</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getTicket(): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#F1E5FD"
+];
+} 
+
+subgraph cluster_1399127407 { 
+   	label=M_Usuario
+	labeljust=l
+	fillcolor="#bababa"
+	style=filled
+   
+   Cargo1365861602[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(E)Cargo</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   CLIENTE: Cargo [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   VENDEDOR: Cargo [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#DCFBD5"
+];
+} 
+
+subgraph cluster_1416435118 { 
    	label=produto
 	labeljust=l
 	fillcolor="#bababa"
 	style=filled
    
-   StatusCompra1199067761[
+   Avaliacao394890476[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(E)Avaliacao</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   ADOREI: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   AMEI: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   BOM: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   DELICIOSO: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   GOSTOSO: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   NAO_GOSTEI: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   ODIEI: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   OK: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   PERFEITO: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   QUESTIONAVEL: Avaliacao [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nome: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#DCFBD5"
+];
+
+M_Avaliacao643863173[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_Avaliacao</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   anonima: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   avaliacao: Avaliacao [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   descricao: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   horario: LocalDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   produto: M_Produto [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   publica: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   usuario: M_Usuario [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   vendedor_desabilitar: M_Usuario [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_Estoque643863173[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_Estoque</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   horario: LocalDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   produto: M_Produto [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   quantidade: Integer [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_Produto643863173[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_Produto</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   descricao: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   disponivel: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   estoque_minimo: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   medida: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nome: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   preco: BigDecimal [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   url_icone: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_Ticket643863173[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_Ticket</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   horario_fornecido: LocalDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   horario_retirada_final: LocalDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   horario_retirada_planejado: LocalDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   observacao: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   pagamento: M_Transacao [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   status: StatusCompra [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   ticket: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   usuario: M_Usuario [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+StatusCompra1199067761[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(E)StatusCompra</TD></TR>
 <HR/>
@@ -647,10 +765,26 @@ subgraph cluster_1804629597 {
 <TR><TD ALIGN="LEFT" >+   ENTREGUE: StatusCompra [1]</TD></TR>
 <TR><TD ALIGN="LEFT" >+   PREPARADO: StatusCompra [1]</TD></TR>
 <TR><TD ALIGN="LEFT" >+   RECEBIDO: StatusCompra [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#DCFBD5"
+];
+} 
+
+subgraph cluster_503580362 { 
+   	label=M_AcessoViaUrl
+	labeljust=l
+	fillcolor="#bababa"
+	style=filled
+   
+   Funcionalidade1914879581[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(E)Funcionalidade</TD></TR>
 <HR/>
-<TR><TD ALIGN="LEFT" >+ index(statusId: Short): StatusCompra</TD></TR>
-<TR><TD ALIGN="LEFT" >+ valueOf(name: String): StatusCompra</TD></TR>
-<TR><TD ALIGN="LEFT" >+ values(): StatusCompra[]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   RECUPERAR_SENHA: Funcionalidade [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   VERIFICAR_CONTA: Funcionalidade [1]</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -665,14 +799,37 @@ subgraph cluster_952195777 {
 	fillcolor="#bababa"
 	style=filled
    
-   M_Resposta396933358[
+   M_Navbar396933358[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(I)M_Navbar</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#F1E5FD"
+];
+
+M_NavbarCliente396933358[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)M_NavbarCliente</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   quantidade_compras: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   saldo: BigDecimal [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+M_Resposta396933358[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(I)M_Resposta</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >+ getMensagem(): Object</TD></TR>
 <TR><TD ALIGN="LEFT" >+ isSucesso(): Boolean</TD></TR>
-<TR><TD ALIGN="LEFT" >+ setMensagem(mensagem: Object)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ setSucesso(sucesso: Boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setMensagem(Object)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setSucesso(Boolean)</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -699,8 +856,6 @@ M_RespostaTexto396933358[
 <HR/>
 <TR><TD ALIGN="LEFT" >-   mensagem: String [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   sucesso: Boolean [0..1]</TD></TR>
-<HR/>
-<TR><TD ALIGN="LEFT" >+ appendMensagem(mensagem: String)</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -732,6 +887,19 @@ subgraph cluster_1234099708 {
 <TR><TD ALIGN="LEFT" >#   c_ticket: C_Ticket [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >#   c_transacao: C_Transacao [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >#   gelatoApplication: GelatoApplication [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_acessoViaUrl: M_AcessoViaUrl [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_avaliacao: M_Avaliacao [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_compra: M_Compra [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_dadosResponsavel: M_DadosResponsavel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_estoque: M_Estoque [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_metodoPagamento: M_MetodoPagamento [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_navbar: M_Navbar [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_produto: M_Produto [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_resposta: M_Resposta [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_ticket: M_Ticket [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_transacao: M_Transacao [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_usuario: M_Usuario [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_viewPedido: M_ViewPedido [0..1]</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -820,8 +988,70 @@ DiagramaDeClasse1234099708 -> C_Transacao1954851659[label="c_transacao
 [0..1]"];
 DiagramaDeClasse1234099708 -> GelatoApplication906396277[label="gelatoApplication
 [0..1]"];
+DiagramaDeClasse1234099708 -> M_AcessoViaUrl2054619536[label="m_acessoViaUrl
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Avaliacao643863173[label="m_avaliacao
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Compra2054619536[label="m_compra
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_DadosResponsavel2054619536[label="m_dadosResponsavel
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Estoque643863173[label="m_estoque
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_MetodoPagamento2054619536[label="m_metodoPagamento
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Navbar396933358[label="m_navbar
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Produto643863173[label="m_produto
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Resposta396933358[label="m_resposta
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Ticket643863173[label="m_ticket
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Transacao2054619536[label="m_transacao
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_Usuario2054619536[label="m_usuario
+[0..1]"];
+DiagramaDeClasse1234099708 -> M_ViewPedido532415645[label="m_viewPedido
+[0..1]"];
+M_AcessoViaUrl2054619536 -> Funcionalidade1914879581[label="funcionalidade
+[0..1]"];
+M_AcessoViaUrl2054619536 -> M_Usuario2054619536[label="usuario
+[0..1]"];
+M_Avaliacao643863173 -> Avaliacao394890476[label="avaliacao
+[0..1]"];
+M_Avaliacao643863173 -> M_Produto643863173[label="produto
+[0..1]"];
+M_Avaliacao643863173 -> M_Usuario2054619536[label="usuario
+[0..1]"];
+M_Avaliacao643863173 -> M_Usuario2054619536[label="vendedor_desabilitar
+[0..1]"];
+M_Compra2054619536 -> M_Produto643863173[label="produto
+[0..1]"];
+M_Compra2054619536 -> M_Ticket643863173[label="ticket
+[0..1]"];
+M_DadosResponsavel2054619536 -> M_Usuario2054619536[label="usuario
+[0..1]"];
+M_Estoque643863173 -> M_Produto643863173[label="produto
+[0..1]"];
+M_MetodoPagamento2054619536 -> M_Usuario2054619536[label="vendedor
+[0..1]"];
+M_Navbar396933358 -> M_NavbarCliente396933358[arrowhead=none, arrowtail=empty, dir=both];
 M_Resposta396933358 -> M_RespostaObjeto396933358[arrowhead=none, arrowtail=empty, dir=both];
 M_Resposta396933358 -> M_RespostaTexto396933358[arrowhead=none, arrowtail=empty, dir=both];
+M_Ticket643863173 -> M_Transacao2054619536[label="pagamento
+[0..1]"];
+M_Ticket643863173 -> M_Usuario2054619536[label="usuario
+[0..1]"];
+M_Ticket643863173 -> StatusCompra1199067761[label="status
+[0..1]"];
+M_Transacao2054619536 -> M_Usuario2054619536[label="cliente
+[0..1]"];
+M_Transacao2054619536 -> M_Usuario2054619536[label="vendedor
+[0..1]"];
+M_Usuario2054619536 -> Cargo1365861602[label="cargo
+[0..1]"];
+M_ViewPedido532415645 -> StatusCompra1199067761[label="getStatus() -> index()"];
 S_AcessoViaUrl1952781372 -> R_AcessoViaUrl641479581[label="r_acessoViaUrl
 [0..1]"];
 S_Cadastro1952781372 -> R_DadosResponsavel641479581[label="r_dadosResponsavel

@@ -39,8 +39,8 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request -> request
-                    //.requestMatchers(HttpMethod.POST,SecurityParams.publico_post)
-                    //.permitAll()
+                    .requestMatchers(HttpMethod.POST,SecurityParams.publico_post)
+                    .permitAll()
                     .requestMatchers(HttpMethod.GET,SecurityParams.publico_get)
                     .permitAll()
 
@@ -69,10 +69,10 @@ public class SecurityConfig {
             .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
             //.addFilterBefore(f_jwt, UsernamePasswordAuthenticationFilter.class) // não é mais utilizado
-            .exceptionHandling(customizer -> customizer
-                    .accessDeniedHandler(accessDeniedHandler())
-                    .authenticationEntryPoint(authenticationEntryPoint())
-            )
+//            .exceptionHandling(customizer -> customizer
+//                    .accessDeniedHandler(accessDeniedHandler())
+//                    .authenticationEntryPoint(authenticationEntryPoint())
+//            )
             .authenticationProvider(authenticationProvider())
             .build();
     }

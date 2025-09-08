@@ -25,6 +25,11 @@
         <li th:replace="~{ :: nav-item (href=${'/cadastro'}, text=${'Cadastre-se'})}"></li>
         <li th:replace="~{ :: nav-item (href=${'/login'}, text=${'Log-in'})}"></li>
       </ul>
+      <div class="d-flex">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li th:replace="~{ :: nav-item (href=${'/recuperar_senha'}, text=${'Recuperar Senha'})}"></li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
@@ -40,7 +45,7 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li th:replace="~{ :: nav-item (href=${'/carrinho'}, text=${'Carrinho: '+v_navbar.quantidade_compras+' Compra(s)'})}"></li>
           <li th:replace="~{ :: nav-item (href=${''}, text=${'Saldo: $'+v_navbar.saldo})}"></li>
-          <li th:replace="~{ :: nav-item (href=${'/redefinir-senha'}, text=${'Redefinir Senha'})}"></li>
+          <li th:replace="~{ :: nav-item (href=${'/recuperar_senha'}, text=${'Recuperar Senha'})}"></li>
           <li th:replace="~{ :: nav-logout}"></li>
         </ul>
       </div>
@@ -59,7 +64,7 @@
       </ul>
       <div class="d-flex">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li th:replace="~{ :: nav-item (href=${'/redefinir-senha'}, text=${'Redefinir Senha'})}"></li>
+          <li th:replace="~{ :: nav-item (href=${'/recuperar_senha'}, text=${'Recuperar Senha'})}"></li>
           <li th:replace="~{ :: nav-logout}"></li>
         </ul>
       </div>

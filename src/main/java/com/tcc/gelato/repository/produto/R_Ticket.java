@@ -22,8 +22,8 @@ public interface R_Ticket extends JpaRepository<M_Ticket,Long> {
      * {@link M_Ticket.StatusCompra#CARRINHO} = 0,
      * {@link M_Ticket.StatusCompra#ENTREGUE} = 4, altere se o valor mudar
      */
-    String check_ativo = "(current_date-cast(t.horario_fornecido as DATE)=0 or (t.status <> 0 or t.status <> 4)) and "+
-            "t.status <> 5";
+    String check_ativo = "((current_date-cast(t.horario_fornecido as DATE)=0 or (t.status <> 0 and t.status <> 4)) and "+
+            "t.status <> 5)";
     String check_pedido = "((current_date-cast(t.horario_fornecido as DATE)=0 or (t.status <> 4)) and t.status <> 0)";
 
     String latest = "order by t.horario_fornecido desc limit 1";

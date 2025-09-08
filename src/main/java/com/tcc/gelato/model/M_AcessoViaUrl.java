@@ -15,7 +15,20 @@ public class M_AcessoViaUrl {
 
     public enum Funcionalidade {
         VERIFICAR_CONTA,
-        RECUPERAR_SENHA
+        RECUPERAR_SENHA("redefinir_senha");
+
+        private final String url;
+        Funcionalidade(String url) {
+            this.url = url;
+        }
+        Funcionalidade() {
+            this.url = this.name().toLowerCase(Locale.ROOT);
+        }
+
+        @Override
+        public String toString() {
+            return url;
+        }
     }
 
     @Id
@@ -37,7 +50,7 @@ public class M_AcessoViaUrl {
 
     @Override
     public String toString() {
-        return "http://localhost:8080/"+getFuncionalidade().toString().toLowerCase(Locale.ROOT)+"/"+getTicket();
+        return "http://localhost:8080/"+getFuncionalidade().toString()+"/"+getTicket();
     }
 
     public Long getId() {

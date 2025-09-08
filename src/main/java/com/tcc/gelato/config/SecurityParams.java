@@ -2,13 +2,18 @@ package com.tcc.gelato.config;
 
 public class SecurityParams {
     public static String[] publico_post = new String[]{
+            "/recuperar_senha/",
+            "/redefinir_senha/",
     };
     public static String[] publico_get = new String[]{
             "/", "/catalogo", "/produto/*",
             "/verificar_conta/*",
-            "/recuperar_senha/*",
+            "/recuperar_senha",
+            "/redefinir_senha/*",
             "/js/funcionalidades.js",   // JS
             "/js/observacao.js",
+            "/js/recuperar_senha.js",
+            "/js/redefinir_senha.js",
             "/css/index.css",           //CSS
             "/css/catalogo_cliente.css",
             "/css/produto_cliente.css",

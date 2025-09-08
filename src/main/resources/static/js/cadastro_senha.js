@@ -1,7 +1,7 @@
 let lower = RegExp().compile("[a-z]+")
 let upper = RegExp().compile("[A-Z]+")
 let num = RegExp().compile("[0-9]+")
-let special = RegExp().compile("[!-\/:-@[-`{-~]+") //MOHAMED YUSUFF
+let special = RegExp().compile("[!-\/:-@[-`{-~]+") // RegEx por: MOHAMED YUSUFF
 
 function conf_senha() {
     let senha = $("#senha").val().trim();

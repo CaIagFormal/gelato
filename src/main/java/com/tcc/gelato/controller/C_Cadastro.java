@@ -2,15 +2,13 @@ package com.tcc.gelato.controller;
 
 import com.tcc.gelato.model.M_AcessoViaUrl;
 import com.tcc.gelato.model.M_Usuario;
-import com.tcc.gelato.model.produto.M_Ticket;
 import com.tcc.gelato.model.servidor.M_RespostaTexto;
 import com.tcc.gelato.service.S_AcessoViaUrl;
 import com.tcc.gelato.service.S_Cadastro;
+import com.tcc.gelato.service.S_Cargo;
 import com.tcc.gelato.service.S_JavaMailSender;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +20,13 @@ public class C_Cadastro {
     private final S_Cadastro s_cadastro;
     private final S_JavaMailSender s_javaMailSender;
     private final S_AcessoViaUrl s_acessoViaUrl;
+    private final S_Cargo s_cargo;
 
-    public C_Cadastro(S_Cadastro s_cadastro, S_JavaMailSender s_javaMailSender, S_AcessoViaUrl s_acessoViaUrl) {
+    public C_Cadastro(S_Cadastro s_cadastro, S_JavaMailSender s_javaMailSender, S_AcessoViaUrl s_acessoViaUrl, S_Cargo s_cargo) {
         this.s_cadastro = s_cadastro;
         this.s_javaMailSender = s_javaMailSender;
         this.s_acessoViaUrl = s_acessoViaUrl;
+        this.s_cargo = s_cargo;
     }
 
     /**
@@ -100,6 +100,9 @@ public class C_Cadastro {
        return m_respostaTexto;
     }
 
+    /**
+     * Tela acessada via URL para Verificar a conta
+     */
     @GetMapping("/verificar_conta/{ticket}")
     public String verificarConta(@PathVariable("ticket") String ticket, Model model) {
         M_AcessoViaUrl m_acessoViaUrl = s_acessoViaUrl.getAcessoByTicketOfType(ticket,M_AcessoViaUrl.Funcionalidade.VERIFICAR_CONTA);
@@ -113,5 +116,39 @@ public class C_Cadastro {
         }
         model.addAttribute("v_usuario",m_usuario);
         return "visitante/conta_verificada";
+    }
+
+    /**
+     * Tela para enviar um e-mail que pode ser acessado para verificar a conta
+     */
+    @GetMapping("/recuperar_senha")
+    public String getRecuperarSenha(HttpSession session, Model model) {
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
+        model.addAttribute("usuario",m_usuario);
+
+        return "recuperar_senha";
+    }
+
+    /**
+     * Tela acessada via URL para Verificar a conta
+     */
+    @GetMapping("/redefinir_senha/{ticket}")
+    public String getRedefinirSenha(@PathVariable("ticket") String ticket, HttpSession session, Model model) {
+        M_AcessoViaUrl m_acessoViaUrl = s_acessoViaUrl.getAcessoByTicketOfType(ticket,M_AcessoViaUrl.Funcionalidade.RECUPERAR_SENHA);
+        if (m_acessoViaUrl==null) {
+            return "redirect:/";
+        }
+        s_acessoViaUrl.deleteAcesso(m_acessoViaUrl);
+        M_Usuario m_usuario_rc = m_acessoViaUrl.getUsuario();
+        if (m_usuario_rc==null) {
+            return "redirect:/";
+        }
+        M_Usuario m_usuario = s_cargo.extrairUsuarioDeSessao();
+
+        model.addAttribute("usuario",m_usuario);
+
+        session.setAttribute("rc_usuario",m_usuario_rc);
+        model.addAttribute("rc_usuario",m_usuario_rc);
+        return "redefinir_senha";
     }
 }

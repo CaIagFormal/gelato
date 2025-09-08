@@ -2,6 +2,7 @@ package com.tcc.gelato.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,14 +18,14 @@ import java.util.Date;
 @Service
 public class S_JavaMailSender {
     private final JavaMailSender javaMailSender;
-    private final String email;
+    @Value("${spring.mail.username}")
+    private String email;
 
     private final TemplateEngine templateEngine;
 
     public S_JavaMailSender(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
-        this.email = "[SEGREDO]";
     }
 
     /**

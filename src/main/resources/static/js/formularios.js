@@ -43,10 +43,6 @@ function cadastro() {
         erro += "A senha não foi confirmada corretamente.<br>";
     }
 
-    if (senha.trim()!="" && senha!=conf_senha) {
-            erro += "A senha não foi confirmada corretamente.<br>";
-        }
-
     if (erro != "") {
         mostrar_erro("Cadastro inválido",erro);
         return

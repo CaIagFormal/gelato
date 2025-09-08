@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <div th:replace="~{pv/script::header (title=${'Redefinir Senha'})}"></div>
+
+    <!-- CSS -->
+    <link href="/css/produto_cliente.css" rel="stylesheet">
+    <!-- JS -->
+    <th:block th:if="${usuario}!=null">
+        <script src="/js/cadastrados.js" defer></script>
+    </th:block>
+    <script src="/js/cadastro_senha.js" defer></script>
+    <script src="/js/redefinir_senha.js" defer></script>
+</head>
+<body>
+<div th:replace="~{pv/navbar.html :: navbar_cargo (v_usuario=${usuario},v_navbar=${m_navbar})}"></div>
+
+<div class="container">
+    <h2 class="mt-4">Redefinir Senha</h2>
+    <p class="mb-3">Altere a senha de sua conta aqui!</p>
+    <th:block th:if="${usuario}!=null">
+        <p th:if="${usuario.id-rc_usuario.id}!=0">(A conta que está alterando a senha não é sua)</p>
+    </th:block>
+
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="senha">Nova senha</label>
+        <input type="text" class="form-control" placeholder="Insira seu nome de usuário ou endereço de e-mail" id="senha" name="senha">
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="conf_senha">Confirmar Nova Senha</label>
+        <input type="password" class="form-control" placeholder="Insira sua senha" id="conf_senha" name="conf_senha">
+    </div>
+
+    <p class="text-start container">Sua senha deve conter no mínimo:<br>
+        <span id="senha_teste0">⨂</span> 8 caracteres<br>
+        <span id="senha_teste1">⨂</span> 1 letra maiúscula<br>
+        <span id="senha_teste2">⨂</span> 1 letra minuscula<br>
+        <span id="senha_teste3">⨂</span> 1 número<br>
+        <span id="senha_teste4">⨂</span> 1 caractere especial
+    </p>
+
+    <div class="container text-end">
+        <button type="button" class="btn btn-primary" id="btn-enviar">Alterar Senha</button>
+    </div>
+</div>
