@@ -2,8 +2,8 @@ package com.tcc.gelato.config;
 
 public class SecurityParams {
     public static String[] publico_post = new String[]{
-            "/recuperar_senha/",
-            "/redefinir_senha/",
+            "/recuperar_senha",
+            "/redefinir_senha/*"
     };
     public static String[] publico_get = new String[]{
             "/", "/catalogo", "/produto/*",

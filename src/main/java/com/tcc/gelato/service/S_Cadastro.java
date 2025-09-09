@@ -47,47 +47,21 @@ public class S_Cadastro {
         m_respostaTexto.setSucesso(true);
 
         if (nome.trim().isBlank()) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Nome está vazio<br>");
+            m_respostaTexto.appendMensagem("Nome está vazio<br>");
             m_respostaTexto.setSucesso(false);
         }
 
         if (email.trim().isBlank()) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"E-mail está vazio<br>");
+            m_respostaTexto.appendMensagem("E-mail está vazio<br>");
             m_respostaTexto.setSucesso(false);
         }
 
         if (telefone.trim().isBlank()) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Número de telefone está vazio<br>");
+            m_respostaTexto.appendMensagem("Número de telefone está vazio<br>");
             m_respostaTexto.setSucesso(false);
         }
 
-        if (conf_senha.trim().isBlank()) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Confirmação da senha está vazia<br>");
-            m_respostaTexto.setSucesso(false);
-        }
-
-        if (senha.trim().isBlank()) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Senha está vazia<br>");
-            m_respostaTexto.setSucesso(false);
-            return m_respostaTexto;
-        }
-
-        // Roda apenas se senha for válida
-        if (senha.length()<8) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Senha tem menos de 8 dígitos<br>");
-            m_respostaTexto.setSucesso(false);
-        }
-
-        Matcher matcher = senha_valida.matcher(senha);
-        if (!matcher.find()) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Senha não possui um dos requerimentos<br>");
-            m_respostaTexto.setSucesso(false);
-        }
-
-        if (!senha.equals(conf_senha)) {
-            m_respostaTexto.setMensagem(m_respostaTexto.getMensagem()+"Confirmação de senha não é o mesmo que a senha;");
-            m_respostaTexto.setSucesso(false);
-        }
+        this.validarRedefinirSenha(senha,conf_senha,m_respostaTexto);
 
         return m_respostaTexto;
     }
@@ -165,6 +139,59 @@ public class S_Cadastro {
      */
     public M_Usuario verificarUsuario(M_Usuario usuario) {
         usuario.setVerificado(true);
+        return r_usuario.save(usuario);
+    }
+
+    /**
+     * Valida os parâmetros de senha em {@link C_Cadastro#redefinirSenha(String, String, String)}
+     * Também serve para validar a senha em {@link S_Cadastro#validarCadastroCliente(String, String, String, String, String)}
+     */
+    public M_RespostaTexto validarRedefinirSenha(String senha, String conf_senha, M_RespostaTexto m_respostaTexto) {
+        if (m_respostaTexto.isSucesso()==null) m_respostaTexto.setSucesso(true);
+
+        if (conf_senha.trim().isBlank()) {
+            m_respostaTexto.appendMensagem("Confirmação da senha está vazia<br>");
+            m_respostaTexto.setSucesso(false);
+        }
+
+        if (senha.trim().isBlank()) {
+            m_respostaTexto.appendMensagem("Senha está vazia<br>");
+            m_respostaTexto.setSucesso(false);
+            return m_respostaTexto;
+        }
+
+        // Roda apenas se senha for válida
+        if (senha.length()<8) {
+            m_respostaTexto.appendMensagem("Senha tem menos de 8 dígitos<br>");
+            m_respostaTexto.setSucesso(false);
+        }
+
+        Matcher matcher = senha_valida.matcher(senha);
+        if (!matcher.find()) {
+            m_respostaTexto.appendMensagem("Senha não possui um dos requerimentos<br>");
+            m_respostaTexto.setSucesso(false);
+        }
+
+        if (!senha.equals(conf_senha)) {
+            m_respostaTexto.appendMensagem("Confirmação de senha não é o mesmo que a senha;");
+            m_respostaTexto.setSucesso(false);
+        }
+
+        return m_respostaTexto;
+    }
+
+    /**
+     * Valida se uma senha é a de um usuário
+     */
+    public boolean validarSenha(M_Usuario usuario, String senha) {
+        return encoder.matches(senha,usuario.getSenha());
+    }
+
+    /**
+     * Altera a senha de um usuário
+     */
+    public M_Usuario redefinirSenha(M_Usuario usuario, String senha) {
+        usuario.setSenha(encoder.encode(senha));
         return r_usuario.save(usuario);
     }
 }

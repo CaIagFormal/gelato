@@ -16,19 +16,20 @@
 <div th:replace="~{pv/navbar.html :: navbar_cargo (v_usuario=${usuario},v_navbar=${m_navbar})}"></div>
 
 <div class="container">
+    <p class="d-none" id="acesso" th:text="${v_acesso.ticket}"></p>
     <h2 class="mt-4">Redefinir Senha</h2>
     <p class="mb-3">Altere a senha de sua conta aqui!</p>
     <th:block th:if="${usuario}!=null">
-        <p th:if="${usuario.id-rc_usuario.id}!=0">(A conta que está alterando a senha não é sua)</p>
+        <p th:if="${usuario.id-v_acesso.usuario.id}!=0">(A conta que está alterando a senha não é sua)</p>
     </th:block>
 
     <div class="input-group mb-3">
         <label class="input-group-text" for="senha">Nova senha</label>
-        <input type="text" class="form-control" placeholder="Insira seu nome de usuário ou endereço de e-mail" id="senha" name="senha">
+        <input type="text" class="form-control" placeholder="Insira uma nova senha" id="senha" name="senha">
     </div>
     <div class="input-group mb-3">
         <label class="input-group-text" for="conf_senha">Confirmar Nova Senha</label>
-        <input type="password" class="form-control" placeholder="Insira sua senha" id="conf_senha" name="conf_senha">
+        <input type="password" class="form-control" placeholder="Confirme sua nova senha" id="conf_senha" name="conf_senha">
     </div>
 
     <p class="text-start container">Sua senha deve conter no mínimo:<br>

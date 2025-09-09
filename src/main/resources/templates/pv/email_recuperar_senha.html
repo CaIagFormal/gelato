@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<div th:replace="~{pv/email_cadastro.html :: cabecario_email}"></div>
+<div style="margin:auto;background:#5080ff40;width:80%;border-radius:10px;position:relative;color:#400080;padding:1em;border-color:#0000ff;">
+    <h2>Olá <span th:text="${v_acesso.usuario.nome}"></span>.</h2>
+    <p>Foi solicitado a recuperação de senha para esta conta. Clique neste botão para redefinir sua senha. <b>Não compartilhe este e-mail com ninguém!</b></p>
+    <div style="width:100%;">
+        <div style="background: #0000ff;margin:auto;width:fit-content;padding:0.5em;border-radius:10px;">
+            <a style="color: #ffffff;" th:href="${v_acesso}">Recuperar senha</a>
+        </div>
+    </div>
+</div>
+<th:block th:replace="~{pv/email_cadastro.html :: fim_email}"></th:block>
+</html>

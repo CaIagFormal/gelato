@@ -1,6 +1,7 @@
 function redefinir_senha() {
     let senha = $("#senha").val();
     let conf_senha = $("#conf_senha").val();
+    let acesso = window.location.pathname.split("/")[2];
 
     let erro = ""
     if (senha.trim()=="") {
@@ -19,7 +20,7 @@ function redefinir_senha() {
         return
     }
 
-    ajax("/redefinir_senha",{senha:senha,conf_senha:conf_senha});
+    ajax("/redefinir_senha/"+acesso,{senha:senha,conf_senha:conf_senha});
 }
 
 $("#btn-enviar").click(redefinir_senha)
